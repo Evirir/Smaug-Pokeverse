@@ -4,9 +4,9 @@ function isLetter(c) {
 
 module.exports = {
 	name: 'wifi',
-	description: `Plays the wifi game. Each word either has wifi or does not have wifi. I would tell you if your word has wifi, but how it's determined...it's your job to figure that out \\o.=.o/`,
+	description: `Plays the wifi game. Each word either has wifi or does not have wifi.\nI would tell you if your word has wifi, but how it's determined...it's your job to figure that out \\o.=.o/`,
 	args: true,
-	usage: [`word`],
+	usage: `[word]`,
 
 	execute(message, args){
 		var str = args[0];
