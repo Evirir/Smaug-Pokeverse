@@ -6,22 +6,21 @@ module.exports = {
 	name: 'wifi',
 	description: `Plays the wifi game. Each word either has wifi or does not have wifi. I would tell you if your word has wifi, but how it's determined...it's your job to figure that out \\o.=.o/`,
 	args: true,
-	usage: `[word]`,
+	usage: [`word`],
 
 	execute(message, args){
-		const s = args[0];
+		var str = args[0];
+        var s = str.toLowerCase();
         const n = s.length;
         var hasWifi = true;
         var occ = new Array(26);
         occ.fill(0);
 
-        if(s.length > 26) return message.channel.send(`**` + s + `** does NOT have wifi.`);
-
         for(var i=0;i<s.length;i++){
-            if(!isLetter(s[i]))
+            if(!isLetter(str[i]))
                 return message.channel.send(`Please input a valid word! Words must only consist of English alphabets.`);
-            s[i] = s[i].toLowerCase();
-            occ[s[i]-'A']++;
+            if(i > 25) return message.channel.send(`**` + str + `** does NOT have wifi.`);
+            occ[s.charCodeAt(i)-97]++;
         }
 
         for(var i=0;i<26;i++){
@@ -31,7 +30,7 @@ module.exports = {
             }
         }
 
-        if(hasWifi)     message.channel.send(`**` + word + `** has wifi.`);
-        else            message.channel.send(`**` + word + `** does NOT have wifi.`);
+        if(hasWifi)     message.channel.send(`**` + str + `** has wifi. More words?`);
+        else            message.channel.send(`**` + str + `** does NOT have wifi. More words?`);
   	}
 };
