@@ -15,7 +15,7 @@ module.exports = {
         var occ = new Array(26);
         occ.fill(0);
 
-        if(s.length > 26) return message.channel.send(`**` + word + `** does NOT have wifi.`);
+        if(s.length > 26) return message.channel.send(`**` + s + `** does NOT have wifi.`);
 
         for(var i=0;i<s.length;i++){
             if(!isLetter(s[i]))
@@ -23,7 +23,7 @@ module.exports = {
             s[i] = s[i].toLowerCase();
             occ[s[i]-'A']++;
         }
-        
+
         for(var i=0;i<26;i++){
             if(occ[i] > 1){
                 hasWifi=false;
