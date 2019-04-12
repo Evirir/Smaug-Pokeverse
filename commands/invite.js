@@ -1,8 +1,11 @@
 module.exports = {
 	name: 'invite',
 	description: 'Creates a magical telepotation link to this server',
-	
+	aliases: [`inv`],
+
 	execute(message, args) {
-		message.channel.send(`Inviting people here? Give them this magical link: https://discord.gg/pZQmFkd`);
+		channel.createInvite()
+  		.then(invite => console.log(`Created an invite with a code of ${invite.code}`))
+  		.catch(console.error);
 	}
 };
