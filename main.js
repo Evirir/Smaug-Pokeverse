@@ -14,17 +14,17 @@ for(const file of commandFiles){
 
 
 client.once('ready', () => {
-	console.log("*Yawns~* mornin'");
+	console.log("*Yawns~* mornin' Evirir...u.=.o");
 });
 
 client.on('message', message => {
 	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) return;
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
-	
+
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 	if(!command) return;
-	
+
 	if(command.args && command.usage && !args.length()){
 		let reply = `Command: \`${command.name}\``;
 		if(command.aliases)
@@ -32,7 +32,7 @@ client.on('message', message => {
 		reply += `\nUsage: \`${prefix}${command.name} ${command.usage}\`\nDescription: ${command.description}`;
 		return message.channel.send(reply);
 	}
-	
+
 	try{
 		command.execute(message,args);
 	}
