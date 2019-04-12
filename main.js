@@ -14,7 +14,11 @@ for(const file of commandFiles){
 
 
 client.once('ready', () => {
-	console.log("*Yawns~* mornin' Evirir...u.=.o");
+	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\n`;
+	startmsg += `Linked to ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
+	console.log(startmsg);
+  client.channels.get('559317991762952193').send(startmsg);
+  client.user.setActivity(`${client.users.size} hoomans and dragons`, { type: "WATCHING"});
 });
 
 client.on('message', message => {
@@ -25,7 +29,7 @@ client.on('message', message => {
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 	if(!command) return;
 
-	if(command.args && command.usage && !args.length()){
+	if(command.args && command.usage && !args.length){
 		let reply = `Command: \`${command.name}\``;
 		if(command.aliases)
 			reply += `\nAliases: \`${prefix}${command.aliases}\``;

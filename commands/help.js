@@ -4,7 +4,7 @@ module.exports = {
 	name: 'help',
 	description: 'Shows list of spells that I know',
 	aliases: ['commands','command','cmd'],
-	usage: '[command]',
+	usage: '[spell-name]',
 
 	execute(message, args){
 		const data = [];
