@@ -6,6 +6,6 @@ module.exports = {
 
 	execute(message,args){
 	    message.channel.send(`Pong! API Latency is ${Math.round(message.client.ping)}ms.`);
-	    message.channel.get(consoleID).send(`\nPing used at ${message.channel.name} in ${message.guild.name}: API Latency is ${Math.round(delay)}ms.`);
+	    message.client.channels.get(consoleID).send(`\nPing used at ${message.channel.name} in ${message.guild.name}: API Latency is ${Math.round(delay)}ms.`);
 	}
 };
