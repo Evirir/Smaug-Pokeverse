@@ -16,7 +16,7 @@ for(const file of commandFiles){
 }
 
 client.once('ready', () => {
-	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\n`;
+	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\nIt's currently **${client.readyAt}**\n`;
 	startmsg += `Watching ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
 	console.log(startmsg);
   	client.channels.get(startupID).send(startmsg);
@@ -37,12 +37,12 @@ client.on("guildDelete", guild => {
 // MENTION REPLIES START
 client.on('message', message => {
 	if(message.author.bot) return;
-	if(message.channel.type === `dm` && message.author.id !== dragID && message.author.id !== drag2ID) return;
+	if(message.channel.type === `dm` && message.author.id !== dragID) return;
 	if(message.content.startsWith(`${prefix}`)) return;
 
 	//EVIRIR IS MENTIONED
 	if (message.isMentioned(client.users.get(dragID))){
-	    if (message.author.id === dragID || message.author.id === drag2ID){
+	    if (message.author.id === dragID){
 	    	message.channel.send('Why are you mentioning yourself...<@${message.author.id}>');
 	    	return;
 	    }
@@ -51,20 +51,23 @@ client.on('message', message => {
 	    }
 	    else
 	    	message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
-			message.channel.get(consoleID).send(`${message.author.name} said: ${message.content}`);
+			client.users.get(consoleID).send(`${message.author.name} said: ${message.content}`);
 	}
 
 	//BOT SELF IS MENTIONED
 	if (message.isMentioned(client.user) || message.content.toLowerCase().includes(`${bot_name}`)) {
 		const msg = message.content.toLowerCase();
 
+		if(msg.includes(`what do you do`) || msg.includes(`what can you do`))
+			return message.channel.send(`I can perform magic spells that Evirir have taught me, such as spamming people, teleporting and delete the whole channel (jk).\nType \`${prefix}help\` for more on what I can do!`);
+
 		if(message.author === (client.users.get(dragID))){
 			if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
 				message.reply(`hey...**snuggles you**`);
 			else if(msg.includes(`thank you`) || msg.includes(`thanks`))
-				message.channel.send(`You're welcome <@${dragID}>...**nuzzles you**\nI'll always be with you...`);
+				message.channel.send(`You're welcome <@${dragID}>! **licks you**`);
 			else
-	    		message.channel.send(`<@${dragID}>...is that you...? Ghrrr! Evirir-chan you came! **leaps around you happily**`);
+	    		message.channel.send(`Evirir-sama you came! **leaps around you happily**`);
 			return;
 	  	}
 
@@ -78,7 +81,7 @@ client.on('message', message => {
 	  	}
 
 		if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
-			message.channel.send('Hrrr, <@${message.author.id}>! Do you have any cookies?');
+			message.channel.send(`Hrrr, <@${message.author.id}>! Do you have any cookies?`);
 		if(msg.includes(`thank you`) || msg.includes(`thanks`))
 			message.reply(`you're welcome! **takes your cookies** ...but for what?`);
 	  	else
@@ -88,7 +91,7 @@ client.on('message', message => {
 	}
 
 	//MESSAGE CONTAINS TRIGGER
-	if(message.content.toLowerCase().includes('dragon' || 'dragons')){
+	if(message.content.toLowerCase().includes('dragon')){
 	  	message.channel.send(`Did someone said...**DRAGONS**?`);
 	}
 });
@@ -103,21 +106,29 @@ client.on('message', message => {
 
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 	if(!command) return;
-
+	if(command.wip){
+		var msg = "";
+		msg += `I have no spell slots left for this spell... I'll regenerate it soon if you could give me some time ^.=.^"\n`;
+		msg += `(\`${prefix}${commandName}\` command under maintenance)`;
+		message.reply(msg);
+		return;
+	}
 	if(command.args && command.usage && !args.length){
 		let reply = `Command: \`${command.name}\``;
-		if(command.aliases)
-			reply += `\nAliases: \`${prefix}${command.aliases}\``;
+		if(command.aliases){
+			reply += `\nAliases: \``;
+			reply += command.aliases.map(a => a).join(', ');
+			reply += `\``;
+		}
 		reply += `\nUsage: \`${prefix}${command.name} ${command.usage}\`\nDescription: ${command.description}`;
 		return message.channel.send(reply);
 	}
 
 	try{
-		command.execute(message,args);
+		command.execute(message, args);
 	}
 	catch(error){
 		console.error(error);
-		message.channel.get(consoleID).send(error);
 		if(message.author.id === dragID || message.author.id === drag2ID)
 			message.reply(`I have some issues here, go check the log ó.=.ò"`)
 		else

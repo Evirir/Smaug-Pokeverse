@@ -1,14 +1,23 @@
-const {dragID} = require(`../users`);
+const {dragID,dragTag} = require(`../users.json`);
 
 module.exports = {
-	name: 'report',
-	description: 'Delivers a DM letter to <@${dragID}> via a dragon courier.',
-	aliases: [`dm`],
-	arg: true,
+	name: `report`,
+	description: `Delivers a DM message to @${dragTag} via a dragon courier.`,
+	aliases: [`tellevirir`,`telldragon`],
+	args: true,
 	usage: `[message]`,
 
 	execute(message, args) {
-		message.channel.send(`A dragon courier flies towards you, and carefully writes down your message...\nMessage sent to Evirir!`);
-		message.channel.users.get(dragID).send(`A dragon courier brought a message to you!\n${message.author.name} said: ${message.content}`);
+
+		let msg = message.content;
+		let start = msg.indexOf(" ")+1;
+		msg = msg.substr(start, msg.length-start);
+
+		message.channel.send(`A dragon courier flies towards you, carefully writes down your message, bows, takes your cookie and flies away swiftly...`);
+		message.channel.send(`<@${message.author.id}>, message sent to Evirir!`);
+		message.client.fetchUser(dragID).then((user) => {
+			user.send(`**${message.author.tag}** reported:\n`);
+    		user.send(msg);
+		});
 	}
 };

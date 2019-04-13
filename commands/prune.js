@@ -1,18 +1,18 @@
-const {prefix,dragID,drag2ID} = require(`../config.json`);
+const {prefix,dragID,drag2ID} = require(`../users.json`);
 
 module.exports = {
 	name: 'prune',
-	description: `Deletes some number of latest messages, not including the ${prefix}prune command (admins and dragons only)`,
+	description: `Deletes some number of latest messages (admins and dragons only)`,
 	args: true,
-	usage: `[amount-of-messages]`,
+	usage: `[amount]`,
 
 	execute(message, args){
-		if(!message.member.roles.has(`&554922268845670423`) && !message.author.id === dragID && !message.author.id === drag2ID)
-			message.reply(`you don't have the permission to do that! Please ask <@dragID> for it.`);
+		if(!(message.member.roles.find(r => r.name.toLowerCase().includes(`admin`)) || message.author.id === dragID))
+			message.reply(`you must be an admin to do that! Please ask for the admins' permission and <@${dragID}>'s help for it.`);
 
 		const amount = parseInt(args[0]);
 		if(isNaN(amount)) {
-			return message.reply(`that is not a number...`);
+			return message.reply(`please input a valid number.`);
 		}
 		else if(amount < 1 || amount > 99){
 			return message.reply('please input a number between 1 and 99.');

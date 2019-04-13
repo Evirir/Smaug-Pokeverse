@@ -9,6 +9,11 @@ module.exports = {
 	usage: `[word]`,
 
 	execute(message, args){
+        var msg = "";
+        if(args.length > 1){
+            msg += `<@${message.author.id}>, only the first word will be considered!\n`;
+        }
+
 		var str = args[0];
         var s = str.toLowerCase();
         const n = s.length;
@@ -18,8 +23,11 @@ module.exports = {
 
         for(var i=0;i<s.length;i++){
             if(!isLetter(str[i]))
-                return message.channel.send(`Please input a valid word! Words must only consist of English alphabets.`);
-            if(i > 25) return message.channel.send(`**` + str + `** does NOT have wifi.`);
+                return msg += (`Please input a valid word! Words must only consist of English alphabets.`);
+            if(i > 25){
+                msg += (`**` + str + `** does NOT have wifi.`);
+                return message.channel.send(msg);
+            }
             occ[s.charCodeAt(i)-97]++;
         }
 
@@ -30,7 +38,8 @@ module.exports = {
             }
         }
 
-        if(hasWifi)     message.channel.send(`**` + str + `** has wifi. More words?`);
-        else            message.channel.send(`**` + str + `** does NOT have wifi. More words?`);
+        if(hasWifi)     msg += (`**` + str + `** has wifi. More words?`);
+        else            msg += (`**` + str + `** does NOT have wifi. More words?`);
+        message.channel.send(msg);
   	}
 };

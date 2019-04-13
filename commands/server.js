@@ -6,11 +6,25 @@ module.exports = {
 	aliases: [`serverinfo`],
 
 	execute(message, args) {
-		var dragoncnt = 0;
-		if(message.guild.member(dragID)) dragoncnt++;
-		if(message.guild.member(drag2ID)) dragoncnt++;
+		var dragoncnt = 0, hasDrag = false, hasDrag2 = false;
+		var msg = "";
+		if(message.guild.member(dragID)) {dragoncnt++; hasDrag = true;}
+		if(message.guild.member(drag2ID)) {dragoncnt++; hasDrag2 = true;}
 
-		message.channel.send(`Let me fly around a bit and see...
-This server is called **${message.guild.name}** and there are **${message.guild.memberCount - dragoncnt - 1}** hoomans and **${dragoncnt + 1}** dragons.`);
+		msg += (`Let me fly around a bit and see...`);
+		msg += (`\nThis server is called **${message.guild.name}** and there are **${message.guild.memberCount - dragoncnt - 1}** hoomans and **${dragoncnt + 1}** dragons.`);
+
+
+		if(dragoncnt==0) msg += (`\n\nWho is the dragon? `);
+		else msg += (`\n\nWho are the ${dragoncnt+1} dragons? `);
+		if(hasDrag) msg += (`Evirir, `);
+		if(hasDrag2) msg += (`Gariffred, `);
+		if(hasDrag || hasDrag2) msg += (`and me! **rawrs**`);
+		else msg += (`Me! **rawrs**`);
+
+		if(message.guild.member(godID)) msg += (`\nThe ultimate MGod is here watching us too!`);
+		if(message.guild.member(zsID)) msg += (`\nOh, zscoder the God of Everything ~~except geometry~~ is here too.`);
+
+		message.channel.send(msg);
 	}
 };
