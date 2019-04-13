@@ -1,6 +1,9 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const {prefix,token,dragID,drag2ID,godID,bot_name} = require('./config.json');
+const {prefix,token,evitoken,bot_name} = require('./config.json');
+const {dragID,drag2ID,godID,zsID} = require(`./users.json`);
+const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
+const {isoAdminID} = require(`./roles.json`);
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -16,36 +19,39 @@ client.once('ready', () => {
 	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\n`;
 	startmsg += `Watching ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
 	console.log(startmsg);
-  client.channels.get('559317991762952193').send(startmsg);
-  client.user.setActivity(`${client.users.size} hoomans and dragons`, { type: "WATCHING"});
+  	client.channels.get(startupID).send(startmsg);
+  	client.channels.get(betastartupID).send(startmsg);
+  	client.user.setActivity(`${client.users.size} hoomans and dragons`, { type: "WATCHING"});
 });
 
 client.on("guildCreate", guild => {
-  console.log(`I've discovered a new guild!: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-  client.channels.get('559302976855080980').send(`I've discovered a new guild!: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+  	console.log(`I've discovered a new guild!: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+  	client.channels.get(consoleID).send(`I've discovered a new guild!: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
  });
 
 client.on("guildDelete", guild => {
-  console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-  client.channels.get('559302976855080980').send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
+  	console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
+  	client.channels.get(consoleID).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
 });
 
 // MENTION REPLIES START
 client.on('message', message => {
 	if(message.author.bot) return;
+	if(message.channel.type === `dm` && message.author.id !== dragID && message.author.id !== drag2ID) return;
 	if(message.content.startsWith(`${prefix}`)) return;
 
 	//EVIRIR IS MENTIONED
 	if (message.isMentioned(client.users.get(dragID))){
-	    if (message.author === (client.users.get(dragID))){
-	    	message.channel.send('Yay!');
+	    if (message.author.id === dragID || message.author.id === drag2ID){
+	    	message.channel.send('Why are you mentioning yourself...<@${message.author.id}>');
 	    	return;
 	    }
-	    if(message.author === (client.users.get(dragID))){
-	    	message.channel.send('The dragon has called my master.');
+	    if(message.author.id === godID){
+	    	message.channel.send(`${message.author.id}, ya' finding Evirir-sama?`);
 	    }
 	    else
-	    	message.channel.send(`Hey hey! I'll look for him!`);
+	    	message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
+			message.channel.get(consoleID).send(`${message.author.name} said: ${message.content}`);
 	}
 
 	//BOT SELF IS MENTIONED
@@ -107,17 +113,11 @@ client.on('message', message => {
 	}
 
 	try{
-		if(commandName === `uptime`){
-			return command.execute(message,client.uptime);
-		}
-
-		if(commandName === `ping`)
-			return command.execute(message,client.ping);
-
 		command.execute(message,args);
 	}
 	catch(error){
 		console.error(error);
+		message.channel.get(consoleID).send(error);
 		if(message.author.id === dragID || message.author.id === drag2ID)
 			message.reply(`I have some issues here, go check the log ó.=.ò"`)
 		else

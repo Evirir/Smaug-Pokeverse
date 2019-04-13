@@ -4,9 +4,11 @@ module.exports = {
 	aliases: [`serverlist`],
 
 	execute(message, args){
-   		message.channel.send("Servers:");
-   		client.guilds.forEach((guild) => {
-	   		message.channel.send(" - " + guild.name);
+		let reply = "Places I've been to:\n\`\`\`";
+   		message.client.guilds.map((guild) => {
+	   		reply += '-' + guild.name + '\n';
    		})
+		reply += "\`\`\`";
+		message.channel.send(reply);
  	}
 };

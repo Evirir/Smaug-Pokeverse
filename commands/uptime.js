@@ -3,8 +3,8 @@ module.exports = {
 	description: `Tells you how long I've not slept. ~~Don't judge me~~`,
     aliases: [`awake`],
 
-	execute(message,time){
-        let totalSeconds = (time / 1000);
+	execute(message,args){
+        let totalSeconds = (message.client.uptime / 1000);
         let days = Math.floor(totalSeconds / 86400);
         let hours = Math.floor(totalSeconds / 3600);
         totalSeconds %= 3600;
