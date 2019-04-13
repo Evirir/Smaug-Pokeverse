@@ -6,6 +6,6 @@ module.exports = {
 	aliases: [`author`,`owner`],
 
 	execute(message, args) {
-		message.channel.send(`I like <@{dragID} \\o.=.o/`);
+		message.channel.send(`I like <@${dragID}> \\o.=.o/`);
 	}
 };
