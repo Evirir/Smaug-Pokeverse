@@ -112,7 +112,7 @@ client.on('message', message => {
 		message.reply(msg);
 		return;
 	}
-	if(command.dragonly && message.author.id !== dragID){
+	if(command.admin && message.author.id !== dragID){
 		return message.channel.send(`This command is only available to developers.`);
 	}
 	if(command.args && command.usage && !args.length){
