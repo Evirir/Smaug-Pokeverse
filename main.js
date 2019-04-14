@@ -37,13 +37,12 @@ client.on("guildDelete", guild => {
 // MENTION REPLIES START
 client.on('message', message => {
 	if(message.author.bot) return;
-	if(message.channel.type === `dm` && message.author.id !== dragID) return;
 	if(message.content.startsWith(`${prefix}`)) return;
 
 	//EVIRIR IS MENTIONED
 	if (message.isMentioned(client.users.get(dragID))){
 	    if (message.author.id === dragID){
-	    	message.channel.send('Why are you mentioning yourself...<@${message.author.id}>');
+	    	message.channel.send(`Evirir, why are you mentioning yourself...?`);
 	    	return;
 	    }
 	    if(message.author.id === godID){
@@ -112,6 +111,9 @@ client.on('message', message => {
 		msg += `(\`${prefix}${commandName}\` command under maintenance)`;
 		message.reply(msg);
 		return;
+	}
+	if(command.dragonly && message.author.id !== dragID){
+		return message.channel.send(`This command is only available to developers.`);
 	}
 	if(command.args && command.usage && !args.length){
 		let reply = `Command: \`${command.name}\``;

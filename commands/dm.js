@@ -11,10 +11,10 @@ module.exports = {
 	execute(message, args){
 		if(!message.mentions.users.size) return message.reply(`please mention someone before inputting your message!\nUsage: \`${prefix}dm @mentionUser [message]\``);
 
-		let msg = message.content;
+		var msg = message.content;
 
 		//trims ..dm command
-		let start = msg.indexOf(" ")+1;
+		var start = msg.indexOf(" ")+1;
 		msg = msg.substring(start, msg.length);
 
 		//trims @mentionuser, and checks if there's a message

@@ -12,17 +12,22 @@ module.exports = {
 		const {commands} = message.client;
 
 		var cmd = commands.map(command => command);
-		var cmdTrim = [];
+		var stdcmd = [];
+		var dragcmd = [];
 		for(var i=0;i<cmd.length;i++){
-			if(!cmd[i].hidden) cmdTrim.push(cmd[i].name);
+			if(!cmd[i].hidden){
+				if(cmd[i].admin) dragcmd.push(cmd[i].name);
+				else stdcmd.push(cmd[i].name);
+			}
 		}
 
 		if(!args.length){
 			data.push(`Hey, I'm Smaug the dragon! My current prefix is \`${prefix}\``);
-			data.push(`Here are all the magic spells that I know:\n\``);
-			data.push(cmdTrim.join(', '));
+			data.push(`Here are all the magic spells that I know:\n\n**Standard commands:**\n\``);
+			data.push(stdcmd.join(', '));
+			data.push(`\`\n\n**Developer commands:**\n\``);
+			data.push(dragcmd.join(', '));
 			data.push(`\`\n\nSend \`${prefix}help [command]\` for more info on that spell!`);
-			data.push(`Certain non-command messages will also trigger special responses, try to find them out!`);
 			data.push(`DM **@${dragTag}** if you want to see the source code of this bot.`);
 
 			return message.channel.send(data, {split: true});
