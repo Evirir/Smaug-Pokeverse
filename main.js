@@ -106,7 +106,7 @@ client.on('message', message => {
 	//MESSAGE CONTAINS TRIGGER
 	if(message.content.toLowerCase().includes('good dragon'))
 	  	return message.channel.send(`Thanks! **licks your face**`);
-	if(message.content.toLowerCase().includes('dragon')){
+	if(message.content.toLowerCase().includes('dragon'))
 	  	return message.channel.send(`Did someone said...**DRAGONS**?`);
 
 });
