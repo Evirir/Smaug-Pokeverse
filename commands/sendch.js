@@ -13,12 +13,12 @@ module.exports = {
 		var chID = args[0].toString(); console.log(chID);
 		var chName = chID.toLowerCase();
 		var isName = false;
-		if(chName === `isobots`)	chID = isoBotsID;
+		if(chName === `isobots` || chName === `botsiso`)	chID = isoBotsID;
 		if(chName === `console`)	chID = consoleID;
 		if(chName === `startup`)	chID = startupID;
 		if(chName === `bstartup`)	chID = betastartupID;
 		if(chName === `smaugtest`)	chID = betatestID;
-		if(chName === `message`)	chID = messageID;		
+		if(chName === `message`)	chID = messageID;
 
 		if(!isName)
 			chID = chID.substring(2,chID.length-1);
