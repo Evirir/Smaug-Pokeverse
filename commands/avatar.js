@@ -4,7 +4,7 @@ module.exports = {
 	name: 'avatar',
 	description: `Shows your/mentions' avatar(s)`,
 	aliases: [`icon`,`image`,`img`],
-	usage: '[user1] [user2]...',
+	usage: '@user1 @user2...',
 
 	execute(message,args){
 		if (!message.mentions.users.size) {
