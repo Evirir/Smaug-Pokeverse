@@ -10,15 +10,15 @@ module.exports = {
 	//wip: true,
 
 	execute(message, args) {
-		var chID = args[0].toString(); console.log(chID);
+		var chID = args[0].toString();
 		var chName = chID.toLowerCase();
 		var isName = false;
-		if(chName === `isobots` || chName === `botsiso`)	chID = isoBotsID;
-		if(chName === `console`)	chID = consoleID;
-		if(chName === `startup`)	chID = startupID;
-		if(chName === `bstartup`)	chID = betastartupID;
-		if(chName === `smaugtest`)	chID = betatestID;
-		if(chName === `message`)	chID = messageID;
+		if(chName === `isobots` || chName === `botsiso`)	chID = isoBotsID; isName = true;
+		if(chName === `console`)	chID = consoleID; isName = true;
+		if(chName === `startup`)	chID = startupID; isName = true;
+		if(chName === `bstartup`)	chID = betastartupID; isName = true;
+		if(chName === `smaugtest`)	chID = betatestID; isName = true;
+		if(chName === `message`)	chID = messageID; isName = true;
 
 		if(!isName)
 			chID = chID.substring(2,chID.length-1);
@@ -32,7 +32,7 @@ module.exports = {
 
 			//trims channel, and checks if there's a message
 			start = msg.indexOf(" ")+1;
-			if(start==0) return message.reply(`please specify your message!`);
+			if(start==0) return message.channel.send(`<@${message.author.id}>, please specify your message!`);
 			msg = msg.substring(start, msg.length);
 
 			message.client.channels.get(chID).send(msg);
