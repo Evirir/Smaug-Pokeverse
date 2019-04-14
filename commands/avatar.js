@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 module.exports = {
 	name: 'avatar',
 	description: `Shows your/mentions' avatar(s)`,
@@ -6,12 +8,18 @@ module.exports = {
 
 	execute(message,args){
 		if (!message.mentions.users.size) {
-			return message.channel.send(`Your avatar: ${message.author.displayAvatarURL}`);
+			const embed = new Discord.RichEmbed()
+				.setTitle('Your avatar:')
+				.setImage(message.author.displayAvatarURL)
+			return message.channel.send(embed);
 		}
 
 		const avatarList = message.mentions.users.map( user => {
-			return `${user.username}'s avatar: ${user.displayAvatarURL}`;
-		})
-		message.channel.send(avatarList);
+			const embed = new Discord.RichEmbed()
+				.setTitle(`${user.tag}'s avatar:`)
+				.setImage(user.displayAvatarURL);
+
+			message.channel.send(embed);
+		});
 	}
 }

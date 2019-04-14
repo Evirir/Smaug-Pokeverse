@@ -107,7 +107,7 @@ client.on('message', message => {
 	if(!command) return;
 	if(command.wip){
 		var msg = "";
-		msg += `I have no spell slots left for this spell... I'll regenerate it soon if you could give me some time ^.=.^"\n`;
+		msg += `I have no spell slots left for this spell...\n`;
 		msg += `(\`${prefix}${commandName}\` command under maintenance)`;
 		message.reply(msg);
 		return;
