@@ -14,7 +14,7 @@ module.exports = {
             id = Math.floor(Math.random() * maxID) + 1;
         else id = args[0];
 
-        if(id > maxID)
+        if(isNaN(id) || id > maxID || id < 1)
             return message.channel.send(`ID out of range! Please input an ID between 1 and ${maxID}.`);
 
         const path = `images/cute/cute (${id}).jpg`;
