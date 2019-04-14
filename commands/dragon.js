@@ -14,13 +14,15 @@ module.exports = {
             id = Math.floor(Math.random() * maxID) + 1;
         else id = args[0];
 
-        if(isNaN(id) || id > maxID || id < 1)
+		if(isNaN(id))
+			return message.channel.send(`ID is not a number! Please input an ID between 1 and ${maxID}.`);
+        if(id > maxID || id < 1)
             return message.channel.send(`ID out of range! Please input an ID between 1 and ${maxID}.`);
 
         const path = `images/dragon/dragon (${id}).png`;
 		const embed = new Discord.RichEmbed()
 			.setTitle(`Dragon #${id}`)
-            .attachFiles([`images/dragon/dragon (${id}).png`])
+            .attachFiles([path])
             .setImage(`attachment://dragon (${id}).png`);
 
 		message.channel.send(embed);
