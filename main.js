@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const {prefix,token,evitoken,bot_name} = require('./config.json');
+const {prefix,botToken,dragToken,drag2Token,bot_name} = require('./config.json');
 const {dragID,drag2ID,godID,zsID} = require(`./users.json`);
 const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
 const {isoAdminID} = require(`./roles.json`);
@@ -62,29 +62,43 @@ client.on('message', message => {
 
 		if(message.author === (client.users.get(dragID))){
 			if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
-				message.reply(`hey...**snuggles you**`);
-			else if(msg.includes(`thank you`) || msg.includes(`thanks`))
-				message.channel.send(`You're welcome <@${dragID}>! **licks you**`);
-			else
-	    		message.channel.send(`Evirir-sama you came! **leaps around you happily**`);
-			return;
+				return message.reply(`hey...**snuggles you**`);
+			if(msg.includes(`thank you`) || msg.includes(`thanks`))
+				return message.channel.send(`You're welcome <@${dragID}>! **licks you**`);
+			if(msg.includes(`cookie`))
+				return message.channel.send(`Cookie? Sure! **noms cookie**`);
+			if(msg.includes(`are you good`))
+				return message.channel.send(`I'll try my best, <@${message.author.id}>!`);
+			if(msg.includes(`good`))
+				return message.channel.send(`Thanks! **licks your face**`);
+	    	return message.channel.send(`Evirir-sama you came! **leaps around you happily**`);
 	  	}
 
-		else if(message.author === (client.users.get(godID))){
+		if(message.author === (client.users.get(godID))){
 			if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
-				message.channel.send(`Hey <@${godID}>...will I become a powerful dragon wizard in the future?`);
-			else if(msg.includes(`thank you`) || msg.includes(`thanks`))
-				message.channel.send(`Y-you're welcome! Always under your wings, <@${godID}>...`);
-			else message.channel.send(`<@${godID}>...**offers cookies respectfully**\nThere you go, more tasty cookies I found from Earth.`);
-			return;
+				return message.channel.send(`Hey <@${godID}>...will I become a powerful dragon wizard in the future?`);
+			if(msg.includes(`thank you`) || msg.includes(`thanks`))
+				return message.channel.send(`Y-you're welcome! Always under your wings, <@${godID}>...`);
+			if(msg.includes(`cookie`))
+				return message.channel.send(`Cookie? Sure! **noms cookie**`);
+			if(msg.includes(`are you good`))
+				return message.channel.send(`I'll try my best, <@${message.author.id}>!`);
+			if(msg.includes(`good`))
+				return message.channel.send(`Thanks! **licks your face**`);
+			return message.channel.send(`<@${godID}>...**offers cookies respectfully**\nThere you go, more tasty cookies I found from Earth.`);
 	  	}
 
 		if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
-			message.channel.send(`Hrrr, <@${message.author.id}>! Do you have any cookies?`);
+			return message.channel.send(`Hrrr, <@${message.author.id}>! Do you have any cookies?`);
 		if(msg.includes(`thank you`) || msg.includes(`thanks`))
-			message.reply(`you're welcome! **takes your cookies** ...but for what?`);
-	  	else
-	    	message.reply(`I'm here~ **wags tail**`);
+			return message.reply(`you're welcome! **takes your cookies** ...but for what?`);
+		if(msg.includes(`cookie`))
+			return message.channel.send(`Cookie? Sure! **noms cookie**`);
+		if(msg.includes(`are you good`))
+			return message.channel.send(`I'll try my best, <@${message.author.id}>!`);
+		if(msg.includes(`good`))
+			return message.channel.send(`Thanks! **licks your face**`);
+	    return message.reply(`I'm here~ **wags tail**`);
 
 		return;
 	}
@@ -138,5 +152,11 @@ client.on('message', message => {
 	}
 });
 //STANDARD COMMANDS END
+
+var token = "";
+var cur = 0;
+
+if(cur === 1)	token = dragToken;
+else			token = botToken;
 
 client.login(token);

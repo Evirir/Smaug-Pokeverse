@@ -8,7 +8,7 @@ module.exports = {
 
 	execute(message,args){
         var id = 0;
-        const maxID = 17;
+        const maxID = 19;
 
 		if (!args.length)
             id = Math.floor(Math.random() * maxID) + 1;
@@ -19,12 +19,18 @@ module.exports = {
         if(id > maxID || id < 1)
             return message.channel.send(`ID out of range! Please input an ID between 1 and ${maxID}.`);
 
-        const path = `images/cute/cute (${id}).jpg`;
-		const embed = new Discord.RichEmbed()
+
+		var path = `images/cute/cute (${id})`;
+		var type = '';
+        if(id === 1)	type = '.gif';
+		else			type = '.jpg';
+		path += type;
+
+		const exampleEmbed = new Discord.RichEmbed()
 			.setTitle(`Cute dragon #${id}`)
             .attachFiles([path])
-            .setImage(`attachment://cute (${id}).jpg`)
+            .setImage(`attachment://cute (${id})${type}`);
 
-		message.channel.send(embed);
+		message.channel.send(exampleEmbed);
 	}
 }

@@ -1,5 +1,6 @@
 module.exports = {
     name: 'swear',
+    description: `In case someone thought of this...`,
     aliases: [`shit`,`fuck`,`damn`,`ffs`,`fk`],
     hidden: true,
 
