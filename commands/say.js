@@ -5,7 +5,7 @@ const {consoleID} = require(`../channels.json`);
 
 module.exports = {
 	name: 'say',
-	description: `Echos what you said\n`,
+	description: `Echos what you said`,
 	aliases: [`echo`],
 	args: true,
 	usage: `[message]`,

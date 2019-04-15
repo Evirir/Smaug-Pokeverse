@@ -7,6 +7,7 @@ module.exports = {
 	aliases: [`pm`,`msg`,`message`,`private`],
 	args: true,
 	usage: `@mentionUser [message]`,
+	notes: `The receiver will see your name`,
 
 	execute(message, args){
 		if(!message.mentions.users.size) return message.reply(`please mention someone before inputting your message!\nUsage: \`${prefix}dm @mentionUser [message]\``);
