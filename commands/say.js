@@ -20,6 +20,5 @@ module.exports = {
 		msg = msg.substr(start, msg.length-start);
 		message.channel.bulkDelete(1, true);
 		message.channel.send(msg);
-		message.client.channels.get(consoleID).send(`**${(message.author.id === dragID? `You`: `<@`+message.author.id+`>`)}** used \`say\` at <#${message.channel.id}>:\n${msg}`);
   	}
 };
