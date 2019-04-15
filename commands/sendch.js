@@ -7,7 +7,7 @@ module.exports = {
 	args: true,
 	usage: `[channel ID/name] [message]`,
 	admin: true,
-	//wip: true,
+	notes: `Usable names: isobots/botsiso, console, startup, bstartup, smaugtest, message`,
 
 	execute(message, args) {
 		var chID = args[0].toString();
