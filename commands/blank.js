@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'blank',
-	description: `Spams newlines to cover up whatever terrible things you've said.`,
+	description: `Spams newlines to cover up whatever terrible things you've said (Doesn't work on mobile)`,
 	aliases: [`spamblank`,`cover`,`clear`],
     args: true,
     usage: `[number of lines]`,
