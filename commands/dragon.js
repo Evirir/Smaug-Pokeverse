@@ -8,7 +8,7 @@ module.exports = {
 
 	execute(message,args){
         var id = 0;
-        const maxID = 44;
+        const maxID = 43;
 
 		if (!args.length)
             id = Math.floor(Math.random() * maxID) + 1;
