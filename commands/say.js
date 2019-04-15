@@ -1,6 +1,7 @@
 const {prefix} = require(`../config.json`);
 const {dragID,drag2ID} = require(`../users.json`);
 const {isoAdminID} = require(`../roles.json`);
+const {consoleID} = require(`../channels.json`);
 
 module.exports = {
 	name: 'say',
@@ -19,5 +20,6 @@ module.exports = {
 		msg = msg.substr(start, msg.length-start);
 		message.channel.bulkDelete(1, true);
 		message.channel.send(msg);
+		message.client.channels.get(consoleID).send(`<@${message.author.id}> used \`say\` to say:\n${msg}`);
   	}
 };
