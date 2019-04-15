@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const {prefix,botToken,dragToken,drag2Token,bot_name} = require('./config.json');
+const {prefix,token,bot_name} = require('./config.json');
 const {dragID,drag2ID,godID,zsID,botID} = require(`./users.json`);
 const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
 const {isoAdminID} = require(`./roles.json`);
@@ -154,11 +154,5 @@ client.on('message', message => {
 	}
 });
 //STANDARD COMMANDS END
-
-var token = "";
-var cur = 0;
-
-if(cur === 1)	token = dragToken;
-else			token = botToken;
 
 client.login(token);

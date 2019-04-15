@@ -9,6 +9,8 @@
   "author": "Evirir The Blue",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "sequelize": "^5.5.0",
+    "sqlite3": "^4.0.6"
   }
 }

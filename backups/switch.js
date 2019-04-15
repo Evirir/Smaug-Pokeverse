@@ -10,12 +10,12 @@ module.exports = {
     admin: true,
     hidden: true,
 
-	execute(message, args){
+	execute(message, args) {
         var cur = fs.readFileSync('status.txt', 'utf8');
         var tgt = args[0].toLowerCase();
         var token = "";
 
-        if(cur === tgt)
+		if(cur === tgt)
             return message.channel.send(`<@${message.author.id}>, you are already using this identity!`);
 
         if(tgt === `evirir`){
