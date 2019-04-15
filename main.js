@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const {prefix,botToken,dragToken,drag2Token,bot_name} = require('./config.json');
-const {dragID,drag2ID,godID,zsID} = require(`./users.json`);
+const {dragID,drag2ID,godID,zsID,botID} = require(`./users.json`);
 const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
 const {isoAdminID} = require(`./roles.json`);
 
@@ -36,7 +36,7 @@ client.on("guildDelete", guild => {
 
 // MENTION REPLIES START
 client.on('message', message => {
-	if(message.author.bot) return;
+	if(message.author.bot || message.author.id === botID) return;
 	if(message.content.startsWith(`${prefix}`)) return;
 
 	//EVIRIR IS MENTIONED
@@ -46,7 +46,7 @@ client.on('message', message => {
 	    	return;
 	    }
 	    if(message.author.id === godID){
-	    	message.channel.send(`${message.author.id}, ya' finding Evirir-sama?`);
+	    	message.channel.send(`${message.author.id}, ya' calling Evirir-sama?`);
 	    }
 	    else
 	    	message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
