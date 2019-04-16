@@ -64,7 +64,7 @@ module.exports = {
             let oriUser = message.guild.member(message.client.user).nickname;
             message.guild.member(message.client.user).setNickname('BoxBot')
             .then(() => message.client.channels.get(tgtChannel).send(msg))
-            .then(() => message.guild.member(message.client.user).setNickname('Smaug'))
+            .then(() => message.guild.member(message.client.user).setNickname(oriUser))
             .then(() => message.channel.send("***Victim found!***"));
         }
         catch(error){
