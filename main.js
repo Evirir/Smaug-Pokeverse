@@ -132,14 +132,7 @@ client.on('message', message => {
 		return message.channel.send(`This command is only available to developers.`);
 	}
 	if(command.args && command.usage && !args.length){
-		let reply = `Command: \`${command.name}\``;
-		if(command.aliases){
-			reply += `\nAliases: \``;
-			reply += command.aliases.map(a => a).join(', ');
-			reply += `\``;
-		}
-		reply += `\nUsage: \`${prefix}${command.name} ${command.usage}\`\nDescription: ${command.description}`;
-		return message.channel.send(reply);
+		return client.commands.get(`help`).execute(message,[command.name]);
 	}
 
 	try{
