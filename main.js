@@ -35,7 +35,6 @@ client.on("guildDelete", guild => {
   	client.channels.get(consoleID).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
 });
 
-// MENTION REPLIES START
 client.on('message', message => {
 	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 
@@ -46,30 +45,12 @@ client.on('message', message => {
 	}
 
 	let prefix = prefixes[message.guild.id].prefixes;
-	console.log(message.channel.name + " " + prefix);
 
 	if(message.author.bot) return;
-	if(message.content.startsWith(`${prefix}`)) return;
-
-	trigger.execute(client,message);
-});
-//MENTION REPLIES END
-
-//STANDARD COMMANDS START
-client.on('message', message => {
-	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
-
-	if(!prefixes[message.guild.id]){
-		prefixes[message.guild.id] = {
-			prefixes: defaultPrefix
-		};
+	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) {
+		trigger.execute(client, message);
 	}
 
-	let prefix = prefixes[message.guild.id].prefixes;
-	console.log(prefix);
-
-	if(message.author.bot) return;
-	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) return;
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
@@ -100,6 +81,5 @@ client.on('message', message => {
 			message.reply(`I've encountered some error, tell <@${dragID}> and blame him for that =. .=`);
 	}
 });
-//STANDARD COMMANDS END
 
 client.login(token);
