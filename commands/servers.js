@@ -6,11 +6,16 @@ module.exports = {
 	aliases: [`serverlist`],
 
 	execute(message, args){
-		let reply = "Places I've been to:\n\`\`\`";
+		let servers = "";
    		message.client.guilds.map((guild) => {
-	   		reply += '-' + guild.name + '\n';
+	   		servers += '- ' + guild.name + '\n';
    		})
-		reply += "\`\`\`";
-		message.channel.send(reply);
+
+		const embed = new Discord.RichEmbed()
+			.setTitle("Places I've flew to:")
+			.setDescription(servers)
+			.setColor('ORANGE');
+
+		message.channel.send(embed);
  	}
 };

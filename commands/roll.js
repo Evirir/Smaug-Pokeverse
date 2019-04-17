@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const {defaultPrefix} = require('../config.json');
 
 module.exports = {
 	name: 'roll',
