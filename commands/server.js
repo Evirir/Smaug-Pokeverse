@@ -1,4 +1,5 @@
 const {dragID,drag2ID,godID,zsID} = require(`../users.json`);
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'server',
@@ -25,6 +26,11 @@ module.exports = {
 		if(message.guild.member(godID)) msg += (`\nThe ultimate MGod is here watching us too!`);
 		if(message.guild.member(zsID)) msg += (`\nOh, zscoder the God of Everything ~~except geometry~~ is here too.`);
 
-		message.channel.send(msg);
+		const embed = new Discord.RichEmbed()
+		.setTitle('Server Info')
+		.setDescription(msg)
+		.setColor('BLUE');
+
+		message.channel.send(embed);
 	}
 };

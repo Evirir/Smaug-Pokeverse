@@ -36,7 +36,6 @@ client.on("guildDelete", guild => {
 });
 
 client.on('message', message => {
-	( function() {
 	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 
 	if(!prefixes[message.guild.id]){
@@ -46,8 +45,6 @@ client.on('message', message => {
 		fs.writeFileSync('./prefixes.json', JSON.stringify(prefixes));
 		prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 	}
-	})
-	.then( function() {
 
 	let prefix = prefixes[message.guild.id].prefix;
 
@@ -85,7 +82,6 @@ client.on('message', message => {
 		else
 			message.reply(`I've encountered some error, tell <@${dragID}> and blame him for that =. .=`);
 	}
-	})
 });
 
 client.login(token);

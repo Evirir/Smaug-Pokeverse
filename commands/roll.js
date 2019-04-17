@@ -45,7 +45,7 @@ module.exports = {
 		.setTitle(title)
 		.setDescription(desc)
 		.setFooter(footnote)
-		.setColor([255-gvalue,255-(1-gvalue),0]);
+		.setColor([255*(1-gvalue),255*gvalue,0]);
 
 		message.channel.send(embed);
 	}
