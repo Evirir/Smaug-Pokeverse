@@ -6,7 +6,7 @@ module.exports = {
 	description: `Rolls a number of dice of specified type`,
     aliases: [`rolls`,`dice`,`rand`,`random`],
 	args: true,
-	usage: `[no of dice]d[type of dice]\` e.g. \`${defaultPrefix}roll d8\`, \`${defaultPrefix}roll 4d10`,
+	usage: `[amount]d[faces]\` e.g. \`${defaultPrefix}roll d8\`, \`${defaultPrefix}roll 4d10`,
 
 	execute(message, args){
 		const limit = 200;
@@ -36,7 +36,17 @@ module.exports = {
 			sum += res[i];
 		}
 
-		var front = (amount==1) ? "" : `Rolls: ${res.join(', ')}\n`;
-		message.channel.send(front + `Result: **${sum}** \`(min: ${mini}, max: ${maxi}, ave: ${ave})\``);
+		let title = `Result: ${sum}`;
+		let desc = (amount==1) ? "" : `Rolls: ${res.join(', ')}\n`;
+		let footnote = `Min: ${mini}  Max: ${maxi}  Ave: ${ave}`;
+		let gvalue = (sum/maxi);
+
+		const embed = new Discord.RichEmbed()
+		.setTitle(title)
+		.setDescription(desc)
+		.setFooter(footnote)
+		.setColor([255*(1-gvalue),255*gvalue,0]);
+
+		message.channel.send(embed);
 	}
 };

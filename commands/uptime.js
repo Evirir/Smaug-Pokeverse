@@ -14,6 +14,5 @@ module.exports = {
         let uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
 
         message.channel.send(`I woke up since ${uptime} ago...and I don't see a reason to sleep yet!`);
-        return;
 	}
 };

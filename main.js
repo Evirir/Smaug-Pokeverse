@@ -40,15 +40,15 @@ client.on('message', message => {
 
 	if(!prefixes[message.guild.id]){
 		prefixes[message.guild.id] = {
-			prefixes: defaultPrefix
-		};
-
+			prefix: defaultPrefix
+		}
 		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) => {
 			if(err) console(err);
 		});
+		prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 	}
 
-	let prefix = prefixes[message.guild.id].prefixes;
+	let prefix = prefixes[message.guild.id].prefix;
 
 	if(message.author.bot) return;
 	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) {
@@ -79,7 +79,7 @@ client.on('message', message => {
 	}
 	catch(error){
 		console.error(error);
-		if(message.author.id === dragID || message.author.id === drag2ID)
+		if(message.author.id === dragID)
 			message.reply(`I have some issues here, go check the log ó.=.ò"`)
 		else
 			message.reply(`I've encountered some error, tell <@${dragID}> and blame him for that =. .=`);
