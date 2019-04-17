@@ -107,7 +107,13 @@ client.on('message', message => {
 	if(message.content.toLowerCase().includes('good dragon'))
 	  	return message.channel.send(`Thanks! **licks your face**`);
 	if(message.content.toLowerCase().includes('dragon'))
-	  	return message.channel.send(`Did someone said...**DRAGONS**?`);
+	  	return message.channel.send(`Did someone say...**DRAGONS**?`);
+	if(message.content.toLowerCase().includes('owo'))
+		  return message.channel.send(`uwu`);
+	if(message.content.toLowerCase() === ('uwu'))
+		return message.channel.send(`owo`);
+	if(message.content.toLowerCase().includes('wew'))
+		  return message.channel.send(`lad`);
 
 });
 //MENTION REPLIES END
