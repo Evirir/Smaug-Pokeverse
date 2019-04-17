@@ -109,11 +109,13 @@ client.on('message', message => {
 	if(message.content.toLowerCase().includes('dragon'))
 	  	return message.channel.send(`Did someone say...**DRAGONS**?`);
 	if(message.content.toLowerCase().includes('owo'))
-		  return message.channel.send(`uwu`);
+		return message.channel.send(`uwu`);
 	if(message.content.toLowerCase() === ('uwu'))
 		return message.channel.send(`owo`);
 	if(message.content.toLowerCase().includes('wew'))
-		  return message.channel.send(`lad`);
+		return message.channel.send(`lad`);
+	if(message.content.toLowerCase() === `pls beg`)
+		return message.channel.send(`**takes diamonds from hoard with mouth (but accidentally melting them before reaching you)**`);
 
 });
 //MENTION REPLIES END
