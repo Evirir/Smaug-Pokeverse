@@ -1,13 +1,15 @@
-const {prefix} = require(`../config.json`);
-const {dragTag} = require(`../users.json`);
+const {dragTag,botID} = require(`../users.json`);
+const fs = require('fs');
+const prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 
 module.exports = {
 	name: 'help',
-	description: `Shows list of spells that I know. Use \`${prefix}help [spell]\` to view details of the spell.\n(Also, nice job on getting help on a help command)`,
+	description: `Shows list of spells that I know. Use \`${defaultPrefix}help [spell]\` to view details of the spell.\n(Also, nice job on getting help on a help command)`,
 	aliases: ['commands','command','cmd'],
 	usage: '[spell-name]',
 
 	execute(message, args){
+		const prefix = prefixes[message.guild.id].prefixes;
 		const data = [];
 		const {commands} = message.client;
 
@@ -28,7 +30,7 @@ module.exports = {
 			data.push(`\`\n\n**Developer commands:**\n\``);
 			data.push(dragcmd.join(', '));
 			data.push(`\`\n\nSend \`${prefix}help [command]\` for more info on that spell!`);
-			data.push(`DM **@${dragTag}** if you want to see the source code of this bot.`);
+			data.push('If you forgot the prefix, you can always type \`<@botID> help\` to summon this message!');
 
 			return message.channel.send(data, {split: true});
 		}

@@ -1,11 +1,11 @@
-const {prefix} = require(`../config.json`);
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'roll',
 	description: `Rolls a number of dice of specified type`,
     aliases: [`rolls`,`dice`,`rand`,`random`],
 	args: true,
-	usage: `[no of dice]d[type of dice]\` e.g. \`${prefix}roll d8\`, \`${prefix}roll 4d10`,
+	usage: `[no of dice]d[type of dice]\` e.g. \`${defaultPrefix}roll d8\`, \`${defaultPrefix}roll 4d10`,
 
 	execute(message, args){
 		const limit = 200;

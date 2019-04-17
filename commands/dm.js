@@ -1,4 +1,5 @@
-const {prefix} = require(`../config.json`);
+const fs = require('fs');
+const prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 const {consoleID} = require(`../channels.json`);
 
 module.exports = {
@@ -10,6 +11,7 @@ module.exports = {
 	notes: `The receiver will see your name`,
 
 	execute(message, args){
+		const prefix = prefixes[message.guild.id].prefixes;
 		let userID = "";
 		let usertag = "";
 		if(message.mentions.users.size) userID = message.mentions.users.first().id;

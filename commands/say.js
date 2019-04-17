@@ -1,7 +1,5 @@
-const {prefix} = require(`../config.json`);
 const {dragID} = require(`../users.json`);
 const {isoAdminID} = require(`../roles.json`);
-const {consoleID} = require(`../channels.json`);
 
 module.exports = {
 	name: 'say',

@@ -18,7 +18,7 @@ for(const file of commandFiles){
 
 client.once('ready', () => {
 	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\nIt's currently **${client.readyAt}**\n`;
-	startmsg += `Watching ${client.users.size} users, in ${client.channels.size} channels of ${client.guilds.size} guilds.`;
+	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);
   	client.channels.get(startupID).send(startmsg);
   	client.channels.get(betastartupID).send(startmsg);
@@ -42,6 +42,10 @@ client.on('message', message => {
 		prefixes[message.guild.id] = {
 			prefixes: defaultPrefix
 		};
+
+		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) => {
+			if(err) console(err);
+		});
 	}
 
 	let prefix = prefixes[message.guild.id].prefixes;

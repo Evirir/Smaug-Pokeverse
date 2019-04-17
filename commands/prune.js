@@ -1,4 +1,4 @@
-const {prefix,dragID,drag2ID} = require(`../users.json`);
+const {dragID} = require(`../users.json`);
 
 module.exports = {
 	name: 'prune',

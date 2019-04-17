@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 module.exports = {
 	name: 'servers',
 	description: `Shows places (server) where I've gone to!`,
