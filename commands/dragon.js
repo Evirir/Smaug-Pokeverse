@@ -19,7 +19,7 @@ module.exports = {
         if(id > maxID || id < 1)
             return message.channel.send(`ID out of range! Please input an ID between 1 and ${maxID}.`);
 
-        const path = `images/dragon/dragon (${id}).png`;
+        const path = `./images/dragon/dragon (${id}).png`;
 		const embed = new Discord.RichEmbed()
 			.setTitle(`Dragon #${id}`)
             .attachFiles([path])
