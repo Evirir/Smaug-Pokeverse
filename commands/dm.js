@@ -11,7 +11,7 @@ module.exports = {
 	notes: `The receiver will see your name`,
 
 	execute(message, args){
-		const prefix = prefixes[message.guild.id].prefixes;
+		const prefix = prefixes[message.guild.id].prefix;
 		let userID = "";
 		let usertag = "";
 		if(message.mentions.users.size) userID = message.mentions.users.first().id;

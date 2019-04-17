@@ -11,7 +11,7 @@ module.exports = {
 
 		if(!args.length) {
 			const embed = new Discord.RichEmbed()
-				.setTitle(`Current prefix: ${prefixes[message.guild.id].prefixes}`)
+				.setTitle(`Current prefix: ${prefixes[message.guild.id].prefix}`)
 				.setColor('GOLD');
 
 			return message.channel.send(embed);
@@ -26,9 +26,7 @@ module.exports = {
 			prefixes: args[0]
 		};
 
-		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) => {
-			if(err) console(err);
-		});
+		fs.writeFileSync('./prefixes.json', JSON.stringify(prefixes));
 
 		let embed = new Discord.RichEmbed()
 			.setColor('GREEN')
