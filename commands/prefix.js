@@ -27,7 +27,9 @@ module.exports = {
 			prefixes: args[0]
 		};
 
-		fs.writeFileSync('./prefixes.json', JSON.stringify(prefixes));
+		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) => {
+			if(err) console.log(err);
+		});
 
 		let embed = new Discord.RichEmbed()
 			.setColor('GREEN')

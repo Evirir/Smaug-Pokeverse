@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const {defaultPrefix} = require('../config.json');
 const {dragTag,botID} = require(`../users.json`);
 const fs = require('fs');
@@ -26,12 +27,13 @@ module.exports = {
 
 		if(!args.length){
 			data.push(`Hey, I'm Smaug the dragon! My current prefix is \`${prefix}\``);
-			data.push(`Here are all the magic spells that I know:\n\n**Standard commands:**\n\``);
+			data.push(`Here are all the magic spells that I know:`);
+			data.push(`\n**Standard commands:\n**\``);
 			data.push(stdcmd.join('\` \`'));
-			data.push(`\`\n\n**Developer commands:**\n\``);
+			data.push(`\`\n\n**Developer commands:\n**\``);
 			data.push(dragcmd.join('\` \`'));
 			data.push(`\`\n\nSend \`${prefix}help [command]\` for more info on that spell!`);
-			data.push('If you forgot the prefix, you can always type \`<@botID> help\` to summon this message!');
+			data.push(`If you forgot the prefix, you can always type "<@${botID}> help" to summon this message!`);
 
 			return message.channel.send(data, {split: true});
 		}

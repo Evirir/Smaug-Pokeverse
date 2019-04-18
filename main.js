@@ -42,7 +42,9 @@ client.on('message', message => {
 		prefixes[message.guild.id] = {
 			prefix: defaultPrefix
 		}
-		fs.writeFileSync('./prefixes.json', JSON.stringify(prefixes));
+		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) => {
+			if(err) console.log(err);
+		});
 		prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 	}
 
