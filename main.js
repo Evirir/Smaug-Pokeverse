@@ -42,7 +42,9 @@ client.on('message', message => {
 		prefixes[message.guild.id] = {
 			prefix: defaultPrefix
 		}
-		fs.writeFileSync('./prefixes.json', JSON.stringify(prefixes));
+		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) =>{
+			if(err) return console.log(err);
+		});
 		prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 	}
 
@@ -50,7 +52,7 @@ client.on('message', message => {
 
 	if(message.author.bot) return;
 	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) {
-		trigger.execute(client, message);
+		return trigger.execute(client, message);
 	}
 
 	const args = message.content.slice(prefix.length).split(/ +/);
