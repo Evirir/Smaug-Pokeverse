@@ -6,7 +6,7 @@ module.exports = {
 	aliases: [`sendchannel`,`chsend`],
 	args: true,
 	usage: `[channel ID/name] [message]`,
-	admin: true,
+	dev: true,
 	notes: `Usable names: isobots, isoboxbot, console, startup, bstartup, smaugtest, message`,
 
 	execute(message, args) {

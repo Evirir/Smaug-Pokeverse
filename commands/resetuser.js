@@ -1,6 +1,7 @@
 module.exports = {
     name: 'resetuser',
-    admin: true,
+    description: "Resets the bot's username",
+    dev: true,
     hidden: true,
 
     execute(message,args){

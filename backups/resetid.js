@@ -4,7 +4,7 @@ var fs = require('fs');
 module.exports = {
 	name: `resetid`,
 	description: `Resets my identity`,
-	admin: true,
+	dev: true,
 	hidden: true,
 
 	execute(message, args) {

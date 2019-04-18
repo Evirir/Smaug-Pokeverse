@@ -7,7 +7,7 @@ module.exports = {
     aliases: [`identity`,`toggle`],
     args: true,
     usage: `[identity]`,
-    admin: true,
+    dev: true,
     hidden: true,
 
 	execute(message, args) {
