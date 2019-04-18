@@ -13,6 +13,5 @@ module.exports = {
 		.setColor('RED');
 
 	    message.channel.send(embed);
-	    message.client.channels.get(consoleID).send(`\nPing used at <#${message.channel.id}> in ${message.guild.name}: API Latency is ${Math.round(message.client.ping)}ms.`);
 	}
 };

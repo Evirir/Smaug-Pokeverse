@@ -28,7 +28,7 @@ module.exports = {
             if(msg.includes(`good`))
                 return message.channel.send(`Thanks! **licks your face**`);
             if(msg.includes(`cookie`))
-                return message.channel.send(`Cookie? Sure! **noms cookie**`);
+                return message.channel.send(`**noms cookie**`);
             if(msg.includes(`help`))
                 return client.commands.get('help').execute(message,[]);
 
@@ -56,15 +56,21 @@ module.exports = {
         }
 
         //MESSAGE CONTAINS TRIGGER
-        if(message.content.toLowerCase().includes('good dragon'))
+        const msg = message.content.toLowerCase();
+
+        if(msg.includes('good dragon'))
             return message.channel.send(`Thanks! **licks your face**`);
-        if(message.content.toLowerCase().includes('dragon'))
-            return message.channel.send(`Did someone say...**DRAGONS**?`);
-        if(message.content.toLowerCase().includes('owo'))
+        if(msg.includes('dragon'))
+            return message.channel.send(`Did someone say...**DRAGON**?`);
+        if(msg.includes(`rawr`))
+            return message.channel.send('*ghrr*');
+        if(msg.includes(`grr`) || msg.includes(`ghrr`))
+            return message.channel.send('*rawr*');
+        if(msg === 'owo')
             return message.channel.send(`uwu`);
-        if(message.content.toLowerCase() === ('uwu'))
+        if(msg === 'uwu')
             return message.channel.send(`owo`);
-        if(message.content.toLowerCase().includes('wew'))
+        if(msg === 'wew')
             return message.channel.send(`lad`);
     }
 };

@@ -6,12 +6,13 @@ module.exports = {
 	description: 'Shows the current prefix if no argument is given. Otherwise, changes server prefix to new prefix.',
 	usage: '[new-prefix]',
 
-	execute(message, args){
+	execute(message, args, prefix){
 		let prefixes = JSON.parse(fs.readFileSync('./prefixes.json','utf8'));
 
 		if(!args.length) {
 			const embed = new Discord.RichEmbed()
-				.setTitle(`Current prefix: ${prefixes[message.guild.id].prefix}`)
+				.setTitle(`Current prefix: \`${prefixes[message.guild.id].prefix}\``)
+				.setDescription(`Type \`${prefix}prefix [new-prefix]\` to change prefix.`)
 				.setColor('GOLD');
 
 			return message.channel.send(embed);

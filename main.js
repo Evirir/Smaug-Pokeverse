@@ -27,12 +27,12 @@ client.once('ready', () => {
 
 client.on("guildCreate", guild => {
   	console.log(`I've discovered a new guild!: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
-  	client.channels.get(consoleID).send(`I've discovered a new guild!: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
+  	client.channels.get(messageID).send(`I've discovered a new guild!: ${guild.name} (id: ${guild.id}). This guild has ${guild.memberCount} members!`);
  });
 
 client.on("guildDelete", guild => {
   	console.log(`I have been removed from: ${guild.name} (id: ${guild.id})`);
-  	client.channels.get(consoleID).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
+  	client.channels.get(messageID).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
 });
 
 client.on('message', message => {
@@ -73,10 +73,11 @@ client.on('message', message => {
 	}
 
 	try{
-		command.execute(message, args);
+		command.execute(message, args, prefix);
 	}
 	catch(error){
 		console.error(error);
+		client.channels.get(consoleID).send(error);
 		if(message.author.id === dragID)
 			message.reply(`I have some issues here, go check the log ó.=.ò"`)
 		else
