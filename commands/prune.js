@@ -7,7 +7,7 @@ module.exports = {
 	usage: `[amount]`,
 
 	execute(message, args){
-		if(!message.member.hasPermission('MANAGE_MESSAGES',false,true,true) || message.author.id === dragID))
+		if(!message.member.hasPermission('MANAGE_MESSAGES',false,true,true) || message.author.id === dragID)
 			message.reply(`you must be an admin to do that! Please ask for the admins' permission and <@${dragID}>'s help for it.`);
 
 		const amount = parseInt(args[0]);
