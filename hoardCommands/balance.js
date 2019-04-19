@@ -1,5 +1,3 @@
-const {Users, CurrencyShop} = require('../dbObjects');
-
 module.exports = {
 	name: 'balance',
 	description: `Checks someone's hoard balance`,

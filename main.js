@@ -1,6 +1,5 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const {Op}= require('sequelize');
 
 const {defaultPrefix,token,bot_name} = require('./config.json');
 const {dragID,drag2ID,godID,zsID,botID} = require(`./users.json`);
@@ -11,9 +10,6 @@ const trigger = require('./triggers');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cooldown = new Discord.Collection();
-
-const {Users, CurrencyShop} = require('./dbObjects');
-const currency = new Discord.Collection();
 
 const commandFiles = fs.readdirSync('./stdCommands').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -26,31 +22,7 @@ for(const file of hoardFiles){
 	client.commands.set(command.name,command);
 }
 
-//define currency properties
-Reflect.defineProperty(currency, 'add', {
-	value: async function add(id, amount) {
-		const user = currency.get(id);
-		if (user) {
-			user.balance += Number(amount);
-			return user.save();
-		}
-		const newUser = await Users.create({ user_id: id, balance: amount });
-		currency.set(id, newUser);
-		return newUser;
-	},
-});
-
-Reflect.defineProperty(currency, 'getBalance', {
-	value: function getBalance(id) {
-		const user = currency.get(id);
-		return user ? user.balance : 1000;
-	},
-});
-
 client.once('ready', async () => {
-	const storedBalances = await Users.findAll();
-	storedBalances.forEach(b => currency.set(b.user_id, b));
-
 	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\nIt's currently **${client.readyAt}**\n`;
 	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);
@@ -109,9 +81,6 @@ client.on('message', async message => {
 	}
 
 	try{
-		if(!currency.get(message.author.id))
-			message.channel.send(`<@${message.author.id}>, welcome to the game! Since you're a new hoarder, you get **${currency.getBalance(message.author.id)}**!`);
-
 		if(command.hoard) command.execute(currency, message, args);
 		else command.execute(message, args, prefix);
 	}
