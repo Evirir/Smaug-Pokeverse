@@ -6,6 +6,7 @@ module.exports = {
     description: 'Checks someone\'s inventory',
     aliases: ['i','inv'],
     hoard: true,
+    wip: true,
 
     async execute(currency, message, args){
         const target = message.mentions.users.first() || message.author;

@@ -5,6 +5,7 @@ module.exports = {
 	description: `Checks someone's hoard balance`,
     aliases: ['b','bal','money'],
     hoard: true,
+	wip: true,
 
 	execute(currency, message, args){
         const target = message.mentions.users.first() || message.author;

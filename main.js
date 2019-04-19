@@ -43,9 +43,7 @@ Reflect.defineProperty(currency, 'add', {
 Reflect.defineProperty(currency, 'getBalance', {
 	value: function getBalance(id) {
 		const user = currency.get(id);
-		if(user) return user.balance;
-		user.balance = 1000;
-		return user.balance;
+		return user ? user.balance : 1000;
 	},
 });
 
