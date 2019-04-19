@@ -1,22 +1,36 @@
 const fs = require('fs');
 const Discord = require('discord.js');
+const {Op}= require('sequelize');
+
 const {defaultPrefix,token,bot_name} = require('./config.json');
 const {dragID,drag2ID,godID,zsID,botID} = require(`./users.json`);
 const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
 const {isoAdminID} = require(`./roles.json`);
-const trigger = require('./triggers.js');
+const trigger = require('./triggers');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cooldown = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const {Users, CurrencyShop} = require('./dbObjects');
+const
+const currency = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./stdCommands').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
-	const command = require(`./commands/${file}`);
+	const command = require(`./stdCommands/${file}`);
+	client.commands.set(command.name,command);
+}
+const hoardFiles = fs.readdirSync('./hoardCommands').filter(file => file.endsWith('.js'));
+for(const file of hoardFiles){
+	const command = require(`./hoardCommands/${file}`);
 	client.commands.set(command.name,command);
 }
 
 client.once('ready', () => {
+	const storedBalances = await Users.findAll();
+	storedBalances.forEach(b => currency.set(b.user_id, b));
+
 	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\nIt's currently **${client.readyAt}**\n`;
 	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);
@@ -63,7 +77,7 @@ client.on('message', message => {
 	if(command.wip){
 		var msg = "";
 		msg += `I have no spell slots left for this spell...\n`;
-		msg += `(\`${prefix}${commandName}\` command under maintenance)`;
+		msg += `(\`${commandName}\` command under maintenance)`;
 		message.reply(msg);
 		return;
 	}
@@ -75,7 +89,8 @@ client.on('message', message => {
 	}
 
 	try{
-		command.execute(message, args, prefix);
+		if(command.hoard) command.execute(currency, message, prefix);
+		else command.execute(message, args, prefix);
 	}
 	catch(error){
 		console.error(error);
