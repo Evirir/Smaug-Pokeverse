@@ -22,7 +22,7 @@ for(const file of hoardFiles){
 	client.commands.set(command.name,command);
 }
 
-client.once('ready', async () => {
+client.once('ready', () => {
 	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\nIt's currently **${client.readyAt}**\n`;
 	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);
@@ -41,7 +41,7 @@ client.on("guildDelete", guild => {
   	client.channels.get(messageID).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
 });
 
-client.on('message', async message => {
+client.on('message', message => {
 	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 
 	if(!prefixes[message.guild.id]){
@@ -56,7 +56,7 @@ client.on('message', async message => {
 
 	let prefix = prefixes[message.guild.id].prefix;
 
-	if(message.author.bot) return;s
+	if(message.author.bot) return;
 	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) {
 		return trigger.execute(client, message);
 	}
