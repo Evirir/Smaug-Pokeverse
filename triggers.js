@@ -10,11 +10,11 @@ module.exports = {
                 return message.channel.send(`Evirir, why are you mentioning yourself...?`);
             }
             if(message.author.id === godID){
-                return message.channel.send(`${message.author.id}, ya' calling Evirir-sama?`);
+                return message.channel.send(`<@${message.author.id}>, ya' calling Evirir-sama?`);
             }
             else
                 message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
-                return client.users.get(consoleID).send(`${message.author.name} mentioned you:\n${message.content}`);
+                return client.users.get(consoleID).send(`<@${message.author.name}> mentioned you:\n${message.content}`);
         }
 
         //BOT SELF IS MENTIONED
