@@ -1,5 +1,4 @@
-const {Op} = require('sequelize');
-const {Users, CurrencyShop} = require('../dbObjects');
+
 
 module.exports = {
     name: 'inventory',
