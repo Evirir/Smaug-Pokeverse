@@ -3,8 +3,8 @@ const {consoleID} = require(`../channels.json`);
 module.exports = {
 	name: 'invite',
 	description: 'Creates a magical telepotation link to this server',
-	aliases: [`inv`,`link`],
 	wip: true,
+	hidden: true,
 
 	execute(message, args) {
 		var invite = message.channel.createInvite();

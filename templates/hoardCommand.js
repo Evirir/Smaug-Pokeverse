@@ -1,10 +1,12 @@
+const {Users, CurrencyShop} = require('../dbObjects');
+
 module.exports = {
 	name: 'name',
 	description: `description`,
     aliases: ['alias1','alias2'],
-	hidden: true,
+    hoard: true,
 
-	execute(message,args){
+	execute(currency, message, args){
         //do something
 	}
 };
