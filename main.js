@@ -56,7 +56,7 @@ client.on('message', async message => {
 
 	let prefix = prefixes[message.guild.id].prefix;
 
-	if(message.author.bot) return;
+	if(message.author.bot) return;s
 	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) {
 		return trigger.execute(client, message);
 	}
