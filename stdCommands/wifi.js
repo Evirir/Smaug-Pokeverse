@@ -24,7 +24,7 @@ module.exports = {
         occ.fill(0);
 
         for(var i=0;i<s.length;i++){
-            if(!isLetter(str[i]))
+            if(!isLetter(str[i].toLowerCase()))
                 return message.channel.send(`Please input a valid word! Words must only consist of English alphabets.`);
             if(i > 25){
                 msg += (`**` + str + `** does NOT have wifi.`);
