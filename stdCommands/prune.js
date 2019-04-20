@@ -2,13 +2,13 @@ const {dragID} = require(`../users.json`);
 
 module.exports = {
 	name: 'prune',
-	description: `Deletes some number of latest messages (admins and dragons only)`,
+	description: `Deletes some number of latest messages (members with \`MANAGE_MESSAGES\` permission only)`,
 	args: true,
 	usage: `[amount]`,
 
 	execute(message, args){
-		if(!message.member.hasPermission('MANAGE_MESSAGES',false,true,true) || message.author.id === dragID)
-			message.reply(`you must be an admin to do that! Please ask for the admins' permission and <@${dragID}>'s help for it.`);
+		if(!message.member.hasPermission('MANAGE_MESSAGES',false,true,true))
+			return message.reply(`you must be an admin to do that! Please ask for the admins' permission and <@${dragID}>'s help for it.`);
 
 		const amount = parseInt(args[0]);
 		if(isNaN(amount)) {
@@ -20,7 +20,7 @@ module.exports = {
 
 		message.channel.bulkDelete(amount+1, true).catch(err => {
 			console.error(err);
-			message.reply('there was an error trying to prune messages in this channel! Perhaps the messages are more than 2 weeks old.');
+			return message.reply('there was an error trying to prune messages in this channel! Perhaps the messages are more than 2 weeks old.');
 		});
   	}
 };
