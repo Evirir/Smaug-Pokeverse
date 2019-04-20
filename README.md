@@ -9,6 +9,7 @@ The default prefix is `,,`
 Use `,,help` to see the list of commands.
 
 ## To-do (and possible future developments)
+- [X] Add custom prefix feature
 - [ ] Make a currency system
 - [ ] And of course, add games to make use of the currency system
 - [ ] Make zs's graph theory battle royale
