@@ -6,7 +6,7 @@ module.exports = {
     aliases: ['alias1','alias2'],
     br: true,
 
-	execute(currency, message, args){
+	execute(brData, message, args){
         //do something
 	}
 };

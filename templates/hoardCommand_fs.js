@@ -1,12 +1,12 @@
-const fs = require('fs');
+const {update} = require('./updateHelper');
 
 module.exports = {
 	name: 'name',
 	description: `description`,
     aliases: ['alias1','alias2'],
-    hoard: true,
+    br: true,
 
-	execute(currency, message, args){
+	execute(brData, message, args){
         //do something
 	}
 };

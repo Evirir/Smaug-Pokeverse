@@ -18,13 +18,11 @@ module.exports = {
 		let cmd = commands.map(command => command);
 		let stdcmd = [];
 		let devcmd = [];
-		let hoardcmd = [];
 		let brcmd = [];
 
 		for(var i=0;i<cmd.length;i++){
 			if(!cmd[i].hidden){
 				if(cmd[i].dev) devcmd.push(cmd[i].name);
-				else if(cmd[i].hoard) hoardcmd.push(cmd[i].name);
 				else if(cmd[i].br) brcmd.push(cmd[i].name);
 				else stdcmd.push(cmd[i].name);
 			}
@@ -37,7 +35,7 @@ module.exports = {
 			data.push(stdcmd.join('\` \`'));
 			data.push(`\`\n\n**Developer commands:\n**\``);
 			data.push(devcmd.join('\` \`'));
-			data.push(`\`\n\n**Battle Royale commands:\n**\``);
+			data.push(`\`\n\n**Battle royale commands:\n**\``);
 			data.push(brcmd.join('\` \`'));
 			data.push(`\`\n\nSend \`${prefix}help [command]\` for more info on that spell!`);
 			data.push(`If you forgot the prefix, you can always type "<@${botID}> help" to summon this message!`);

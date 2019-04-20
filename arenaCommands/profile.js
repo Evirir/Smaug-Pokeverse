@@ -3,8 +3,9 @@ module.exports = {
 	description: `description`,
     aliases: ['p'],
     br: true,
+    wip: true,
 
-	execute(currency, message, args){
-        
+	execute(brData, message, args){
+
 	}
 };
