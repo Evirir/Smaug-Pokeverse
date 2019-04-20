@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
 const {update} = require('../updateHelper');
+const Users = require('../arenaData/UserInv.json');
+const ShopList = require('../arenaData/UserInv.json');
+const ShopItems = require('../arenaData/UserInv.json');
 
 function timefy(t){
     if(t<10) return '0'+t;
@@ -14,7 +17,7 @@ module.exports = {
     aliases: ['d'],
     br: true,
 
-	execute(brData, message, args){
+	execute (message, args) {
         const user = message.author.id;
         let next = brData[user].nextDaily;
         let now = new Date();

@@ -1,4 +1,7 @@
 const {update} = require('./updateHelper');
+const Users = require('../arenaData/UserInv.json');
+const ShopList = require('../arenaData/UserInv.json');
+const ShopItems = require('../arenaData/UserInv.json');
 
 module.exports = {
 	name: 'name',
@@ -6,7 +9,7 @@ module.exports = {
     aliases: ['alias1','alias2'],
     br: true,
 
-	execute (brData, message, args) {
-        
+	execute (message, args) {
+
 	}
 };

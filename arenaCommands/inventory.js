@@ -1,10 +1,14 @@
+const Users = require('../arenaData/UserInv.json');
+const ShopList = require('../arenaData/UserInv.json');
+const ShopItems = require('../arenaData/UserInv.json');
+
 module.exports = {
     name: 'inventory',
     description: 'Checks someone\'s inventory',
     aliases: ['i','inv'],
     br: true,
 
-    async execute(brData, message, args){
+    execute (message, args) {
         const target = message.mentions.users.first() || message.author;
         const items = brData[target.id].items;
 

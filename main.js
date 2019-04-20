@@ -103,7 +103,7 @@ client.on('message', message => {
 				message.reply(`welcome to the arena!\nAs a new adventurer, you get **1000**💰 gold coins for free! Good luck!`);
 			}
 			if(message.mentions.users.size && !brData[message.mentions.users.first().id]) initializeUser(message, message.mentions.users.first().id, brData);
-			command.execute(brData, message, args);
+			command.execute(message, args);
 		}
 
 		else command.execute(message, args, prefix);
