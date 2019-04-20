@@ -1,5 +1,7 @@
 function isLetter(c) {
-  return c.toLowerCase() != c.toUpperCase();
+  let alp = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+  if(alp.includes(c)) return true;
+  return false;
 }
 
 module.exports = {
@@ -23,7 +25,7 @@ module.exports = {
 
         for(var i=0;i<s.length;i++){
             if(!isLetter(str[i]))
-                return msg += (`Please input a valid word! Words must only consist of English alphabets.`);
+                return message.channel.send(`Please input a valid word! Words must only consist of English alphabets.`);
             if(i > 25){
                 msg += (`**` + str + `** does NOT have wifi.`);
                 return message.channel.send(msg);
