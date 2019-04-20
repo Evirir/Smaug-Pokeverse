@@ -5,8 +5,9 @@ Your little dragon companion on Discord! ^.=.^
 This is a mini-project purely for my enjoyment. This bot is written in Node.js.
 
 ## Getting Started
-The default prefix is `,,`
-Use `,,help` to see the list of commands.
+The default prefix is `,,`  .
+Use `,,help` to see the list of commands.  
+Use `,,prefix [new-prefix]` if you would like to change the prefix (server-specific).
 
 ## To-do (and possible future developments)
 - [X] Add custom prefix feature
