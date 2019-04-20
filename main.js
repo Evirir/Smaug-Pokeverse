@@ -4,7 +4,6 @@ const Discord = require('discord.js');
 const {defaultPrefix,token,bot_name} = require('./config.json');
 const {dragID,drag2ID,godID,zsID,botID} = require(`./users.json`);
 const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
-const {isoAdminID} = require(`./roles.json`);
 const trigger = require('./triggers');
 
 const client = new Discord.Client();
