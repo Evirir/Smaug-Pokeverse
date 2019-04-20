@@ -10,7 +10,7 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cooldown = new Discord.Collection();
 
-function initializeUser(message, user, UserData){
+async function initializeUser(message, user, UserData){
 	if(!UserData[user]){
 		const now = new Date();
 		UserData[user] = {
@@ -18,10 +18,10 @@ function initializeUser(message, user, UserData){
 			energy: 6,
 			level: 1,
 			items: [],
-			nextDaily: now.getTime(),
+			nextDaily: 0,
 		};
 	}
-	fs.writeFile('./arenaData/UserInv.json', JSON.stringify(UserData), (err) => {
+	await fs.writeFile('./arenaData/UserInv.json', JSON.stringify(UserData), (err) => {
 		if(err) console.log(err);
 	});
 }
@@ -56,7 +56,7 @@ client.on("guildDelete", guild => {
   	client.channels.get(messageID).send(`I have been removed from: ${guild.name} (id: ${guild.id})`);
 });
 
-client.on('message', message => {
+client.on('message', async message => {
 	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 	const UserData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
 
@@ -99,11 +99,13 @@ client.on('message', message => {
 		//Battle Royale check
 		if(command.br){
 			if(!UserData[message.author.id]){
-				initializeUser(message, message.author.id, UserData);
-				message.reply(`welcome to the arena!\nAs a new adventurer, you get **1000**💰 gold coins for free! Good luck!`);
+				await initializeUser(message, message.author.id, UserData);
+				await message.reply(`welcome to the arena!\nAs a new adventurer, you get **1000**💰 gold coins for free! Good luck!`);
 			}
-			if(message.mentions.users.size && !UserData[message.mentions.users.first().id]) initializeUser(message, message.mentions.users.first().id, UserData);
-			command.execute(message, args);
+			if(message.mentions.users.size && !UserData[message.mentions.users.first().id])
+				await initializeUser(message, message.mentions.users.first().id, UserData);
+
+			await command.execute(message, args);
 		}
 
 		else command.execute(message, args, prefix);
@@ -112,9 +114,9 @@ client.on('message', message => {
 		console.error(error);
 		client.channels.get(consoleID).send(error);
 		if(message.author.id === dragID)
-			message.reply(`I have some issues here, go check the log ó.=.ò"`)
+			return message.reply(`I have some issues here, go check the log ó.=.ò"`)
 		else
-			message.reply(`I've encountered some error, tell <@${dragID}> and blame him for that =. .=`);
+			return message.reply(`I've encountered some error, tell <@${dragID}> and blame him for that =. .=`);
 	}
 });
 

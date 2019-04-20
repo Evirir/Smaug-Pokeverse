@@ -8,7 +8,7 @@ module.exports = {
 
 	execute(message, args){
 		if(!message.member.hasPermission('MANAGE_MESSAGES',false,true,true))
-			return message.reply(`you must be an admin to do that! Please ask for the admins' permission and <@${dragID}>'s help for it.`);
+			return message.reply(`you must have the permission to manage messages to do that!`);
 
 		const amount = parseInt(args[0]);
 		if(isNaN(amount)) {
