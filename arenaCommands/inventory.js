@@ -6,7 +6,7 @@ module.exports = {
 
     async execute(brData, message, args){
         const target = message.mentions.users.first() || message.author;
-        const items = brData[target].items;
+        const items = brData[target.id].items;
 
         if(!items.length) return message.channel.send(`**${target.tag}** has an **empty** hoard and is lonely...`);
 
