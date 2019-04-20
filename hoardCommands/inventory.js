@@ -1,4 +1,4 @@
-
+const fs = require('fs');
 
 module.exports = {
     name: 'inventory',
@@ -9,8 +9,6 @@ module.exports = {
 
     async execute(currency, message, args){
         const target = message.mentions.users.first() || message.author;
-        const user = await Users.findByPk(target.id);
-        const items = await user.getItems();
 
         if(!userItems.length) return message.channel.send(`**${target.tag}** has an **empty** hoard and is lonely...`);
 
@@ -19,7 +17,7 @@ module.exports = {
             if(i.item.amount == 1)
                 msg += `${i.name}\n`;
             else
-                msg += `${i.name} (x${i.item.amount})\n`;
+                msg += `${i.name} (${i.item.amount})\n`;
         });
 	}
 };

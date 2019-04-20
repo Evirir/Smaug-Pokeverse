@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
 	name: 'balance',
 	description: `Checks someone's hoard balance`,
