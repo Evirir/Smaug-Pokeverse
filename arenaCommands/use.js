@@ -1,4 +1,4 @@
-const {update} = require('./updateHelper');
+const {update} = require('../updateHelper');
 const Users = require('../arenaData/UserInv.json');
 const ShopList = require('../arenaData/UserInv.json');
 const ShopItems = require('../arenaData/UserInv.json');
@@ -10,6 +10,6 @@ module.exports = {
     wip: true,
 
 	execute (message, args) {
-        
+
 	}
 };
