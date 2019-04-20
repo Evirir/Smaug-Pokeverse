@@ -4,7 +4,7 @@ module.exports = {
 	name: 'name',
 	description: `description`,
     aliases: ['alias1','alias2'],
-    hoard: true,
+    br: true,
 
 	execute(currency, message, args){
         //do something

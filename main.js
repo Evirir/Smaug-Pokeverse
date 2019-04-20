@@ -5,6 +5,7 @@ const {defaultPrefix,token,bot_name} = require('./config.json');
 const {dragID,drag2ID,godID,zsID,botID} = require(`./users.json`);
 const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
 const trigger = require('./triggers');
+const currency = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -15,9 +16,9 @@ for(const file of commandFiles){
 	const command = require(`./stdCommands/${file}`);
 	client.commands.set(command.name,command);
 }
-const hoardFiles = fs.readdirSync('./hoardCommands').filter(file => file.endsWith('.js'));
+const hoardFiles = fs.readdirSync('./arenaCommands').filter(file => file.endsWith('.js'));
 for(const file of hoardFiles){
-	const command = require(`./hoardCommands/${file}`);
+	const command = require(`./arenaCommands/${file}`);
 	client.commands.set(command.name,command);
 }
 
@@ -79,7 +80,23 @@ client.on('message', message => {
 	}
 
 	try{
-		if(command.hoard) command.execute(currency, message, args);
+		//Battle Royale check
+		if(command.br){
+			if(!currency[message.author.id]){
+				currency[message.author.id] = {
+					bal: 1000,
+					energy: 6,
+					level: 1,
+					items: [],
+				};
+				message.reply(`welcome to the arena!\nAs a new adventurer, you get **1000**💰 gold coins for free! Good luck!`);
+			}
+			fs.writeFile('./arenaData/UserInv.json', JSON.stringify(currency), (err) => {
+				if(err) console.log(err);
+			});
+			command.execute(currency, message, args);
+		}
+
 		else command.execute(message, args, prefix);
 	}
 	catch(error){
