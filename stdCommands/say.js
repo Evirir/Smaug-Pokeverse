@@ -1,5 +1,4 @@
 const {dragID} = require(`../users.json`);
-const {isoAdminID} = require(`../roles.json`);
 
 module.exports = {
 	name: 'say',
