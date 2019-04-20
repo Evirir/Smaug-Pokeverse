@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
+const fs =  require('fs');
 const {update} = require('../updateHelper');
-const Users = require('../arenaData/UserInv.json');
-const ShopList = require('../arenaData/UserInv.json');
-const ShopItems = require('../arenaData/UserInv.json');
+const UserData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
+const ShopList = JSON.parse(fs.readFileSync('./arenaData/ShopList.json','utf8'));
+const ShopItems = JSON.parse(fs.readFileSync('./arenaData/ShopItems.json','utf8'));
 
 function timefy(t){
     if(t<10) return '0'+t;
@@ -19,7 +20,7 @@ module.exports = {
 
 	execute (message, args) {
         const user = message.author.id;
-        let next = brData[user].nextDaily;
+        let next = UserData[user].nextDaily;
         let now = new Date();
 
         if(next > now){
@@ -39,14 +40,14 @@ module.exports = {
             return message.channel.send(embed);
         }
 
-        brData[user].bal += dailyReward;
+        UserData[user].bal += dailyReward;
         next = (now.getTime() + (1000*60*60*24));
-        brData[user].nextDaily = next;
-        update(brData);
+        UserData[user].nextDaily = next;
+        update(UserData);
 
         const embed = new Discord.RichEmbed()
             .setTitle(`Daily reward: ${dailyReward} gold coins`)
-            .setDescription(`You received **${dailyReward} 💰** as your daily reward!\nYou now have ${brData[user].bal}💰.`)
+            .setDescription(`You received **${dailyReward} 💰** as your daily reward!\nYou now have ${UserData[user].bal}💰.`)
             .setAuthor(message.author.tag, message.author.displayAvatarURL)
             .setColor('ORANGE');
 

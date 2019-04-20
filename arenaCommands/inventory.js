@@ -1,6 +1,7 @@
-const Users = require('../arenaData/UserInv.json');
-const ShopList = require('../arenaData/UserInv.json');
-const ShopItems = require('../arenaData/UserInv.json');
+const fs =  require('fs');
+const UserData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
+const ShopList = JSON.parse(fs.readFileSync('./arenaData/ShopList.json','utf8'));
+const ShopItems = JSON.parse(fs.readFileSync('./arenaData/ShopItems.json','utf8'));
 
 module.exports = {
     name: 'inventory',
@@ -10,7 +11,7 @@ module.exports = {
 
     execute (message, args) {
         const target = message.mentions.users.first() || message.author;
-        const items = brData[target.id].items;
+        const items = UserData[target.id].items;
 
         if(!items.length) return message.channel.send(`**${target.tag}** has an **empty** hoard and is lonely...`);
 

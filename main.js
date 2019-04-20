@@ -10,10 +10,10 @@ const client = new Discord.Client();
 client.commands = new Discord.Collection();
 const cooldown = new Discord.Collection();
 
-function initializeUser(message, user, brData){
-	if(!brData[user]){
+function initializeUser(message, user, UserData){
+	if(!UserData[user]){
 		const now = new Date();
-		brData[user] = {
+		UserData[user] = {
 			bal: 1000,
 			energy: 6,
 			level: 1,
@@ -21,7 +21,7 @@ function initializeUser(message, user, brData){
 			nextDaily: now.getTime(),
 		};
 	}
-	fs.writeFile('./arenaData/UserInv.json', JSON.stringify(brData), (err) => {
+	fs.writeFile('./arenaData/UserInv.json', JSON.stringify(UserData), (err) => {
 		if(err) console.log(err);
 	});
 }
@@ -58,7 +58,7 @@ client.on("guildDelete", guild => {
 
 client.on('message', message => {
 	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
-	const brData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
+	const UserData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
 
 	if(!prefixes[message.guild.id]){
 		prefixes[message.guild.id] = {
@@ -98,11 +98,11 @@ client.on('message', message => {
 	try{
 		//Battle Royale check
 		if(command.br){
-			if(!brData[message.author.id]){
-				initializeUser(message, message.author.id, brData);
+			if(!UserData[message.author.id]){
+				initializeUser(message, message.author.id, UserData);
 				message.reply(`welcome to the arena!\nAs a new adventurer, you get **1000**💰 gold coins for free! Good luck!`);
 			}
-			if(message.mentions.users.size && !brData[message.mentions.users.first().id]) initializeUser(message, message.mentions.users.first().id, brData);
+			if(message.mentions.users.size && !UserData[message.mentions.users.first().id]) initializeUser(message, message.mentions.users.first().id, UserData);
 			command.execute(message, args);
 		}
 
