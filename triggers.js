@@ -12,7 +12,7 @@ module.exports = {
 
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
-            const PokemonSpawns = JSON.parse(fs.readFileSync('./lastPokemon.json','utf8'));
+            const PokemonSpawns = JSON.parse(fs.readFileSync('./Pokemons/lastPokemon.json','utf8'));
             message.embeds.forEach((e) => {
                 if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
                     if (e.image) {
