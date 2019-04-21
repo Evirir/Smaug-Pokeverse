@@ -1,9 +1,57 @@
+const fs = require('fs');
+const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
-const {dragID,godID} = require('./users.json');
+const {dragID,godID,dragTag,pokecordID} = require('./users.json');
 const {consoleID} = require('./channels.json');
+const db = require('./Pokemons.json');
+const imghash = require('imghash');
+const request = require('request').defaults({ encoding: null });
 
 module.exports = {
-    execute(client,message) {
+    execute(client, message) {
+
+        //POKEASSISTANT
+        if (message.author.id === pokecordID) {
+                message.embeds.forEach((e) => {
+                    if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
+                        if (e.image) {
+                            let url = e.image.url;
+
+                        request(url, async function(err, res, body) {
+                        if (err !== null) return;
+
+                        imghash
+                           .hash(body)
+                           .then(hash => {
+                                let result = db[hash];
+                                const PokemonSpawns = JSON.parse(fs.readFileSync('./lastPokemon.json','utf8'));
+
+                                if (result === undefined) {
+                                    let embed = new Discord.RichEmbed()
+  		                            .setColor(0xFF4500)
+                                    .setTitle("Pokemon Not Found")
+                                    .setDescription(`Please contact the owner ${dragTag} to add this Pokemon to the database.`);
+                                    return message.channel.send(embed);
+                                }
+
+                                PokemonSpawns[message.channel.id] = {
+                                    name: result
+                                };
+
+                                fs.writeFile('./lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
+                                    if(err) console.log(err);
+                                });
+
+                                return console.log("[" + message.guild.name + "/#" + message.channel.name + "] " + result);
+                            })
+                        });
+                    }
+                }
+            });
+        }
+
+        if(message.author.bot) return;
+
         //EVIRIR IS MENTIONED
         if (message.isMentioned(client.users.get(dragID))){
             if (message.author.id === dragID){
