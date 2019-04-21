@@ -12,30 +12,31 @@ module.exports = {
 
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
-                message.embeds.forEach((e) => {
-                    if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
-                        if (e.image) {
-                            let url = e.image.url;
+            const PokemonSpawns = JSON.parse(fs.readFileSync('./lastPokemon.json','utf8'));
+            message.embeds.forEach((e) => {
+                if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
+                    if (e.image) {
+                        let url = e.image.url;
 
-                        request(url, async function(err, res, body) {
+                    request(url, async function(err, res, body) {
                         if (err !== null) return;
 
                         imghash
-                           .hash(body)
-                           .then(hash => {
+                            .hash(body)
+                            .then(hash => {
                                 let result = db[hash];
-                                const PokemonSpawns = JSON.parse(fs.readFileSync('./lastPokemon.json','utf8'));
 
                                 if (result === undefined) {
                                     let embed = new Discord.RichEmbed()
-  		                            .setColor(0xFF4500)
+      		                        .setColor(0xFF4500)
                                     .setTitle("Pokemon Not Found")
                                     .setDescription(`Please contact the owner ${dragTag} to add this Pokemon to the database.`);
                                     return message.channel.send(embed);
                                 }
 
                                 PokemonSpawns[message.channel.id] = {
-                                    name: result
+                                    name: result,
+                                    caught: false,
                                 };
 
                                 fs.writeFile('./lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
@@ -48,7 +49,20 @@ module.exports = {
                     }
                 }
             });
+
+            if(message.content.startsWith('Congratulations')){
+                PokemonSpawns[message.channel.id] = {
+                    name: PokemonSpawns[message.channel.id].name,
+                    caught: true,
+                    person: message.mentions.users.first().tag
+                };
+
+                fs.writeFile('./lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
+                    if(err) console.log(err);
+                });
+            }
         }
+        //POKEASSISTANT END
 
         if(message.author.bot) return;
 

@@ -12,9 +12,11 @@ module.exports = {
         if(!PokemonSpawns[message.channel.id])
             return message.channel.send(`Last Pokemon not detected yet!`);
 
+        let add = PokemonSpawns[message.channel.id].caught ? ` [caught by ${PokemonSpawns[message.channel.id].person}]` : "";
+
         let embed = new Discord.RichEmbed()
   		.setColor(0xFF4500)
-        .setTitle("Last spawned pokemon: " + PokemonSpawns[message.channel.id].name)
+        .setTitle("Last spawned pokemon: " + PokemonSpawns[message.channel.id].name + add)
         .setFooter("Shamelessly copy-pasted most of PokeAssistant's code, by Evirir The Blue");
 
         message.channel.send(embed);
