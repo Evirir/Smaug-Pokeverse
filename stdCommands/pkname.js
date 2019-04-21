@@ -24,7 +24,7 @@ module.exports = {
         .setTitle("Last spawned pokemon: " + PokemonSpawns[message.channel.id].name + add)
         .setFooter("Shamelessly copy-pasted most of PokeAssistant's code, by Evirir The Blue");
 
-        if([message.channel.id].caught) embed.setColor(0xFF4500);
+        if(PokemonSpawns[message.channel.id].caught) embed.setColor(0xFF4500);
         else embed.setColor('GREEN')
 
         message.channel.send(embed);
