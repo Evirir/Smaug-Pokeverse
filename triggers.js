@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
 const {dragID,godID,dragTag,pokecordID} = require('./users.json');
 const {consoleID} = require('./channels.json');
-const db = require('./Pokemons.json');
+const db = require('./Pokemons/Pokemons.json');
 const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
 
