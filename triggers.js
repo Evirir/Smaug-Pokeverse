@@ -13,6 +13,8 @@ module.exports = {
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
             const PokemonSpawns = JSON.parse(fs.readFileSync('./Pokemons/lastPokemon.json','utf8'));
+            const Wishlist = JSON.parse(fs.readFileSync('./Pokemons/wishlist.json','utf8'));
+
             message.embeds.forEach((e) => {
                 if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
                     if (e.image) {
@@ -39,14 +41,23 @@ module.exports = {
                                     caught: false,
                                 };
 
-                                fs.writeFile('./lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
+                                fs.writeFile('./Pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
                                     if(err) console.log(err);
                                 });
 
-                                return console.log("[" + message.guild.name + "/#" + message.channel.name + "] " + result);
+                                console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
+                                client.channels.get(consoleID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
+
+                                Wishlist.forEach( user => {
+                                    if(user.wishes.includes(result)){
+                                        message.channel.send(`Wished by <@${user}>`);
+                                        message.channel.send(`<@${user}>`);
+                                    }
+                                });
                             })
                         });
                     }
+                    return;
                 }
             });
 
