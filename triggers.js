@@ -61,7 +61,7 @@ module.exports = {
                 }
             });
 
-            if(message.content.startsWith('Congratulations')){
+            if(message.content.startsWith('Congratulations') && PokemonSpawns[message.channel.id]){
                 PokemonSpawns[message.channel.id] = {
                     name: PokemonSpawns[message.channel.id].name,
                     caught: true,
