@@ -68,7 +68,7 @@ module.exports = {
                     person: message.mentions.users.first().tag
                 };
 
-                fs.writeFile('./lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
+                fs.writeFile('./Pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
                     if(err) console.log(err);
                 });
             }
