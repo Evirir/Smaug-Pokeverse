@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
-const {dragID,godID,dragTag,pokecordID} = require('./users.json');
+const {dragID,godID,dragTag,pokecordID,pokespawnsID} = require('./users.json');
 const {consoleID} = require('./channels.json');
 const db = require('./Pokemons/Pokemons.json');
 const imghash = require('imghash');
@@ -46,7 +46,7 @@ module.exports = {
                                 });
 
                                 console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
-                                client.channels.get(consoleID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
+                                client.channels.get(pokespawnsID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
 
                                 Wishlist.forEach( user => {
                                     if(user.wishes.includes(result)){
