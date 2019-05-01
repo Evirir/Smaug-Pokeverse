@@ -59,6 +59,7 @@ client.on("guildDelete", guild => {
 client.on('message', async message => {
 	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 	const UserData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
+	if(!message.guild) return;
 
 	if(!prefixes[message.guild.id]){
 		prefixes[message.guild.id] = {
