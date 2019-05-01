@@ -13,6 +13,7 @@
     "discord.js": "^11.4.2",
     "imghash": "0.0.3",
     "moment": "^2.24.0",
+    "mongoose": "^5.5.5",
     "sequelize": "^5.5.0",
     "sqlite3": "^4.0.6"
   }
