@@ -9,6 +9,7 @@ module.exports = {
         const client = message.client;
         const targetID = args[0];
 
-        message.channel.send(`The ID ${targetID} belongs to ${client.users.get(targetID).tag}.`);
+        message.channel.send(`The ID ${targetID} belongs to ${client.users.get(targetID).tag}.`)
+        .catch(message.reply(`this user ID does not exist, or I have no access to this user.`);
 	}
 };
