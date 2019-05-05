@@ -2,13 +2,16 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
 const {dragID,godID,dragTag,pokecordID,pokespawnsID} = require('./users.json');
-const {consoleID} = require('./channels.json');
+const {consoleID, messageID} = require('./channels.json');
 const db = require('./Pokemons/Pokemons.json');
 const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
+const prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 
 module.exports = {
     execute(client, message) {
+
+        const prefix = prefixes[message.guild.id].prefix;
 
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
@@ -79,15 +82,14 @@ module.exports = {
 
         //EVIRIR IS MENTIONED
         if (message.isMentioned(client.users.get(dragID))){
-            if (message.author.id === dragID){
-                return message.channel.send(`Evirir, why are you mentioning yourself...?`);
-            }
+            if (message.author.id === dragID) return;
             if(message.author.id === godID){
                 return message.channel.send(`<@${message.author.id}>, ya' calling Evirir-sama?`);
+                return message.client.channels.get(messageID).send(`<@${message.author.id}> mentioned you in ${message.guild.name}/${message.channel.name}:\n${message.content}`);
             }
             else
                 message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
-                return client.users.get(consoleID).send(`<@${message.author.name}> mentioned you:\n${message.content}`);
+                return message.client.channels.get(messageID).send(`<@${message.author.id}> mentioned you in ${message.guild.name}/${message.channel.name}:\n${message.content}`);
         }
 
         //BOT SELF IS MENTIONED
@@ -96,8 +98,8 @@ module.exports = {
 
             if(msg.includes(`what do you do`) || msg.includes(`what can you do`))
                 return message.channel.send(`I can perform magic spells that Evirir have taught me, such as spamming people, teleporting, responding to my name and eating cookies ~~and deleting the whole channel~~.\nType \`${prefix}help\` for more on what I can do!`);
-            if(msg.includes(`are you good`))
-                return message.channel.send(`I'll try my best, <@${message.author.id}>!`);
+            if(msg.includes(`how are you`))
+                return message.channel.send(`I'm fine, <@${message.author.id}>`);
             if(msg.includes(`good`))
                 return message.channel.send(`Thanks! **licks your face**`);
             if(msg.includes(`cookie`))
@@ -107,7 +109,7 @@ module.exports = {
 
             if(message.author === (client.users.get(dragID))){
                 if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
-                    return message.reply(`hey...**snuggles you**`);
+                    return message.reply(`Hey! **snuggles you**`);
                 if(msg.includes(`thank you`) || msg.includes(`thanks`))
                     return message.channel.send(`You're welcome <@${dragID}>! **licks you**`);
                 return message.channel.send(`Evirir-sama you came! **leaps around you happily**`);
