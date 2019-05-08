@@ -11,7 +11,8 @@ Use `,,prefix [new-prefix]` if you would like to change the prefix (server-speci
 
 ## To-do (and possible future developments)
 - [X] Add custom prefix feature
-- [ ] Make a currency system
+- [X] Make a currency system
+- [X] Try to learn how to use a database
 - [ ] And of course, add games to make use of the currency system
 - [ ] Make zs's graph theory battle royale
-- [ ] Try to learn how to use a database
+- [ ] Update current data storing methods to MongoDB
