@@ -6,7 +6,7 @@ module.exports = {
 	aliases: [`icon`,`image`,`img`],
 	usage: '@user1 @user2...',
 
-	execute(message,args){
+	execute(message, args){
 		if (!message.mentions.users.size) {
 			const embed = new Discord.RichEmbed()
 				.setTitle('Your avatar:')

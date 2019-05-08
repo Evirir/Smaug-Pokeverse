@@ -1,44 +1,30 @@
-const fs = require('fs');
 const Discord = require('discord.js');
+const fs = require('fs');
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://Evirir:%40%24dfGhjkl%31%32%33@smaug-uq5av.mongodb.net/Currency?retryWrites=true', {useNewUrlParser: true}).catch(err => console.log(err));
 
-const {defaultPrefix,token,bot_name} = require('./config.json');
-const {dragID,drag2ID,godID,zsID,botID} = require(`./users.json`);
-const {consoleID,messageID,startupID,betastartupID} = require(`./channels.json`);
+const {defaultPrefix, token, bot_name} = require('./config.json');
+const {dragID, drag2ID, godID, zsID, botID} = require(`./users.json`);
+const {consoleID, messageID, startupID, betastartupID} = require(`./channels.json`);
 const trigger = require('./triggers');
+const Money = require('./models/money.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-const cooldown = new Discord.Collection();
-
-async function initializeUser(message, user, UserData){
-	if(!UserData[user]){
-		const now = new Date();
-		UserData[user] = {
-			bal: 1000,
-			energy: 6,
-			level: 1,
-			items: [],
-			nextDaily: 0,
-		};
-	}
-	await fs.writeFile('./arenaData/UserInv.json', JSON.stringify(UserData), (err) => {
-		if(err) console.log(err);
-	});
-}
 
 const commandFiles = fs.readdirSync('./stdCommands').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
 	const command = require(`./stdCommands/${file}`);
 	client.commands.set(command.name,command);
 }
-const arenaFiles = fs.readdirSync('./arenaCommands').filter(file => file.endsWith('.js'));
-for(const file of arenaFiles){
-	const command = require(`./arenaCommands/${file}`);
+const hoardFiles = fs.readdirSync('./hoardCommands').filter(file => file.endsWith('.js'));
+for(const file of hoardFiles){
+	const command = require(`./hoardCommands/${file}`);
 	client.commands.set(command.name,command);
 }
 
 client.once('ready', () => {
-	let startmsg = `*Yawns~* mornin' Evirir...u.=.o\nIt's currently **${client.readyAt}**\n`;
+	let startmsg = `It's currently **${client.readyAt}**\n`;
 	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);
   	client.channels.get(startupID).send(startmsg);
@@ -58,7 +44,6 @@ client.on("guildDelete", guild => {
 
 client.on('message', async message => {
 	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
-	const UserData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
 	if(!message.guild) return;
 
 	if(!prefixes[message.guild.id]){
@@ -84,6 +69,26 @@ client.on('message', async message => {
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if(!command) return;
+
+	//Hoard check
+	Money.findOne({
+		userID: message.author.id
+	}, (err, money) => {
+		if(err){
+			console.log(err);
+			return message.channel.send(`aahhh some error engulfed me`);
+		}
+		if(!money){
+			const newMoney = new Money({
+				userID: message.author.id,
+				money: 1000
+			});
+
+			newMoney.save().catch(err => console.log(err));
+			message.channel.send(`Hey <@${message.author.id}>! As a new hoarder, you have received **1000💰**!`);
+		}
+	});
+
 	if(command.wip){
 		let msg = "";
 		msg += `I have no spell slots left for this spell...\n`;
@@ -98,19 +103,7 @@ client.on('message', async message => {
 	}
 
 	try{
-		//Battle Royale check
-		if(command.br){
-			if(!UserData[message.author.id]){
-				await initializeUser(message, message.author.id, UserData);
-				await message.reply(`welcome to the arena!\nAs a new adventurer, you get **1000**💰 gold coins for free! Good luck!`);
-			}
-			if(message.mentions.users.size && !UserData[message.mentions.users.first().id])
-				await initializeUser(message, message.mentions.users.first().id, UserData);
-
-			await command.execute(message, args);
-		}
-
-		else command.execute(message, args, prefix);
+		command.execute(message, args, prefix);
 	}
 	catch(error){
 		console.error(error);

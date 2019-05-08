@@ -1,9 +1,7 @@
 const Discord = require('discord.js');
-const fs =  require('fs');
-const {update} = require('../updateHelper');
-const UserData = JSON.parse(fs.readFileSync('./arenaData/UserInv.json','utf8'));
-const ShopList = JSON.parse(fs.readFileSync('./arenaData/ShopList.json','utf8'));
-const ShopItems = JSON.parse(fs.readFileSync('./arenaData/ShopItems.json','utf8'));
+const mongoose = require('mongoose');
+mongoose.connect('mongodb+srv://Evirir:%40%24dfGhjkl%31%32%33@smaug-uq5av.mongodb.net/Currency?retryWrites=true', {useNewUrlParser: true}).catch(err => console.log(err));
+const Money = require('../models/money.js');
 
 function timefy(t){
     if(t<10) return '0'+t;
@@ -16,7 +14,7 @@ module.exports = {
 	name: 'daily',
 	description: `Claims your daily reward`,
     aliases: ['d'],
-    br: true,
+    hoard: true,
 
 	execute (message, args) {
         const user = message.author.id;

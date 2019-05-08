@@ -1,9 +1,22 @@
+const Discord = require('discord.js');
+
 module.exports = {
 	name: `test`,
-	description: `Detect magic!`,
-	aliases: [`detect`,`sense`],
+	description: `Test new features`,
+	dev: true,
 
 	execute(message, args){
-		message.reply(`you sense a surge of magic near you...and it's in front you!\n**IT'S ME, SMAUG!**`);
+		let embed = new Discord.RichEmbed()
+		.setAuthor(`Here's a reaction test`, message.author.displayAvatarURL)
+		.addField(`Field 1`, `content1`)
+		.addField(`Field 2`, `content2`)
+		.addField(`Inline field 1`, `icontent1`, true)
+		.addField(`Inline field 2`, `icontent2`, true);
+
+		message.channel.send(embed).then(async m => {
+			await m.react('⬅')
+			await m.react('➡')
+			await m.react('🐉')
+		});
   	}
 };
