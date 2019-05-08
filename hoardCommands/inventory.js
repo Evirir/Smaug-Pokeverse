@@ -7,6 +7,7 @@ module.exports = {
     description: 'Checks someone\'s inventory',
     aliases: ['i','inv'],
     hoard: true,
+    wip: true,
 
     execute (message, args) {
         const target = message.mentions.users.first() || message.author;

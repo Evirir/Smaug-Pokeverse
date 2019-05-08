@@ -15,6 +15,7 @@ module.exports = {
 	description: `Claims your daily reward`,
     aliases: ['d'],
     hoard: true,
+    wip: true
 
 	execute (message, args) {
         const user = message.author.id;
