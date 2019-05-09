@@ -49,7 +49,7 @@ module.exports = {
                                 });
 
                                 console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
-                                client.channels.get(pokespawnsID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
+                                message.client.channels.get(pokespawnsID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
 
                                 Wishlist.forEach( user => {
                                     if(user.wishes.includes(result)){
@@ -82,7 +82,7 @@ module.exports = {
 
         //EVIRIR IS MENTIONED
         if (message.isMentioned(client.users.get(dragID))){
-            if (message.author.id === dragID) return;
+            if(message.author.id === dragID) return;
             if(message.author.id === godID){
                 return message.channel.send(`<@${message.author.id}>, ya' calling Evirir-sama?`);
                 return message.client.channels.get(messageID).send(`<@${message.author.id}> mentioned you in ${message.guild.name}/${message.channel.name}:\n${message.content}`);
