@@ -13,6 +13,8 @@ const mongoose = require('mongoose');
 const LastSpawn = require('./models/pokemonLastSpawn.js');
 const Prefix = require('./models/prefix.js');
 
+let PokemonSpawns = JSON.parse(fs.readFileSync('./pokemons/lastPokemon.json','utf8'));
+
 module.exports = {
     async execute(client, message) {
 
@@ -45,7 +47,7 @@ module.exports = {
                                     caught: false,
                                 };
 
-                                fs.writeFile('./Pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
+                                fs.writeFile('./pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
                                     if(err) console.log(err);
                                 });
 
@@ -72,7 +74,7 @@ module.exports = {
                     person: message.mentions.users.first().tag
                 };
 
-                fs.writeFile('./Pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
+                fs.writeFile('./pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
                     if(err) console.log(err);
                 });
             }

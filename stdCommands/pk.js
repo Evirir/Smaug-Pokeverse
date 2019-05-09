@@ -7,7 +7,7 @@ module.exports = {
     aliases: ['pname','poke'],
 
     execute(message, args) {
-        let PokemonSpawns = JSON.parse(fs.readFileSync('./Pokemons/lastPokemon.json','utf8'));
+        let PokemonSpawns = JSON.parse(fs.readFileSync('./pokemons/lastPokemon.json','utf8'));
 
         if(!PokemonSpawns[message.channel.id]){
             let embed = new Discord.RichEmbed()

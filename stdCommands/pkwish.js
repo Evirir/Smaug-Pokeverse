@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const Pokemons = require('../Pokemons/Pokemons.json');
+const Pokemons = require('../pokemons/pokemons.json');
 
 module.exports = {
     name: 'pw',
@@ -11,7 +11,7 @@ module.exports = {
     wip: true,
 
     execute(message, args) {
-        let Wishlist = JSON.parse(fs.readFileSync('./Pokemons/wishlist.json','utf8'));
+        let Wishlist = JSON.parse(fs.readFileSync('./pokemons/wishlist.json','utf8'));
 
         if(!Wishlist[message.author.id]){
             Wishlist[message.author.id] = {
@@ -60,7 +60,7 @@ module.exports = {
                 Wishlist[message.author.id].push(args[i]);
             }
 
-            fs.writeFile('./Pokemons/wishlist.json', JSON.stringify(Wishlist), (err) => {
+            fs.writeFile('./pokemons/wishlist.json', JSON.stringify(Wishlist), (err) => {
                 if(err) console.log(err);
             });
 
@@ -90,7 +90,7 @@ module.exports = {
                 return true;
             });
 
-            fs.writeFile('./Pokemons/wishlist.json', JSON.stringify(Wishlist), (err) => {
+            fs.writeFile('./pokemons/wishlist.json', JSON.stringify(Wishlist), (err) => {
                 if(err) console.log(err);
             });
 
