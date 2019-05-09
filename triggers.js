@@ -1,8 +1,8 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
-const {dragID,godID,dragTag,pokecordID,pokespawnsID} = require('./specificData/users.json');
-const {consoleID, messageID} = require('./specificData/channels.json');
+const {dragID,godID,dragTag,pokecordID} = require('./specificData/users.json');
+const {consoleID, messageID, pokespawnsID} = require('./specificData/channels.json');
 
 ///Pokemon
 const db = require('./pokemons/pokemons.json');
