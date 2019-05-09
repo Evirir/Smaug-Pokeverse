@@ -58,7 +58,7 @@ client.on('message', async message => {
 		newPrefix.save().catch(err => console.log(err));
 	}
 	else prefix = p.prefix;
-	
+
 	if(!message.content.toLowerCase().startsWith(prefix)) {
 		return trigger.execute(client, message);
 	}
