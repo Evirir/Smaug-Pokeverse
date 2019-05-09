@@ -1,6 +1,8 @@
 const fs = require('fs');
-const prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
-const {consoleID} = require(`../channels.json`);
+const mongoose = require('mongoose');
+const {uri} = require('../config.json');
+mongoose.connect
+const {consoleID} = require(`../specificData/channels.json`);
 
 module.exports = {
 	name: `dm`,

@@ -1,4 +1,4 @@
-const {dragID,drag2ID,godID,zsID} = require(`../users.json`);
+const {dragID,drag2ID,godID,zsID} = require(`../specificData/users.json`);
 const Discord = require('discord.js');
 
 module.exports = {

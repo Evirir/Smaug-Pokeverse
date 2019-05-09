@@ -1,5 +1,6 @@
 {
 	"defaultPrefix": ",,",
 	"token": "NTU3NTI4ODU0MTQ3NjI5MDU2.XLAn7A.0CcUukdBNXPrgPnWJwzlg310rRU",
-	"bot_name": "smaug"
+	"bot_name": "smaug",
+	"uri": "mongodb+srv://Evirir:%40%24dfGhjkl%31%32%33@smaug-uq5av.mongodb.net/Smaug?retryWrites=true"
 }

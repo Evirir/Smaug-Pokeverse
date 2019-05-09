@@ -1,13 +1,15 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://Evirir:%40%24dfGhjkl%31%32%33@smaug-uq5av.mongodb.net/Currency?retryWrites=true', {useNewUrlParser: true}).catch(err => console.log(err));
+const {uri} = require('./config.json');
+mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
 
 const {defaultPrefix, token, bot_name} = require('./config.json');
-const {dragID, drag2ID, godID, zsID, botID} = require(`./users.json`);
-const {consoleID, messageID, startupID, betastartupID} = require(`./channels.json`);
+const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json`);
+const {consoleID, messageID, startupID, betastartupID} = require(`./specificData/channels.json`);
 const trigger = require('./triggers');
 const Money = require('./models/money.js');
+const Prefix = require('./models/prefix.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -43,22 +45,22 @@ client.on("guildDelete", guild => {
 });
 
 client.on('message', async message => {
-	let prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
 	if(!message.guild) return;
 
-	if(!prefixes[message.guild.id]){
-		prefixes[message.guild.id] = {
-			prefix: defaultPrefix
+	let prefix = ",,";
+	Prefix.findOne({serverID: message.guild.id}, (err, p) => {
+		if(err) return console.log(err);
+		if(!p){
+			const newPrefix = new Prefix({
+				serverID: message.guild.id,
+				prefix: ",,"
+			});
+			newPrefix.save().catch(err => console.log(err));
 		}
-		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) => {
-			if(err) console.log(err);
-		});
-		prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
-	}
+		else prefix = p;
+	});
 
-	let prefix = prefixes[message.guild.id].prefix;
-
-	if(!message.content.startsWith(prefix) && !message.content.startsWith(prefix.toUpperCase())) {
+	if(!message.content.toLowerCase().startsWith(prefix)) {
 		return trigger.execute(client, message);
 	}
 
@@ -71,13 +73,9 @@ client.on('message', async message => {
 	if(!command) return;
 
 	//Hoard check
-	Money.findOne({
-		userID: message.author.id
-	}, (err, money) => {
-		if(err){
-			console.log(err);
-			return message.channel.send(`aahhh some error engulfed me`);
-		}
+	Money.findOne({userID: message.author.id}, (err, money) => {
+		if(err) console.log(err);
+
 		if(!money){
 			const newMoney = new Money({
 				userID: message.author.id,

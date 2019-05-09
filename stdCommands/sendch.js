@@ -1,4 +1,4 @@
-const {consoleID,startupID,betastartupID,messageID,isoBotsID,betatestID,isoboxbotID} = require(`../channels.json`);
+const {consoleID,startupID,betastartupID,messageID,isoBotsID,betatestID,isoboxbotID} = require(`../specificData/channels.json`);
 
 module.exports = {
 	name: 'sendch',

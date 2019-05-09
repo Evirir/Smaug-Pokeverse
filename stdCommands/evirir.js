@@ -1,4 +1,4 @@
-const {dragID,dragTag,gitLink} = require(`../users.json`);
+const {dragID,dragTag,gitLink} = require(`../specificData/users.json`);
 
 module.exports = {
 	name: 'evirir',

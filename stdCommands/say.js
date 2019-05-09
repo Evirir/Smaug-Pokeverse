@@ -1,4 +1,4 @@
-const {dragID} = require(`../users.json`);
+const {dragID} = require(`../specificData/users.json`);
 
 module.exports = {
 	name: 'say',

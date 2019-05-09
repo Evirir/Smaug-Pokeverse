@@ -1,4 +1,4 @@
-const {consoleID} = require(`../channels.json`);
+const {consoleID} = require(`../specificData/channels.json`);
 
 module.exports = {
 	name: 'invite',

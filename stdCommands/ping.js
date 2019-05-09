@@ -1,4 +1,4 @@
-const {consoleID} = require(`../channels.json`);
+const {consoleID} = require(`../specificData/channels.json`);
 const Discord = require('discord.js');
 
 module.exports = {

@@ -1,4 +1,4 @@
-const {isoBotsID,isoboxbotID,consoleID} = require(`../channels.json`);
+const {isoBotsID,isoboxbotID,consoleID} = require(`../specificData/channels.json`);
 
 function commafy(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

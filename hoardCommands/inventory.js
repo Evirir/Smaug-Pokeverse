@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://Evirir:%40%24dfGhjkl%31%32%33@smaug-uq5av.mongodb.net/Currency?retryWrites=true', {useNewUrlParser: true}).catch(err => console.log(err));
+const {uri} = require('../config.json');
+const {uri} = require('..config.json');
 const Money = require('../models/money.js');
 
 module.exports = {
@@ -10,6 +11,8 @@ module.exports = {
     wip: true,
 
     execute (message, args) {
+        mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
+
         const target = message.mentions.users.first() || message.author;
         const items = UserData[target.id].items;
 

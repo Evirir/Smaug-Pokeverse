@@ -1,22 +1,24 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
-const {dragID,godID,dragTag,pokecordID,pokespawnsID} = require('./users.json');
-const {consoleID, messageID} = require('./channels.json');
-const db = require('./Pokemons/Pokemons.json');
+const {dragID,godID,dragTag,pokecordID,pokespawnsID} = require('./specificData/users.json');
+const {consoleID, messageID} = require('./specificData/channels.json');
+
+///Pokemon
+const db = require('./pokemons/pokemons.json');
 const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
-const prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
+
+const mongoose = require('mongoose');
+const {uri} = require('./config.json');
+const LastSpawn = require('./models/pokemonLastSpawn.js');
+const Prefix = require('./models/prefix.js');
 
 module.exports = {
     execute(client, message) {
-
-        const prefix = prefixes[message.guild.id].prefix;
-
+        mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
-            const PokemonSpawns = JSON.parse(fs.readFileSync('./Pokemons/lastPokemon.json','utf8'));
-            const Wishlist = JSON.parse(fs.readFileSync('./Pokemons/wishlist.json','utf8'));
 
             message.embeds.forEach((e) => {
                 if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
@@ -79,6 +81,13 @@ module.exports = {
         //POKEASSISTANT END
 
         if(message.author.bot) return;
+
+        let prefix = ',,';
+        Prefix.findOne({serverID: message.guild.id}, (err, p) => {
+            if(err) return console.log(err);
+            if(!p) console.log(`No guild prefix found: Default prefix will be used. (triggers.js) o.=.o`);
+            prefix = p;
+        });
 
         //EVIRIR IS MENTIONED
         if (message.isMentioned(client.users.get(dragID))){
