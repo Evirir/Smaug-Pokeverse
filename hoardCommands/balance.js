@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-const {uri} = require('../config.json');
-const {uri} = require('..config.json');
+
 const Money = require('../models/money.js');
 
 module.exports = {
@@ -12,8 +11,6 @@ module.exports = {
     usage: `@mentionUser`,
 
 	execute(message, args){
-		mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
-
         const target = message.mentions.users.first() || message.author;
         Money.findOne({
             userID: target.id

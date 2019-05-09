@@ -10,13 +10,12 @@ const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
 
 const mongoose = require('mongoose');
-const {uri} = require('./config.json');
 const LastSpawn = require('./models/pokemonLastSpawn.js');
 const Prefix = require('./models/prefix.js');
 
 module.exports = {
-    execute(client, message) {
-        mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
+    async execute(client, message) {
+
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
 
@@ -82,12 +81,10 @@ module.exports = {
 
         if(message.author.bot) return;
 
-        let prefix = ',,';
-        Prefix.findOne({serverID: message.guild.id}, (err, p) => {
-            if(err) return console.log(err);
-            if(!p) console.log(`No guild prefix found: Default prefix will be used. (triggers.js) o.=.o`);
-            prefix = p;
-        });
+        let prefix = ",,";
+        const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+    	if(!p) return console.log(`No prefix found: triggers.js`);
+        else prefix = p.prefix;
 
         //EVIRIR IS MENTIONED
         if (message.isMentioned(client.users.get(dragID))){

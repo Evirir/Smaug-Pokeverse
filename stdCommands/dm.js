@@ -1,8 +1,5 @@
-const fs = require('fs');
 const mongoose = require('mongoose');
-const {uri} = require('../config.json');
-mongoose.connect
-const {consoleID} = require(`../specificData/channels.json`);
+const Prefix = require('../models/prefix.js');
 
 module.exports = {
 	name: `dm`,
@@ -13,7 +10,12 @@ module.exports = {
 	notes: `The receiver will see your name`,
 
 	execute(message, args){
-		const prefix = prefixes[message.guild.id].prefix;
+		let prefix = "";
+		Prefix.findOne({serverID: message.guild.id}, (err, p) => {
+			if(err) return console.log(err); if(!p) return console.log(`No guild prefix found: dm.js`);
+			prefix = p.prefix;
+		});
+
 		let userID = "";
 		let usertag = "";
 		if(message.mentions.users.size) userID = message.mentions.users.first().id;

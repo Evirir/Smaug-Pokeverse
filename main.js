@@ -17,12 +17,12 @@ client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./stdCommands').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
 	const command = require(`./stdCommands/${file}`);
-	client.commands.set(command.name,command);
+	client.commands.set(command.name, command);
 }
 const hoardFiles = fs.readdirSync('./hoardCommands').filter(file => file.endsWith('.js'));
 for(const file of hoardFiles){
 	const command = require(`./hoardCommands/${file}`);
-	client.commands.set(command.name,command);
+	client.commands.set(command.name, command);
 }
 
 client.once('ready', () => {
@@ -46,25 +46,22 @@ client.on("guildDelete", guild => {
 
 client.on('message', async message => {
 	if(!message.guild) return;
+	if(message.author.bot) return;
 
 	let prefix = ",,";
-	Prefix.findOne({serverID: message.guild.id}, (err, p) => {
-		if(err) return console.log(err);
-		if(!p){
-			const newPrefix = new Prefix({
-				serverID: message.guild.id,
-				prefix: ",,"
-			});
-			newPrefix.save().catch(err => console.log(err));
-		}
-		else prefix = p;
-	});
-
+	const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+	if(!p){
+		const newPrefix = new Prefix({
+			serverID: message.guild.id,
+			prefix: ",,"
+		});
+		newPrefix.save().catch(err => console.log(err));
+	}
+	else prefix = p.prefix;
+	
 	if(!message.content.toLowerCase().startsWith(prefix)) {
 		return trigger.execute(client, message);
 	}
-
-	if(message.author.bot) return;
 
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();

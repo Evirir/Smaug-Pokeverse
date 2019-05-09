@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-const {uri} = require('../config.json');
-const {uri} = require('..config.json');
+
 const Money = require('../models/money.js');
 
 module.exports = {
@@ -13,7 +12,6 @@ module.exports = {
     usage: `@mentionUser [amount]`,
 
 	execute(message, args){
-		mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
 		if(!message.mentions.users.size) return message.reply(`you must mention a user to add coins to.`);
         const target = message.mentions.users.first();
         const addedCoins = parseInt(args[1]);

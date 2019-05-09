@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
 const {defaultPrefix} = require('../config.json');
 const {dragTag, botID} = require(`../specificData/users.json`);
-const fs = require('fs');
-const prefixes = JSON.parse(fs.readFileSync("./prefixes.json","utf8"));
+
+//const mongoose = require('mongoose');
+const Prefix = require('../models/prefix.js');
 
 module.exports = {
 	name: 'help',
@@ -11,7 +12,12 @@ module.exports = {
 	usage: '[spell-name]',
 
 	execute(message, args){
-		const prefix = prefixes[message.guild.id].prefix;
+		let prefix = "";
+		Prefix.findOne({serverID: message.guild.id}, (err, p) => {
+		    if(err) return console.log(err); if(!p) return console.log(`No prefix found: help.js`);
+		    prefix = p.prefix;
+		});
+
 		const data = [];
 		const {commands} = message.client;
 

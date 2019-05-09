@@ -1,7 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-const {uri} = require('../config.json');
-const {uri} = require('..config.json');
+
 const Money = require('../models/money.js');
 
 function timefy(t){
@@ -19,8 +18,6 @@ module.exports = {
     wip: true,
 
 	execute (message, args) {
-        mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
-
         const user = message.author.id;
         let next = UserData[user].nextDaily;
         let now = new Date();

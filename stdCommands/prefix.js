@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
-const fs = require('fs');
+const mongoose = require('mongoose');
+
+const Prefix = require('../models/prefix.js');
 
 module.exports = {
 	name: 'prefix',
@@ -7,11 +9,9 @@ module.exports = {
 	usage: '[new-prefix]',
 
 	execute(message, args, prefix){
-		let prefixes = JSON.parse(fs.readFileSync('./prefixes.json','utf8'));
-
 		if(!args.length) {
 			const embed = new Discord.RichEmbed()
-				.setTitle(`Current prefix: \`${prefixes[message.guild.id].prefix}\``)
+				.setTitle(`Current prefix: \`${prefix}\``)
 				.setDescription(`Type \`${prefix}prefix [new-prefix]\` to change prefix.`)
 				.setColor('GOLD');
 
@@ -22,20 +22,17 @@ module.exports = {
 			return message.reply('you do not have the permission to change the prefix!');
 		}
 
-		const newPrefix = args[0];
-		prefixes[message.guild.id] = {
-			prefixes: args[0]
-		};
+		Prefix.findOne({serverID: message.guild.id}, (err, p) => {
+			if(err) return console.log(err); if(!p) return console.log(`No guild prefix found: dm.js`);
+			p.prefix = args[0];
+			p.save().catch(err => {console.log(err); message.channel.send(`Error: prefix.js`);});
 
-		fs.writeFile('./prefixes.json', JSON.stringify(prefixes), (err) => {
-			if(err) console.log(err);
+			let embed = new Discord.RichEmbed()
+				.setColor('GREEN')
+				.setTitle(`Prefix set!`)
+				.setDescription(`New prefix: ${p.prefix}`);
+
+			message.channel.send(embed);
 		});
-
-		let embed = new Discord.RichEmbed()
-			.setColor('GREEN')
-			.setTitle(`Prefix set!`)
-			.setDescription(`New prefix: ${args[0]}`);
-
-		message.channel.send(embed);
   	}
 };
