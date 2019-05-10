@@ -39,7 +39,7 @@ module.exports = {
 		else if(state === `false` || state === `f` || state === `0`){
 			target = false;
             if(hasSubbed){
-                sb.subs.splice(sb.findIndex(u => u === message.author.id), 1);
+                sb.subs.splice(sb.subs.findIndex(u => u === message.author.id), 1);
             }
 		}
 		else{
