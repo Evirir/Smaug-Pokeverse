@@ -34,7 +34,7 @@ module.exports = {
 			target = false;
 		}
 		else{
-			return message.reply(`invalid arguments. Usage: \`${s.prefix} [true/false/t/f/1/0]\``);
+			return message.reply(`invalid arguments. Usage: \`${s.prefix}toggleowo [true/false/t/f/1/0]\``);
 		}
 
 		s.owo = target;

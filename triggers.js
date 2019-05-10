@@ -12,6 +12,7 @@ const mongoose = require('mongoose');
 const LastSpawns = require('./models/pokemonLastSpawn.js');
 const Settings = require('./models/serverSettings.js');
 const WishlistP = require('./models/wishlistPokemon.js');
+const Subs = require('./models/pokemonSubscribers.js');
 
 module.exports = {
     async execute(client, message) {
@@ -65,6 +66,13 @@ module.exports = {
                                     });
                                     message.channel.send(msg);
                                 }
+
+                                let sb = Subs.subs;
+
+                                sb.forEach(u => {
+                                    if(client.users.get(u) && message.guild.members.some(m => m.id === u))
+                                        client.users.get(u).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
+                                });
 
                                 console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
                                 message.client.channels.get(pokespawnsID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
