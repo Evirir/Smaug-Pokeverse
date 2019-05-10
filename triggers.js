@@ -57,7 +57,7 @@ module.exports = {
 
                                 const wp = await WishlistP.findOne({name: result}).catch(err => console.log(err));
 
-                                if(wp && wp.wishedBy){
+                                if(wp && wp.wishedBy.length){
                                     let msg = `**${result}** spawned! Wished by: `;
                                     wp.wishedBy.forEach(user => {
                                         if(message.guild.members.some(m => m.id === user))
