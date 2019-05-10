@@ -77,20 +77,19 @@ module.exports = {
         if(message.author.bot) return;
 
         let prefix = ",,";
-        const p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-    	if(!p) console.log(`No prefix found: triggers.js`);
-        else prefix = p.prefix;
+        const s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+    	if(!s) console.log(`No prefix found: triggers.js`);
+        else prefix = s.prefix;
 
         //EVIRIR IS MENTIONED
         if (message.isMentioned(client.users.get(dragID))){
             if(message.author.id === dragID) return;
             if(message.author.id === godID){
                 return message.channel.send(`<@${message.author.id}>, ya' calling Evirir-sama?`);
-                return message.client.channels.get(messageID).send(`<@${message.author.id}> mentioned you in ${message.guild.name}/${message.channel.name}:\n${message.content}`);
             }
-            else
-                message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
-                return message.client.channels.get(messageID).send(`<@${message.author.id}> mentioned you in ${message.guild.name}/${message.channel.name}:\n${message.content}`);
+            else{
+                return message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
+            }
         }
 
         //BOT SELF IS MENTIONED
@@ -142,9 +141,9 @@ module.exports = {
             return message.channel.send('*ghrr*');
         if(msg.includes(`grr`) || msg.includes(`ghrr`))
             return message.channel.send('*rawr*');
-        if(msg === 'owo')
+        if(msg === 'owo' && s.owo)
             return message.channel.send(`uwu`);
-        if(msg === 'uwu')
+        if(msg === 'uwu' && s.owo)
             return message.channel.send(`owo`);
         if(msg === 'wew')
             return message.channel.send(`lad`);
