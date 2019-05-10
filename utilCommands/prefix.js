@@ -7,6 +7,7 @@ module.exports = {
 	name: 'prefix',
 	description: 'Shows the current prefix if no argument is given. Otherwise, changes server prefix to new prefix.',
 	usage: '[new-prefix]',
+	util: true,
 
 	execute(message, args, prefix){
 		if(!args.length) {

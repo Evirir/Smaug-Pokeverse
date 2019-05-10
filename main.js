@@ -2,7 +2,6 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const {uri} = require('./config.json');
-mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
 
 const {defaultPrefix, token, bot_name} = require('./config.json');
 const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json`);
@@ -24,8 +23,19 @@ for(const file of hoardFiles){
 	const command = require(`./hoardCommands/${file}`);
 	client.commands.set(command.name, command);
 }
+const utilFiles = fs.readdirSync('./utilCommands').filter(file => file.endsWith('.js'));
+for(const file of utilFiles){
+	const command = require(`./utilCommands/${file}`);
+	client.commands.set(command.name, command);
+}
+const pokeFiles = fs.readdirSync('./pokeCommands').filter(file => file.endsWith('.js'));
+for(const file of pokeFiles){
+	const command = require(`./pokeCommands/${file}`);
+	client.commands.set(command.name, command);
+}
 
 client.once('ready', () => {
+	mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
 	let startmsg = `It's currently **${client.readyAt}**\n`;
 	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);

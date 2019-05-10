@@ -6,6 +6,7 @@ module.exports = {
 	aliases: [`tellevirir`,`telldragon`],
 	args: true,
 	usage: `[message]`,
+	util: true,
 
 	execute(message, args) {
 

@@ -20,17 +20,17 @@ module.exports = {
 		const {commands} = message.client;
 
 		let cmd = commands.map(command => command);
-		let stdcmd = [];
-		let devcmd = [];
-		let hoardcmd = [];
+		let stdcmd = [], devcmd = [], utilcmd = [], hoardcmd = [], pokecmd = [];
 
-		for(var i=0; i<cmd.length; i++){
-			if(!cmd[i].hidden){
-				if(cmd[i].dev) devcmd.push(cmd[i].name);
-				else if(cmd[i].hoard) hoardcmd.push(cmd[i].name);
-				else stdcmd.push(cmd[i].name);
+		cmd.forEach(command => {
+			if(!command.hidden){
+				if(command.dev) devcmd.push(command.name);
+				else if(command.hoard) hoardcmd.push(command.name);
+				else if(command.util) utilcmd.push(command.name);
+				else if(command.poke) pokecmd.push(command.name);
+				else stdcmd.push(command.name);
 			}
-		}
+		});
 
 		if(!args.length){
 			let stdString = "";
@@ -39,14 +39,20 @@ module.exports = {
 			devString += devcmd.join('\` \`');
 			let hoardString = "";
 			hoardString += hoardcmd.join('\` \`');
+			let utilString = "";
+			utilString += utilcmd.join('\` \`');
+			let pokeString = "";
+			pokeString += pokecmd.join('\` \`');
 
 			let embed = new Discord.RichEmbed()
 			.setColor('BLUE')
 			.setAuthor('Smaug', message.client.users.get(botID).displayAvatarURL)
 			.setDescription(`Hey, I'm Smaug the dragon! My current prefix is \`${prefix}\`\nHere are all the magic spells that I know:`)
 			.addField('Standard commands', `\`${stdString}\``)
-			.addField('Developer commands', `\`${devString}\``)
+			.addField('Utility commands', `\`${utilString}\``)
 			.addField('Hoard commands', `\`${hoardString}\``)
+			.addField('Pokemon commands', `\`${pokeString}\``)
+			.addField('Developer commands', `\`${devString}\``)
 			.setFooter(`Send ${prefix}help [command] for more info on the spell! ^.=.^`);
 
 			return message.channel.send(embed);
