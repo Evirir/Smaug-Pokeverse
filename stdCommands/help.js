@@ -11,12 +11,10 @@ module.exports = {
 	aliases: ['commands','command','cmd'],
 	usage: '[spell-name]',
 
-	execute(message, args){
-		let prefix = "";
-		Prefix.findOne({serverID: message.guild.id}, (err, p) => {
-		    if(err) return console.log(err); if(!p) return console.log(`No prefix found: help.js`);
-		    prefix = p.prefix;
-		});
+	async execute(message, args){
+		let prefix = ",,";
+		const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+		if(p) prefix = p.prefix;
 
 		const data = [];
 		const {commands} = message.client;
@@ -35,18 +33,23 @@ module.exports = {
 		}
 
 		if(!args.length){
-			data.push(`Hey, I'm Smaug the dragon! My current prefix is \`${prefix}\``);
-			data.push(`Here are all the magic spells that I know:`);
-			data.push(`\n**Standard commands:\n**\``);
-			data.push(stdcmd.join('\` \`'));
-			data.push(`\`\n\n**Developer commands:\n**\``);
-			data.push(devcmd.join('\` \`'));
-			data.push(`\`\n\n**Hoard commands:\n**\``);
-			data.push(hoardcmd.join('\` \`'));
-			data.push(`\`\n\nSend \`${prefix}help [command]\` for more info on that spell!`);
-			data.push(`If you forgot the prefix, you can always type "<@${botID}> help" to summon this message!`);
+			let stdString = "";
+			stdString += stdcmd.join('\` \`');
+			let devString = "";
+			devString += devcmd.join('\` \`');
+			let hoardString = "";
+			hoardString += hoardcmd.join('\` \`');
 
-			return message.channel.send(data, {split: true});
+			let embed = new Discord.RichEmbed()
+			.setColor('BLUE')
+			.setAuthor('Smaug', message.client.users.get(botID).displayAvatarURL)
+			.setDescription(`Hey, I'm Smaug the dragon! My current prefix is \`${prefix}\`\nHere are all the magic spells that I know:`)
+			.addField('Standard commands', `\`${stdString}\``)
+			.addField('Developer commands', `\`${devString}\``)
+			.addField('Hoard commands', `\`${hoardString}\``)
+			.setFooter(`Send ${prefix}help [command] for more info on the spell! ^.=.^`);
+
+			return message.channel.send(embed);
 		}
 
 		const name = args[0].toLowerCase();
