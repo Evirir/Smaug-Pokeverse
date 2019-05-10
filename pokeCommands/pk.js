@@ -6,6 +6,7 @@ module.exports = {
     name: 'pk',
     description: 'Displays the last pokemon spawned by Pokecord in this channel',
     aliases: ['pname','poke'],
+    poke: true,
 
     async execute(message, args) {
         const spawn = await pokemonLastSpawn.findOne({channelID: message.channel.id}).catch(err => console.log(err));

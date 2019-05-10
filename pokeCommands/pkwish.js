@@ -7,6 +7,7 @@ module.exports = {
     name: 'pkwish',
     description: 'Add pokemons to your wishlist',
     aliases: ['pw','wl'],
+    poke: true,
     wip: true,
 
     execute(message, args) {
