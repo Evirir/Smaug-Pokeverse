@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: `test`,
-	description: `Test new features`,
+	description: `Test new features. Dev only.`,
 	dev: true,
 
 	execute(message, args){

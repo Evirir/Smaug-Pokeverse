@@ -5,7 +5,7 @@ const Money = require('../models/money.js');
 
 module.exports = {
 	name: 'balance',
-	description: `Check someone's balance`,
+	description: `Check someone's balance.`,
     aliases: ['bal'],
     hoard: true,
     usage: `@mentionUser`,

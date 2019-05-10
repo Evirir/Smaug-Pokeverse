@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'findid',
-	description: `Find the origin of some ID (only works for things I've seen)`,
+	description: `Find the origin of some ID (only works for things I've seen).`,
     aliases: ['fi'],
     args: true,
     usage: '[ID]',

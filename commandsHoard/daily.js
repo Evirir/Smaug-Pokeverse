@@ -12,7 +12,7 @@ const dailyReward = 1000;
 
 module.exports = {
 	name: 'daily',
-	description: `Claims your daily reward`,
+	description: `Claims your daily reward.`,
     aliases: ['d'],
     hoard: true,
     wip: true,

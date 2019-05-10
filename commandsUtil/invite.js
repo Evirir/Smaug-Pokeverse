@@ -2,7 +2,7 @@ const {consoleID} = require(`../specificData/channels.json`);
 
 module.exports = {
 	name: 'invite',
-	description: 'Creates a magical telepotation link to this server',
+	description: 'Creates a magical telepotation link to this server.',
 	util: true,
 	wip: true,
 

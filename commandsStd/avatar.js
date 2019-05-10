@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'avatar',
-	description: `Shows your/mentions' avatar(s)`,
+	description: `Shows your/mentions' avatar(s).`,
 	aliases: [`icon`,`image`,`img`],
 	usage: '@user1 @user2...',
 

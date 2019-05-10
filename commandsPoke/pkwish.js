@@ -5,7 +5,7 @@ const Wishlist = require('../models/wishlist.js');
 
 module.exports = {
     name: 'pkwish',
-    description: 'Add pokemons to your wishlist',
+    description: 'View your Pokecord wishlist.',
     aliases: ['pw','wl'],
     poke: true,
     wip: true,
@@ -23,7 +23,6 @@ module.exports = {
         }
 
         let wish = "";
-
 
         let embed = new Discord.RichEmbed()
         .setAuthor(`${message.author.tag}'s wishlist`, message.author.displayAvatarURL)

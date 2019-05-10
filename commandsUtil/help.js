@@ -7,9 +7,10 @@ const Prefix = require('../models/prefix.js');
 
 module.exports = {
 	name: 'help',
-	description: `Shows list of spells that I know. Use \`${defaultPrefix}help [spell]\` to view details of the spell.\n(Also, nice job on getting help on a help command)`,
+	description: `Shows list of spells that I know. Use \`${defaultPrefix}help [spell]\` to view details of the spell.`,
 	aliases: ['commands','command','cmd'],
 	usage: '[spell-name]',
+	notes: `(Also, nice job on getting help on a help command)`,
 
 	async execute(message, args){
 		let prefix = ",,";
@@ -19,16 +20,15 @@ module.exports = {
 		const data = [];
 		const {commands} = message.client;
 
-		let cmd = commands.map(command => command);
 		let stdcmd = [], devcmd = [], utilcmd = [], hoardcmd = [], pokecmd = [];
 
-		cmd.forEach(command => {
-			if(!command.hidden){
-				if(command.dev) devcmd.push(command.name);
-				else if(command.hoard) hoardcmd.push(command.name);
-				else if(command.util) utilcmd.push(command.name);
-				else if(command.poke) pokecmd.push(command.name);
-				else stdcmd.push(command.name);
+		commands.forEach(c => {
+			if(!c.hidden){
+				if(c.dev) devcmd.push(c.name);
+				else if(c.hoard) hoardcmd.push(c.name);
+				else if(c.util) utilcmd.push(c.name);
+				else if(c.poke) pokecmd.push(c.name);
+				else stdcmd.push(c.name);
 			}
 		});
 
@@ -66,12 +66,14 @@ module.exports = {
 		if(command.hidden)
 			return message.reply("すみません, I've never heard of this spell...maybe");
 
-		data.push(`**Name:** \`${command.name}\``);
-		if(command.aliases) 	data.push(`**Aliases:** \`${command.aliases.join('\` \`')}\``);
-		if(command.description) data.push(`**Description:** ${command.description}`);
-		if(command.usage) 		data.push(`**Usage:** \`${prefix}${command.name} ${command.usage}\``);
-		if(command.notes)		data.push(`**Notes:** ${command.notes}`);
+		let embed = new Discord.RichEmbed()
+		.setTitle(`\`${command.name}\``);
 
-		message.channel.send(data,{split: true});
+		if(command.aliases) 	embed.addField(`Aliases`, `\`${command.aliases.join('\` \`')}\``);
+		if(command.description) embed.addField(`Description`, command.description);
+		if(command.usage) 		embed.addField(`Usage`, `\`${prefix}${command.name} ${command.usage}\``);
+		if(command.notes)		embed.addField(`Notes`, command.notes);
+
+		message.channel.send(embed);
 	}
 };

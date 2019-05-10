@@ -13,24 +13,24 @@ const Prefix = require('./models/prefix.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
-const commandFiles = fs.readdirSync('./stdCommands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commandsStd').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
-	const command = require(`./stdCommands/${file}`);
+	const command = require(`./commandsStd/${file}`);
 	client.commands.set(command.name, command);
 }
-const hoardFiles = fs.readdirSync('./hoardCommands').filter(file => file.endsWith('.js'));
+const hoardFiles = fs.readdirSync('./commandsHoard').filter(file => file.endsWith('.js'));
 for(const file of hoardFiles){
-	const command = require(`./hoardCommands/${file}`);
+	const command = require(`./commandsHoard/${file}`);
 	client.commands.set(command.name, command);
 }
-const utilFiles = fs.readdirSync('./utilCommands').filter(file => file.endsWith('.js'));
+const utilFiles = fs.readdirSync('./commandsUtil').filter(file => file.endsWith('.js'));
 for(const file of utilFiles){
-	const command = require(`./utilCommands/${file}`);
+	const command = require(`./commandsUtil/${file}`);
 	client.commands.set(command.name, command);
 }
-const pokeFiles = fs.readdirSync('./pokeCommands').filter(file => file.endsWith('.js'));
+const pokeFiles = fs.readdirSync('./commandsPoke').filter(file => file.endsWith('.js'));
 for(const file of pokeFiles){
-	const command = require(`./pokeCommands/${file}`);
+	const command = require(`./commandsPoke/${file}`);
 	client.commands.set(command.name, command);
 }
 

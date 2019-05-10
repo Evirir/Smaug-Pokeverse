@@ -3,7 +3,7 @@ const {defaultPrefix} = require('../config.json');
 
 module.exports = {
 	name: 'roll',
-	description: `Rolls a number of dice of specified type`,
+	description: `Rolls a number of dice of specified type.`,
     aliases: [`rolls`,`dice`,`rand`,`random`],
 	args: true,
 	usage: `[amount]d[faces]\` e.g. \`${defaultPrefix}roll d8\` \`${defaultPrefix}roll 4d10`,

@@ -6,7 +6,7 @@ function commafy(x) {
 
 module.exports = {
     name: 'fakecf',
-    description: 'Sends a fake coinflip result message (For trolling in BoxBot)',
+    description: 'Sends a fake coinflip result message (For trolling in BoxBot).',
     args: true,
     usage: '[channelID/name] [@user/userID] [original amount] [cf amount] [win/lose]',
     notes: `Usable names: isobots, isoboxbot, console`,

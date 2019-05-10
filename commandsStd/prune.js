@@ -2,7 +2,7 @@ const {dragID} = require(`../specificData/users.json`);
 
 module.exports = {
 	name: 'prune',
-	description: `Deletes some number of latest messages (members with \`MANAGE_MESSAGES\` permission only)`,
+	description: `Deletes some number of latest messages (members with \`MANAGE_MESSAGES\` permission only).`,
 	args: true,
 	usage: `[amount]`,
 

@@ -4,7 +4,7 @@ const pokemonLastSpawn = require('../models/pokemonLastSpawn.js');
 
 module.exports = {
     name: 'pk',
-    description: 'Displays the last pokemon spawned by Pokecord in this channel',
+    description: 'Shows the name of the last pokemon spawned by Pokecord in this channel.',
     aliases: ['pname','poke'],
     poke: true,
 

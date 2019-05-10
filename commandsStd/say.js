@@ -2,7 +2,7 @@ const {dragID} = require(`../specificData/users.json`);
 
 module.exports = {
 	name: 'say',
-	description: `Echos what you said`,
+	description: `Echos what you said.`,
 	aliases: [`echo`],
 	args: true,
 	usage: `[message]`,

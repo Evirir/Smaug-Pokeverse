@@ -2,7 +2,7 @@ const {consoleID,startupID,betastartupID,messageID,isoBotsID,betatestID,isoboxbo
 
 module.exports = {
 	name: 'sendch',
-	description: `Sends message to specific channel`,
+	description: `Sends message to specific channel.`,
 	aliases: [`sendchannel`,`chsend`],
 	args: true,
 	usage: `[channel ID/name] [message]`,

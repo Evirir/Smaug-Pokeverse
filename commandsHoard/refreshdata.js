@@ -5,9 +5,9 @@ const Money = require('../models/money.js');
 
 module.exports = {
     name: 'refreshdata',
-    description: 'Refreshes shop database',
+    description: 'Refreshes shop database.',
     hoard: true,
-    wip: true,
+    dev: true,    wip: true,
 
     execute (message, args) {
         message.channel.send(`Does nothing yet`);

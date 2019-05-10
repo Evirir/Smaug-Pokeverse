@@ -1,14 +1,14 @@
 const Discord = require('discord.js');
 
 module.exports = {
-	name: 'dragon',
-	description: `Summons a random dragon. Add number for specific dragon`,
-	aliases: [`dragons`,`derg`,`drag`],
+	name: 'cute',
+	description: `Summons a random cute dragon. Add number for specific cute dragon.`,
+	aliases: [`cutedragon`,`kawaii`,`cutederg`,`cutedrag`],
 	usage: `[id]`,
 
 	execute(message,args){
         var id = 0;
-        const maxID = 43;
+        const maxID = 19;
 
 		if (!args.length)
             id = Math.floor(Math.random() * maxID) + 1;
@@ -19,12 +19,18 @@ module.exports = {
         if(id > maxID || id < 1)
             return message.channel.send(`ID out of range! Please input an ID between 1 and ${maxID}.`);
 
-        const path = `./images/dragon/dragon (${id}).png`;
-		const embed = new Discord.RichEmbed()
-			.setTitle(`Dragon #${id}`)
-            .attachFiles([path])
-            .setImage(`attachment://dragon (${id}).png`);
 
-		message.channel.send(embed);
+		var path = `images/cute/cute (${id})`;
+		var type = '';
+        if(id === 1)	type = '.gif';
+		else			type = '.jpg';
+		path += type;
+
+		const exampleEmbed = new Discord.RichEmbed()
+			.setTitle(`Cute dragon #${id}`)
+            .attachFiles([path])
+            .setImage(`attachment://cute (${id})${type}`);
+
+		message.channel.send(exampleEmbed);
 	}
 }

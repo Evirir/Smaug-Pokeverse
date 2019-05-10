@@ -5,7 +5,7 @@ const Money = require('../models/money.js');
 
 module.exports = {
 	name: 'addmoney',
-	description: `Adds money (for dev's testing)`,
+	description: `Adds money (for dev's testing).`,
     aliases: ['am'],
     hoard: true,
 	args: true,
