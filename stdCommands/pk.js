@@ -10,7 +10,7 @@ module.exports = {
     async execute(message, args) {
         const spawn = await pokemonLastSpawn.findOne({channelID: message.channel.id}).catch(err => console.log(err));
 
-        if(!spawn.lastSpawn){
+        if(!spawn || !spawn.lastSpawn){
             let embed = new Discord.RichEmbed()
             .setTitle(`Last Pokemon not detected yet!`)
             .setColor(0xFF4500)
