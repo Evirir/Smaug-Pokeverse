@@ -46,7 +46,6 @@ client.on("guildDelete", guild => {
 
 client.on('message', async message => {
 	if(!message.guild) return;
-	if(message.author.bot) return;
 
 	let prefix = ",,";
 	const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
@@ -70,19 +69,17 @@ client.on('message', async message => {
 	if(!command) return;
 
 	//Hoard check
-	Money.findOne({userID: message.author.id}, (err, money) => {
-		if(err) console.log(err);
+	const money = await Money.findOne({userID: message.author.id}).catch(err => console.log(err));
+	if(!money){
+		const newMoney = new Money({
+			userID: message.author.id,
+			money: 1000
+		});
 
-		if(!money){
-			const newMoney = new Money({
-				userID: message.author.id,
-				money: 1000
-			});
+		newMoney.save().catch(err => console.log(err));
+		message.channel.send(`Hey <@${message.author.id}>! As a new hoarder, you have received **1000💰**!`);
+	}
 
-			newMoney.save().catch(err => console.log(err));
-			message.channel.send(`Hey <@${message.author.id}>! As a new hoarder, you have received **1000💰**!`);
-		}
-	});
 
 	if(command.wip){
 		let msg = "";

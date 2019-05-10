@@ -1,7 +1,6 @@
-const fs = require('fs');
 const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
-const {dragID,godID,dragTag,pokecordID} = require('./specificData/users.json');
+const {dragID, godID, dragTag, pokecordID} = require('./specificData/users.json');
 const {consoleID, messageID, pokespawnsID} = require('./specificData/channels.json');
 
 ///Pokemon
@@ -10,10 +9,8 @@ const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
 
 const mongoose = require('mongoose');
-const LastSpawn = require('./models/pokemonLastSpawn.js');
+const pokemonLastSpawn = require('./models/pokemonLastSpawn.js');
 const Prefix = require('./models/prefix.js');
-
-let PokemonSpawns = JSON.parse(fs.readFileSync('./pokemons/lastPokemon.json','utf8'));
 
 module.exports = {
     async execute(client, message) {
@@ -21,7 +18,7 @@ module.exports = {
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
 
-            message.embeds.forEach((e) => {
+            message.embeds.forEach(async (e) => {
                 if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
                     if (e.image) {
                         let url = e.image.url;
@@ -31,7 +28,7 @@ module.exports = {
 
                         imghash
                             .hash(body)
-                            .then(hash => {
+                            .then(async hash => {
                                 let result = db[hash];
 
                                 if (result === undefined) {
@@ -42,42 +39,38 @@ module.exports = {
                                     return message.channel.send(embed);
                                 }
 
-                                PokemonSpawns[message.channel.id] = {
-                                    name: result,
-                                    caught: false,
-                                };
+                                let Spawn = await pokemonLastSpawn.findOne({channelID: message.channel.id}).catch(err => console.log(err));
 
-                                fs.writeFile('./pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
-                                    if(err) console.log(err);
-                                });
+                                if(!Spawn){
+                                    const newSpawn = new pokemonLastSpawn({
+                                        channelID: message.channel.id,
+                                        lastSpawn: result
+                                    });
+                                    newSpawn.save().catch(err => console.log(err));
+                                }
+                                else{
+                                    Spawn.lastSpawn = result;
+                                    Spawn.capturedBy = null;
+                                    Spawn.save().catch(err => console.log(err));
+                                }
 
                                 console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
                                 message.client.channels.get(pokespawnsID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
-
-                                Wishlist.forEach( user => {
-                                    if(user.wishes.includes(result)){
-                                        message.channel.send(`Wished by <@${user}>`);
-                                        message.channel.send(`<@${user}>`);
-                                    }
-                                });
                             })
                         });
                     }
-                    return;
                 }
             });
 
-            if(message.content.startsWith('Congratulations') && PokemonSpawns[message.channel.id]){
-                PokemonSpawns[message.channel.id] = {
-                    name: PokemonSpawns[message.channel.id].name,
-                    caught: true,
-                    person: message.mentions.users.first().tag
-                };
+            if(message.content.startsWith('Congratulations')){
+                let Spawn = await pokemonLastSpawn.findOne({channelID: message.channel.id}).catch(err => console.log(err));
 
-                fs.writeFile('./pokemons/lastPokemon.json', JSON.stringify(PokemonSpawns), (err) => {
-                    if(err) console.log(err);
-                });
+                if(Spawn){
+                    Spawn.capturedBy = message.mentions.users.first().tag;
+                    Spawn.save().catch(err => console.log(err));
+                }
             }
+            return;
         }
         //POKEASSISTANT END
 
@@ -85,7 +78,7 @@ module.exports = {
 
         let prefix = ",,";
         const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-    	if(!p) return console.log(`No prefix found: triggers.js`);
+    	if(!p) console.log(`No prefix found: triggers.js`);
         else prefix = p.prefix;
 
         //EVIRIR IS MENTIONED
@@ -117,7 +110,7 @@ module.exports = {
 
             if(message.author === (client.users.get(dragID))){
                 if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
-                    return message.reply(`Hey! **snuggles you**`);
+                    return message.channel.send(`Hey <@${dragID}>! *snuggles you*`);
                 if(msg.includes(`thank you`) || msg.includes(`thanks`))
                     return message.channel.send(`You're welcome <@${dragID}>! **licks you**`);
                 return message.channel.send(`Evirir-sama you came! **leaps around you happily**`);

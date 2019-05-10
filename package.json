@@ -1,5 +1,5 @@
 {
-  "name": "Smaug",
+  "name": "smaug",
   "version": "1.0.0",
   "description": "Want to have a dragon companion? Here you go. (rawrs)",
   "main": "main.js",
@@ -13,6 +13,15 @@
     "discord.js": "^11.4.2",
     "imghash": "0.0.3",
     "moment": "^2.24.0",
-    "mongoose": "^5.5.5"
-  }
+    "mongoose": "^5.5.5",
+    "request": "^2.88.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Evirir/Smaug.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Evirir/Smaug/issues"
+  },
+  "homepage": "https://github.com/Evirir/Smaug#readme"
 }
