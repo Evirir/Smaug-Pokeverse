@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-const Prefix = require('../models/prefix.js');
+const Settings = require('../models/serverSettings.js');
 
 module.exports = {
 	name: 'prefix',
@@ -22,7 +22,7 @@ module.exports = {
 			return message.reply('you do not have the permission to change the prefix!');
 		}
 
-		let p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+		let p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(!p) return console.log(`No guild prefix found: dm.js`);
 		p.prefix = args[0];
 		p.save().catch(err => console.log(err));

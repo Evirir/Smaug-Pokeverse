@@ -3,7 +3,7 @@ const {defaultPrefix} = require('../config.json');
 const {dragTag, botID} = require(`../specificData/users.json`);
 
 //const mongoose = require('mongoose');
-const Prefix = require('../models/prefix.js');
+const Settings = require('../models/serverSettings.js');
 
 module.exports = {
 	name: 'help',
@@ -14,7 +14,7 @@ module.exports = {
 
 	async execute(message, args){
 		let prefix = ",,";
-		const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+		const p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(p) prefix = p.prefix;
 
 		const data = [];

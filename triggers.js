@@ -10,7 +10,7 @@ const request = require('request').defaults({ encoding: null });
 
 const mongoose = require('mongoose');
 const pokemonLastSpawn = require('./models/pokemonLastSpawn.js');
-const Prefix = require('./models/prefix.js');
+const Settings = require('./models/serverSettings.js');
 
 module.exports = {
     async execute(client, message) {
@@ -77,7 +77,7 @@ module.exports = {
         if(message.author.bot) return;
 
         let prefix = ",,";
-        const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+        const p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
     	if(!p) console.log(`No prefix found: triggers.js`);
         else prefix = p.prefix;
 

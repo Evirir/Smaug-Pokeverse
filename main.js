@@ -8,7 +8,7 @@ const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json
 const {consoleID, messageID, startupID, betastartupID} = require(`./specificData/channels.json`);
 const trigger = require('./triggers');
 const Money = require('./models/money.js');
-const Prefix = require('./models/prefix.js');
+const Settings = require('./models/serverSettings.js');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
@@ -58,9 +58,9 @@ client.on('message', async message => {
 	if(!message.guild) return;
 
 	let prefix = ",,";
-	const p = await Prefix.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+	const p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 	if(!p){
-		const newPrefix = new Prefix({
+		const newPrefix = new Settings({
 			serverID: message.guild.id,
 			prefix: ",,"
 		});
