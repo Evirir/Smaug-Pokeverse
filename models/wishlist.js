@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const wishSchema = mongoose.Schema({
+const wishlistSchema = mongoose.Schema({
     userID: String,
-    wishlist: String
+    wishlist: Array
 });
 
-module.exports = mongoose.model("Wishlist", wishSchema);
+module.exports = mongoose.model("Wishlist", wishlistSchema);

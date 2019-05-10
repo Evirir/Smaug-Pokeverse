@@ -26,7 +26,7 @@ module.exports = {
 
 			const invite = message.channel.createInvite({
 				maxAge: 0,
-			}, `Requested by ${message.author.tag}`)
+			}, `Requested by ${message.author.username}`)
 
 			.then(() => message.channel.send(`Send them this link to teleport them here: https://discord.gg/${invite.code}`));
 		});

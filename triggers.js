@@ -9,8 +9,9 @@ const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
 
 const mongoose = require('mongoose');
-const pokemonLastSpawn = require('./models/pokemonLastSpawn.js');
+const LastSpawns = require('./models/pokemonLastSpawn.js');
 const Settings = require('./models/serverSettings.js');
+const WishlistP = require('./models/wishlistPokemon.js');
 
 module.exports = {
     async execute(client, message) {
@@ -35,14 +36,14 @@ module.exports = {
                                     let embed = new Discord.RichEmbed()
       		                        .setColor(0xFF4500)
                                     .setTitle("Pokemon Not Found")
-                                    .setDescription(`Please contact the owner ${dragTag} to add this Pokemon to the database.`);
+                                    .setDescription(`Please contact the owner ${message.client.users.get(dragID).username} to add this Pokemon to the database.`);
                                     return message.channel.send(embed);
                                 }
 
-                                let Spawn = await pokemonLastSpawn.findOne({channelID: message.channel.id}).catch(err => console.log(err));
+                                let Spawn = await LastSpawns.findOne({channelID: message.channel.id}).catch(err => console.log(err));
 
                                 if(!Spawn){
-                                    const newSpawn = new pokemonLastSpawn({
+                                    const newSpawn = new LastSpawns({
                                         channelID: message.channel.id,
                                         lastSpawn: result
                                     });
@@ -54,6 +55,16 @@ module.exports = {
                                     Spawn.save().catch(err => console.log(err));
                                 }
 
+                                const wp = WishlistP.findOne({name: result}).catch(err => console.log(err));
+                                if(wp && wp.wishedBy.length){
+                                    let msg = `**${result}** spawned! Wished by: `;
+                                    wp.wishedBy.forEach(user => {
+                                        if(message.guild.members.some(m => m.id === user))
+                                            msg += `<@${user}> `;
+                                    });
+                                    message.channel.send(msg);
+                                }
+
                                 console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
                                 message.client.channels.get(pokespawnsID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
                             })
@@ -63,10 +74,10 @@ module.exports = {
             });
 
             if(message.content.startsWith('Congratulations')){
-                let Spawn = await pokemonLastSpawn.findOne({channelID: message.channel.id}).catch(err => console.log(err));
+                let Spawn = await LastSpawns.findOne({channelID: message.channel.id}).catch(err => console.log(err));
 
                 if(Spawn){
-                    Spawn.capturedBy = message.mentions.users.first().tag;
+                    Spawn.capturedBy = message.mentions.users.first().username;
                     Spawn.save().catch(err => console.log(err));
                 }
             }

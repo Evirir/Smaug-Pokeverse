@@ -31,9 +31,9 @@ module.exports = {
             let diffSec = Math.floor(tmpSec/(1000));
 
             const embed = new Discord.RichEmbed()
+            .setAuthor(message.author.username, message.author.displayAvatarURL)
                 .setTitle(`Your next daily claim:`)
                 .setDescription(`${timefy(diffHr)}:${timefy(diffMin)}:${timefy(diffSec)}`)
-                .setAuthor(message.author.tag, message.author.displayAvatarURL)
                 .setColor('ORANGE');
 
             return message.channel.send(embed);
@@ -47,7 +47,7 @@ module.exports = {
         const embed = new Discord.RichEmbed()
             .setTitle(`Daily reward: ${dailyReward} gold coins`)
             .setDescription(`You received **${dailyReward} 💰** as your daily reward!\nYou now have ${UserData[user].bal}💰.`)
-            .setAuthor(message.author.tag, message.author.displayAvatarURL)
+            .setAuthor(message.author.username, message.author.displayAvatarURL)
             .setColor('ORANGE');
 
         message.channel.send(embed);

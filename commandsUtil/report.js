@@ -17,7 +17,7 @@ module.exports = {
 		message.channel.send(`A dragon courier flies towards you, carefully writes down your message, bows, takes your cookie and flies away swiftly...`);
 		message.channel.send(`<@${message.author.id}>, message sent to Evirir!`);
 		message.client.fetchUser(dragID).then((user) => {
-			user.send(`**${message.author.tag}** reported:\n`);
+			user.send(`**${message.author.username}** reported:\n`);
     		user.send(msg);
 		});
 	}

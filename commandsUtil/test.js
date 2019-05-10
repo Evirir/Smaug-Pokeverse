@@ -6,17 +6,7 @@ module.exports = {
 	dev: true,
 
 	execute(message, args){
-		let embed = new Discord.RichEmbed()
-		.setAuthor(`Here's a reaction test`, message.author.displayAvatarURL)
-		.addField(`Field 1`, `content1`)
-		.addField(`Field 2`, `content2`)
-		.addField(`Inline field 1`, `icontent1`, true)
-		.addField(`Inline field 2`, `icontent2`, true);
-
-		message.channel.send(embed).then(async m => {
-			await m.react('⬅')
-			await m.react('➡')
-			await m.react('🐉')
-		});
+		if(args.length < 2) return message.reply(`not enough arguments!`);
+		message.reply(args[0] < args[1]);
   	}
 };

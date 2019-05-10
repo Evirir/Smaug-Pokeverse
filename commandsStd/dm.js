@@ -9,9 +9,9 @@ module.exports = {
 	usage: `@mentionUser [message]`,
 	notes: `The receiver will see your name.`,
 
-	execute(message, args){
+	async execute(message, args){
 		let prefix = ",,";
-		let p = Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+		let p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(!p) console.log(`No guild prefix found: dm.js`);
 		prefix = p.prefix;
 
@@ -34,7 +34,7 @@ module.exports = {
 			msg = msg.substring(start);
 
 			message.channel.send(`<@${message.author.id}>, message sent to mentioned user!`);
-			message.client.users.get(userID).send(`**${message.author.tag}** said:\n` + msg);
+			message.client.users.get(userID).send(`**${message.author.username}** said:\n` + msg);
 		}
 		catch(error){
 			message.reply(`please mention someone before inputting your message!\nUsage: \`${prefix}dm @mentionUser/userID [message]\``);

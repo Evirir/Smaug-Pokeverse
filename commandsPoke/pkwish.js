@@ -2,32 +2,38 @@ const Discord = require('discord.js');
 const Pokemons = require('../pokemons/pokemons.json');
 const mongoose = require('mongoose');
 const Wishlist = require('../models/wishlist.js');
+const Settings = require('../models/serverSettings.js');
 
 module.exports = {
     name: 'pkwish',
     description: 'View your Pokecord wishlist.',
-    aliases: ['pw','wl'],
+    aliases: ['pw','wl','pkw'],
     poke: true,
-    wip: true,
 
-    execute(message, args) {
-        const w = Wishlist.findOne({channelID: message.channel.id}).catch(err => console.log(err));
+    async execute(message, args) {
+        let w = await Wishlist.findOne({userID: message.author.id}).catch(err => console.log(err));
+        let s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+        if(!s) return console.log(`No guild settings found: pkwishremove`);
 
-        if(!w){
+        if(!w || !w.wishlist.length){
             let embed = new Discord.RichEmbed()
-            .setAuthor(`${message.author.tag}'s wishlist`, message.author.displayAvatarURL)
-            .setColor(0xFF4500)
-            .setTitle(`Your wishlist is empty. Use ,,wishadd [pokemon] to add a pokemon to your wishlist.`);
+            .setAuthor(`${message.author.username}'s wishlist`, message.author.displayAvatarURL)
+            .setColor('RED')
+            .setTitle(`Your wishlist is empty.`)
+            .setDescription(`Use ${s.prefix}pkwishadd [pokemon] to add a pokemon to your wishlist.`)
 
             return message.channel.send(embed);
         }
 
-        let wish = "";
+        let list = "";
+        w.wishlist.forEach(p => {
+            list += p + '\n';
+        });
 
         let embed = new Discord.RichEmbed()
-        .setAuthor(`${message.author.tag}'s wishlist`, message.author.displayAvatarURL)
+        .setAuthor(`${message.author.username}'s wishlist`, message.author.displayAvatarURL)
         .setDescription(list)
-        .setColor('GREEN');
+        .setColor('GOLD');
 
         message.channel.send(embed);
     }
