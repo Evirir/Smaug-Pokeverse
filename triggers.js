@@ -67,7 +67,8 @@ module.exports = {
                                     message.channel.send(msg);
                                 }
 
-                                let sb = Subs.subs;
+                                let sub = await Subs.findOne().catch(err => console.log(err));
+                                let sb = sub.subs;
 
                                 sb.forEach(u => {
                                     if(client.users.get(u) && message.guild.members.some(m => m.id === u))
