@@ -32,7 +32,7 @@ module.exports = {
         await money.save().catch(err => console.log(err));
 
         const embed = new Discord.RichEmbed()
-        .setAuthor(`Daily reward claimed: ${dailyReward}💰`, message.author.displayAvatarURL)
+        .setAuthor(`Daily reward claimed: ${dailyReward} coins`, message.author.displayAvatarURL)
         .setDescription(`You now have ${money.money}💰.`)
         .setColor('ORANGE');
 
