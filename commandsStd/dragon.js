@@ -21,7 +21,7 @@ module.exports = {
 
 		const embed = new Discord.RichEmbed()
 			.setTitle(`Dragon #${id}`)
-						.setColor('GREEN')
+			.setColor('GREEN')
             .setImage(dragon[id - 1]);
 
 		message.channel.send(embed);
