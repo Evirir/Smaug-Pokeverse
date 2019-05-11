@@ -11,29 +11,27 @@ module.exports = {
         const client = message.client;
         const targetID = args[0];
 
-		let type="";
-		let name="";
+		let type = "";
+		let name = "";
         if(client.users.get(targetID)){
-			type="User";
-			name="Name: " + client.users.get(targetID).tag;
+			type = "User";
+			name = "Name: " + client.users.get(targetID).tag;
 		}
 
 		else if(client.guilds.get(targetID)){
-			type="Server";
-			name="Name: " + client.guilds.get(targetID).name;
+			type = "Server";
+			name = "Name: " + client.guilds.get(targetID).name;
 		}
 
 		else if(client.channels.get(targetID)){
-			type="Channel";
-			name="";
+			type = "Channel";
+			name = `From server: ${client.channels.get(targetID).guild.name}`;
 		}
 
 		else return message.channel.send(`This ID does not exist, or I have no access to it.`);
 
-		let msg= `Type: ${type}\n${name}`;
-
 		const embed = new Discord.RichEmbed()
-		.setDescription(msg)
+		.addField(type, name)
 		.setColor('GREEN');
 
 		message.channel.send(embed);

@@ -19,7 +19,7 @@ module.exports = {
 		let usertag = "";
 		if(message.mentions.users.size) userID = message.mentions.users.first().id;
 		else userID = args[0];
-		usertag = message.client.users.get(userID).tag;
+		usertag = message.client.users.get(userID).username;
 
 		try{
 			var msg = message.content;

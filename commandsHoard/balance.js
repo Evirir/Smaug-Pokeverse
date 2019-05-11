@@ -8,25 +8,31 @@ module.exports = {
 	description: `Check someone's balance.`,
     aliases: ['bal'],
     hoard: true,
-    usage: `@mentionUser`,
+    usage: `@mentionUser/userTag`,
 
-	execute(message, args){
-        const target = message.mentions.users.first() || message.author;
-        Money.findOne({
-            userID: target.id
-        }, (err, money) => {
-			if(err) return console.log(err);
+	async execute(message, args){
+		let target;
+        if(args.length) target = getMentionUser(message.client, args[0]) || message.author;
+        else target = message.author;
 
-			let moneyValue = 1000;
-			if(money) moneyValue = money.money;
+		let money = await Money.findOne({userID: target.id}).catch(err => console.log(err));
+		if(!money){
+        	let newMoney = new Money({
+        		userID: target.id,
+        		money: 1000,
+        		nextDaily: new Date(),
+        		inventory: []
+        	});
+        	await newMoney.save().catch(err => console.log(err));
+            money = newMoney;
+        }
 
-			let embed = new Discord.RichEmbed()
-			.setColor('GOLD');
+		let embed = new Discord.RichEmbed()
+		.setColor('GOLD');
 
-			if(target === message.author) embed.setAuthor(`You have ${moneyValue} coins.`, target.displayAvatarURL);
-			else embed.setAuthor(`${target.tag} has ${moneyValue} coins.`, target.displayAvatarURL)
+		if(target === message.author) embed.setAuthor(`You have ${money.money} coins.`, target.displayAvatarURL);
+		else embed.setAuthor(`${target.username} has ${money.money} coins.`, target.displayAvatarURL)
 
-			message.channel.send(embed);
-        });
+		message.channel.send(embed);
 	}
 };

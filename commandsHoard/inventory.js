@@ -7,15 +7,25 @@ module.exports = {
     name: 'inventory',
     description: 'Checks someone\'s inventory.',
     aliases: ['i','inv'],
+    usage: `@mentionUser/userTag`
     hoard: true,
 
     async execute (message, args) {
-        let target = "";
-        if(args[0]) target = getMentionUser(args[0]) || message.author;
+        let target;
+        if(args.length) target = getMentionUser(message.client, args[0]) || message.author;
         else target = message.author;
 
         let money = await Money.findOne({userID: target.id}).catch(err => console.log(err));
-        if(!money) return console.log(`No Money data found: inventory.js; userID: ${message.author.id}`);
+        if(!money){
+        	let newMoney = new Money({
+        		userID: target.id,
+        		money: 1000,
+        		nextDaily: new Date(),
+        		inventory: []
+        	});
+        	await newMoney.save().catch(err => console.log(err));
+            money = newMoney;
+        }
 
         let embed = new Discord.RichEmbed()
         .setAuthor(`${target.username}'s hoard`, target.displayAvatarURL)

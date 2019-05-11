@@ -82,17 +82,15 @@ client.on('message', async message => {
 	//Hoard check
 	const money = await Money.findOne({userID: message.author.id}).catch(err => console.log(err));
 	if(!money){
-		const newMoney = new Money({
+		let newMoney = new Money({
 			userID: message.author.id,
 			money: 1000,
 			nextDaily: new Date(),
 			inventory: []
 		});
-
-		newMoney.save().catch(err => console.log(err));
+		await newMoney.save().catch(err => console.log(err));
 		message.channel.send(`Hey <@${message.author.id}>! As a new hoarder, you have received **1000💰**!`);
 	}
-
 
 	if(command.wip){
 		let msg = "";
