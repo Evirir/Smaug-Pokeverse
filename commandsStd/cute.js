@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const {cute} = require('../imageLinks.json');
 
 module.exports = {
 	name: 'cute',
@@ -7,30 +8,21 @@ module.exports = {
 	usage: `[id]`,
 
 	execute(message,args){
-        var id = 0;
-        const maxID = 19;
+        let id = 0;
+        const maxID = cute.length;
 
-		if (!args.length)
-            id = Math.floor(Math.random() * maxID) + 1;
-        else id = args[0];
+		if (!args.length)	id = Math.floor(Math.random() * maxID) + 1;
+        else 				id = args[0];
 
 		if(isNaN(id))
 			return message.channel.send(`ID is not a number! Please input an ID between 1 and ${maxID}.`);
         if(id > maxID || id < 1)
             return message.channel.send(`ID out of range! Please input an ID between 1 and ${maxID}.`);
 
-
-		var path = `images/cute/cute (${id})`;
-		var type = '';
-        if(id === 1)	type = '.gif';
-		else			type = '.jpg';
-		path += type;
-
-		const exampleEmbed = new Discord.RichEmbed()
+		const embed = new Discord.RichEmbed()
 			.setTitle(`Cute dragon #${id}`)
-            .attachFiles([path])
-            .setImage(`attachment://cute (${id})${type}`);
+            .setImage(cute[id - 1]);
 
-		message.channel.send(exampleEmbed);
+		message.channel.send(embed);
 	}
 }
