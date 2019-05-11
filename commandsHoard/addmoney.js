@@ -10,6 +10,7 @@ module.exports = {
     hoard: true,
 	args: true,
     usage: `@mentionUser [amount]`,
+	dev: true,
 
 	execute(message, args){
 		if(!message.mentions.users.size) return message.reply(`you must mention a user to add coins to.`);

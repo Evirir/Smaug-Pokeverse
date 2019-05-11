@@ -7,6 +7,7 @@ module.exports = {
 	description: `Toggles the trigger "owo". If set to true, the bot will respond with uwu/owo when you type owo/uwu, respectively.`,
 	aliases: ['owo'],
 	usage: `[true/false/t/f/1/0]`,
+	util: true,
 
 	async execute(message, args){
 		let s = await Settings.findOne({serverID: message.guild.id});
