@@ -1,54 +1,40 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-
 const Money = require('../models/money.js');
-
-function timefy(t){
-    if(t<10) return '0'+t;
-    else return t;
-}
+const {msToTime, DayinMS} = require('../helper.js');
 
 const dailyReward = 1000;
 
 module.exports = {
 	name: 'daily',
 	description: `Claims your daily reward.`,
-    aliases: ['d'],
+    aliases: ['day','d'],
     hoard: true,
-    wip: true,
+	wip: true,
 
-	execute (message, args) {
-        const user = message.author.id;
-        let next = UserData[user].nextDaily;
+	async execute (message, args) {
+        let money = await Money.findOne({userID: message.author.id}).catch(err => console.log(err));
+        if(!money) return console.log(`No Money data found: daily.js; userID: ${message.author.id}`);
+
         let now = new Date();
+        let diffTime = money.nextDaily.getTime() - now.getTime();
 
-        if(next > now){
-            let diffTime = next - now.getTime();
-            let diffHr = Math.floor(diffTime/(1000*60*60));
-            let tmpMin = diffTime - (diffHr*(1000*60*60));
-            let diffMin = Math.floor(tmpMin/(1000*60));
-            let tmpSec = tmpMin - (diffMin*(1000*60));
-            let diffSec = Math.floor(tmpSec/(1000));
-
+        if(diffTime > 0){
             const embed = new Discord.RichEmbed()
-            .setAuthor(message.author.username, message.author.displayAvatarURL)
-                .setTitle(`Your next daily claim:`)
-                .setDescription(`${timefy(diffHr)}:${timefy(diffMin)}:${timefy(diffSec)}`)
-                .setColor('ORANGE');
+            .setAuthor(`${message.author.username}, your next daily claim:`, message.author.displayAvatarURL)
+            .setDescription(msToTime(diffTime));
 
             return message.channel.send(embed);
         }
 
-        UserData[user].bal += dailyReward;
-        next = (now.getTime() + (1000*60*60*24));
-        UserData[user].nextDaily = next;
-        update(UserData);
+        money.money += dailyReward;
+		money.nextDaily.setTime(now.getTime() + DayinMS);
+        money.save().catch(err => console.log(err));
 
         const embed = new Discord.RichEmbed()
-            .setTitle(`Daily reward: ${dailyReward} gold coins`)
-            .setDescription(`You received **${dailyReward} 💰** as your daily reward!\nYou now have ${UserData[user].bal}💰.`)
-            .setAuthor(message.author.username, message.author.displayAvatarURL)
-            .setColor('ORANGE');
+        .setAuthor(`Daily reward claimed: ${dailyReward}💰`, message.author.displayAvatarURL)
+        .setDescription(`You now have ${money.money}💰.`)
+        .setColor('ORANGE');
 
         message.channel.send(embed);
 	}

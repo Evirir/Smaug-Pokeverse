@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const moneySchema = mongoose.Schema({
     userID: String,
-    money: Number
+    money: Number,
+    nextDaily: Date,
+    inventory: Array
 });
 
 module.exports = mongoose.model("Money", moneySchema);

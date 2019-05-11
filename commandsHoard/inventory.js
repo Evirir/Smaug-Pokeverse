@@ -1,28 +1,31 @@
+const Discord = require('discord.js');
 const mongoose = require('mongoose');
-
 const Money = require('../models/money.js');
+const {getMentionUser} = require('../helper.js');
 
 module.exports = {
     name: 'inventory',
     description: 'Checks someone\'s inventory.',
     aliases: ['i','inv'],
     hoard: true,
-    wip: true,
 
-    execute (message, args) {
-        const target = message.mentions.users.first() || message.author;
-        const items = UserData[target.id].items;
+    async execute (message, args) {
+        let target = "";
+        if(args[0]) target = getMentionUser(args[0]) || message.author;
+        else target = message.author;
 
-        if(!items.length) return message.channel.send(`**${target.tag}** has an **empty** hoard and is lonely...`);
+        let money = await Money.findOne({userID: target.id}).catch(err => console.log(err));
+        if(!money) return console.log(`No Money data found: inventory.js; userID: ${message.author.id}`);
 
-        let msg = `**${target.id}'s hoard:\n**`;
-        items.map(i => {
-            if(i.amount === 1)
-                msg += `${i.name}\n`;
-            else
-                msg += `${i.name} (x${i.amount})\n`;
+        let embed = new Discord.RichEmbed()
+        .setAuthor(`${target.username}'s hoard`, target.displayAvatarURL)
+        .setColor('GOLD')
+        .addField(`Coins`, `${money.money}💰`);
+
+        money.inventory.forEach(item => {
+            embed.addField(`${item.name} x${item.amount}`);
         });
 
-        message.channel.send(msg);
+        message.channel.send(embed);
 	}
 };

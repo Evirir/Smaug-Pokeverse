@@ -84,7 +84,9 @@ client.on('message', async message => {
 	if(!money){
 		const newMoney = new Money({
 			userID: message.author.id,
-			money: 1000
+			money: 1000,
+			nextDaily: new Date(),
+			inventory: []
 		});
 
 		newMoney.save().catch(err => console.log(err));
