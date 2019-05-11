@@ -10,7 +10,6 @@ module.exports = {
 	description: `Claims your daily reward.`,
     aliases: ['day','d'],
     hoard: true,
-	wip: true,
 
 	async execute (message, args) {
         let money = await Money.findOne({userID: message.author.id}).catch(err => console.log(err));
@@ -28,8 +27,9 @@ module.exports = {
         }
 
         money.money += dailyReward;
-		money.nextDaily.setTime(now.getTime() + DayinMS);
-        money.save().catch(err => console.log(err));
+		now.setDate(now.getDate() + 1);
+		money.nextDaily = now;
+        await money.save().catch(err => console.log(err));
 
         const embed = new Discord.RichEmbed()
         .setAuthor(`Daily reward claimed: ${dailyReward}💰`, message.author.displayAvatarURL)
