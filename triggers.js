@@ -81,8 +81,8 @@ module.exports = {
 
                                 let embed = new Discord.RichEmbed()
                                 .setColor('GREEN')
-                                .setTitle(`**${result}** spawned at ${message.guild.name}/${message.channel.name}`)
-                                .setDescription(`Channel link: <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}>`);
+                                .setTitle(`**${result}** spawned`)
+                                .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n**Channel link:** <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}>`);
 
                                 sb.forEach(u => {
                                     if(client.users.get(u) && message.guild.members.some(m => m.id === u)){
