@@ -20,43 +20,43 @@ module.exports = {
 
         let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
         if(!raiderSettings || !raiderSettings.raiderLockEnabled)
-            return message.channel.send(`The Raider Lock has not been enabled in this server. Please see \`,,help togglepvraider\` for more info.`);
+            return message.channel.send(`Raider Lock is disabled in this server. Please see \`${s.prefix}help togglepvraider\` for more info.`);
 
-        let targetChannel = getMentionChannel(message.client, args[0]);
-        if(!targetChannel) return message.reply(`I cannot find this channel.`);
+        let targetChannel = getMentionChannel(message, args[0]);
+        if(!targetChannel) return message.reply(`I cannot find this channel in this server.`);
 
         let raider = await Raider.findOne({channelID: targetChannel.id}).catch(err => console.log(err));
         if(!raider || !raider.hasRaider){
             return message.reply(`there is no Raider in that channel!`);
         }
 
-
-        if(!targetChannel.permissionsFor(message.member).has('SEND_MESSAGES'))
-            return message.reply(`you do not have the permission to send messages in that channel!`);
-
-        if(raider.activeUserID === undefined){
-            message.channel.overwritePermissions(message.author, {
+        if(!raider.activeUserID){
+            targetChannel.overwritePermissions(message.author, {
                 SEND_MESSAGES: true
             }, `${message.author.tag} has engaged in a fight with the Raider in #${targetChannel.name}!`);
 
             raider.activeUserID = message.author.id;
-            await raider.save().catch(err => console.log(err));
 
-            return message.channel.send(`${message.author.tag} has engaged in a fight with the Raider in #${targetChannel.name}!`);
+            await raider.save().catch(err => console.log(err));
+            targetChannel.send(`**${message.author.tag}** has engaged in a fight with the Raider in #${targetChannel.name}!`);
+            if(targetChannel !== message.channel) message.channel.send(`**${message.author.tag}** has engaged in a fight with the Raider in #${targetChannel.name}!`);
+            return;
         }
         else {
             if(raider.activeUserID === message.author.id){
-                message.channel.overwritePermissions(message.author, {
+                targetChannel.overwritePermissions(message.author, {
                     SEND_MESSAGES: null
                 }, `${message.author.tag} has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}pvraider to engage!`);
 
-                raider.activeUserID = null;
+                raider.activeUserID = undefined;
                 await raider.save().catch(err => console.log(err));
 
-                return message.channel.send(`${message.author.tag} has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}pvraider to engage!`);
+                targetChannel.send(`**${message.author.tag}** has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}pvraider to engage!`);
+                if(targetChannel !== message.channel) message.channel.send(`**${message.author.tag}** has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}pvraider to engage!`);
+                return;
             }
             else{
-                return message.reply(`(${message.client.users.get(raider.activeUserID).username} is currently fighting with the Raider in that channel! He/She must disengage before you can engage in the raid.`);
+                return message.channel.send(`**${message.client.users.get(raider.activeUserID).username}** is currently fighting with the Raider in that channel! He/She must disengage before you can engage in the raid.`);
             }
         }
     }

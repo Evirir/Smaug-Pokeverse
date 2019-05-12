@@ -121,34 +121,38 @@ module.exports = {
                     let newRaider = new Raider({
                         channelID: message.channel.id,
                         hasRaider: false,
-                        activeUserID: null
+                        activeUserID: undefined
                     });
                     raider = newRaider;
                 }
 
                 if(message.content.includes(`A Raider Pokémon has arrived! Who will be brave enough to take on the challenge?`)){
+                    raider.hasRaider = true;
                     raiderSettings.lockRoles.forEach(r => {
                         message.channel.overwritePermissions(r, {
                             SEND_MESSAGES: false
-                        }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}togglepvraider off`);
+                        }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}togglepvraider off.`);
                     })
 
                     message.channel.send(`.Raider Lock activated! Type \`${s.prefix}pvraider\` to unlock the channel and fight the Raider.`);
                 }
 
                 else{
+                    if(!message.embeds || !message.embeds.fields) return;
+
                     let targetEmbed = message.embeds.fields.find(e => e.value === `You have successfully tamed a Raider! It has been added to your Pokemon.`);
                     if(targetEmbed){
+                        raider.hasRaider = false;
                         raiderSettings.lockRoles.forEach(r => {
                             message.channel.overwritePermissions(r, {
-                                SEND_MESSAGES: null
+                                SEND_MESSAGES: true
                             }, `The Raider has been tamed!`);
                         });
 
                         message.channel.send(`🎊The Raider has been tamed by ${targetEmbed.embed.author.name}!🎊`);
                     }
                 }
-
+                await raider.save().catch(err => console.log(err));
             }
             return;
         }

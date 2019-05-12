@@ -36,20 +36,20 @@ module.exports = {
         }
     },
 
-    getMentionChannel(client, mention){
+    getMentionChannel(message, mention){
     	if (mention.startsWith('<#') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
         }
 
-    	return client.users.get(mention);
+    	return message.guild.channels.get(mention);
     },
 
-    getMentionRole(client, mention){
+    getMentionRole(message, mention){
     	if (mention.startsWith('<@&') && mention.endsWith('>')) {
     		mention = mention.slice(3, -1);
         }
 
-    	return client.users.get(mention);
+    	return message.guild.roles.get(mention);
     },
 
     msToTime(diffTime){

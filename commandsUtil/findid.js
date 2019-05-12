@@ -5,6 +5,7 @@ module.exports = {
 	description: `Find the origin of some ID (only works for things I've seen).`,
     aliases: ['fi'],
     args: true,
+	util: true,
     usage: '[ID]',
 
 	execute(message, args){
@@ -25,13 +26,18 @@ module.exports = {
 
 		else if(client.channels.get(targetID)){
 			type = "Channel";
-			name = `From server: ${client.channels.get(targetID).guild.name}`;
+			name = `Name: ${client.channels.get(targetID).name}\nFrom server: ${client.channels.get(targetID).guild.name}`;
+		}
+
+		else if(message.guild.roles.get(targetID)){
+			type = "Role";
+			name = `Name: ${message.guild.roles.get(targetID).name}\nFrom server: ${message.guild.name}`;
 		}
 
 		else return message.channel.send(`This ID does not exist, or I have no access to it.`);
 
 		const embed = new Discord.RichEmbed()
-		.addField(type, name)
+		.addField(`Type: ${type}`, name)
 		.setColor('GREEN');
 
 		message.channel.send(embed);

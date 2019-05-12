@@ -102,7 +102,7 @@ client.on('message', async message => {
 	if(command.dev && message.author.id !== dragID){
 		return message.channel.send(`This command is only available to developers.`);
 	}
-	if(command.args && command.usage && !args.length){
+	if(command.args && !args.length){
 		return client.commands.get(`help`).execute(message,[command.name]);
 	}
 

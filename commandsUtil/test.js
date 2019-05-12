@@ -8,6 +8,8 @@ module.exports = {
 	dev: true,
 
 	execute(message, args){
-		message.channel.send(`Nothing here.`);
+		message.channel.permissionOverwrites.forEach(p => {
+			message.channel.send(`ID: ${p.id}, Type: ${p.type}`);
+		});
   	}
 };

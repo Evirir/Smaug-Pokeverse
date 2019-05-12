@@ -9,7 +9,6 @@ module.exports = {
     name: 'togglepvraider',
     description: 'Modify the Raider Lock settings.',
     aliases: ['tpvr','tpr'],
-    args: true,
     poke: true,
     notes: `**Arguments:**\n\`on\`/\`off\`: Enables/Disables the Raider Lock\n\`roles [add/remove] [@mentionRole/roleID/everyone]\`: Adds/Removes target role from locking list (Use everyone to lock @everyone)\n`,
 
@@ -27,22 +26,49 @@ module.exports = {
             raiderSettings = newRaiderSettings;
         }
 
+        if(!args.length){
+            let embed = new Discord.RichEmbed()
+            .setColor(raiderSettings.raiderLockEnabled? "BLUE":"RED")
+            .setDescription(`The Pokeverse Raider Lock is **${raiderSettings.raiderLockEnabled? "enabled":"disabled"}** for this server.\nSee \`${s.prefix}help tpr\` for more info.`);
+
+            return message.channel.send(embed);
+        }
+
         if(args[0] === 'on' || args[0] === 'off'){
             if(args[0] === 'on'){
                 raiderSettings.raiderLockEnabled = true;
+                raiderSettings.save().catch(err => console.log(err));
                 return message.reply(`the Pokeverse Raider Lock has been **enabled** for this server. See \`${s.prefix}help pvraider\` on how to use the Raider Lock.`);
             }
             else{
                 raiderSettings.raiderLockEnabled = false;
+                raiderSettings.save().catch(err => console.log(err));
                 return message.reply(`the Pokeverse Raider Lock has been **disabled** for this server. See \`${s.prefix}help pvraider\` on how to use the Raider Lock.`);
             }
         }
 
         else if(args[0] === 'roles' || args[0] === 'role'){
+            if(!args[1]){
+                let list = "";
+                raiderSettings.lockRoles.forEach(r => {
+                    let check = message.guild.roles.get(r);
+                    if(check) list += "- " + check.name + '\n';
+                });
+
+                if(list === "") list += "This list is empty.";
+
+                let embed = new Discord.RichEmbed()
+                .setColor('GOLD')
+                .setTitle(`Pokeverse Raider Lock - Role list`)
+                .setDescription(list);
+
+                return message.channel.send(embed);
+            }
+
             let type = args[1];
             if(type !== 'add' && type !== 'remove') return message.reply('invalid arguments. The second argument must be either add/remove.');
 
-            let role = getMentionRole(message.client, args[2]);
+            let role = getMentionRole(message, args[2]);
             if(!role){
                 if(args[2] === 'everyone') role = message.guild.defaultRole;
                 else return message.reply(`that role does not exist in this server.`);
