@@ -146,9 +146,7 @@ module.exports = {
                         e.fields.find(f => {
                             f.value === `You have successfully tamed a Raider! It has been added to your Pokemon.`
                         });
-
-                        if(e) return true;
-                        else return false;
+                        return e;
                     }).catch(err => console.log(err));
 
                     if(targetEmbed){
@@ -164,7 +162,7 @@ module.exports = {
                         console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
                         return message.channel.send(`🎊The Raider has been tamed by ${targetEmbed.embed.author.name}!🎊`);
                     }
-                    
+
 
                     targetEmbed = message.embeds.find(e => e.footer === `!fight / !catch / !travel`);
                     if(targetEmbed){
