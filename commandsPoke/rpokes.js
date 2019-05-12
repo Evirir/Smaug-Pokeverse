@@ -1,13 +1,6 @@
 const fs = require('fs');
 const Pokemons = require('../pokemons/pokemons.json');
-
-function titleCase(str) {
-   var splitStr = str.toLowerCase().split(' ');
-   for (var i = 0; i < splitStr.length; i++) {
-       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-   }
-   return splitStr.join(' ');
-}
+const {titleCase} = require('../helper.js');
 
 module.exports = {
 	name: `rpokes`,
@@ -15,7 +8,7 @@ module.exports = {
     aliases: [`rpoke`],
 	poke: true,
     dev: true,
-    notes: `Please run this locally and push updates to Git after using this command.`,
+    notes: `Please run this locally and push the updates manually to Git after using this command.`,
 
 	execute(message, args) {
 		let PokeArray = Object.values(Pokemons);

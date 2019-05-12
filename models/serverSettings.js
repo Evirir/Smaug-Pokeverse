@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const serverSettingsSchema = mongoose.Schema({
     serverID: String,
     prefix: String,
-    owo: Boolean
+    owo: Boolean,
 });
 
 module.exports = mongoose.model("serverSettings", serverSettingsSchema);

@@ -8,6 +8,14 @@ function timefy(t){
 module.exports = {
     DayinMS: 24*60*60*1000,
 
+    titleCase(str) {
+       var splitStr = str.toLowerCase().split(' ');
+       for (var i = 0; i < splitStr.length; i++) {
+           splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+       }
+       return splitStr.join(' ');
+   },
+
     getMentionUser(client, mention){
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
@@ -26,6 +34,22 @@ module.exports = {
         else{
             return client.users.find(u => u.tag === mention);
         }
+    },
+
+    getMentionChannel(client, mention){
+    	if (mention.startsWith('<#') && mention.endsWith('>')) {
+    		mention = mention.slice(2, -1);
+        }
+
+    	return client.users.get(mention);
+    },
+
+    getMentionRole(client, mention){
+    	if (mention.startsWith('<@&') && mention.endsWith('>')) {
+    		mention = mention.slice(3, -1);
+        }
+
+    	return client.users.get(mention);
     },
 
     msToTime(diffTime){

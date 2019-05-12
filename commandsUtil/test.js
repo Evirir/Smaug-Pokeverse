@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+const mongoose = require('mongoose');
+const Settings = require('../models/serverSettings');
 
 module.exports = {
 	name: `test`,
@@ -6,7 +8,6 @@ module.exports = {
 	dev: true,
 
 	execute(message, args){
-		if(args.length < 2) return message.reply(`not enough arguments!`);
-		message.reply(args[0] < args[1]);
+		message.channel.send(`Nothing here.`);
   	}
 };

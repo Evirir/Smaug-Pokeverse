@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 const {bot_name} = require('./config.json');
-const {dragID, godID, dragTag, pokecordID} = require('./specificData/users.json');
+const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('./specificData/users.json');
 const {consoleID, messageID, pokespawnsID} = require('./specificData/channels.json');
 
-///Pokemon
+///Pokecord
 const db = require('./pokemons/pokemons.json');
 const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
@@ -14,8 +14,17 @@ const Settings = require('./models/serverSettings.js');
 const WishlistP = require('./models/wishlistPokemon.js');
 const Subs = require('./models/pokemonSubscribers.js');
 
+//Pokeverse raider channel lock
+const Raider = require('./models/pokeverseRaider.js');
+const RaiderSettings = require('./models/pokeverseRaiderSettings.js');
+
 module.exports = {
     async execute(client, message) {
+
+        let prefix = ",,";
+        let s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+    	if(!s) console.log(`No prefix found: triggers.js`);
+        else prefix = s.prefix;
 
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
@@ -70,13 +79,19 @@ module.exports = {
                                 let sub = await Subs.findOne().catch(err => console.log(err));
                                 let sb = sub.subs;
 
+                                let embed = new Discord.RichEmbed()
+                                .setColor('GREEN')
+                                .setTitle(`**${result}** spawned at ${message.guild.name}/${message.channel.name}`)
+                                .setDescription(`Channel link: <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}>`);
+
                                 sb.forEach(u => {
-                                    if(client.users.get(u) && message.guild.members.some(m => m.id === u))
-                                        client.users.get(u).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
+                                    if(client.users.get(u) && message.guild.members.some(m => m.id === u)){
+                                        client.users.get(u).send(embed);
+                                    }
                                 });
 
                                 console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
-                                message.client.channels.get(pokespawnsID).send(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
+                                message.client.channels.get(pokespawnsID).send(embed);
                             })
                         });
                     }
@@ -95,12 +110,51 @@ module.exports = {
         }
         //POKEASSISTANT END
 
-        if(message.author.bot) return;
+        //POKEVERSE RAIDERLOCK START
+        if(message.author.id === pokeverseID){
+            let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 
-        let prefix = ",,";
-        const s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-    	if(!s) console.log(`No prefix found: triggers.js`);
-        else prefix = s.prefix;
+            if(raiderSettings && raiderSettings.raiderLockEnabled){
+
+                let raider = await Raider.findOne({channelID: message.channel.id}).catch(err => console.log(err));
+                if(!raider){
+                    let newRaider = new Raider({
+                        channelID: message.channel.id,
+                        hasRaider: false,
+                        activeUserID: null
+                    });
+                    raider = newRaider;
+                }
+
+                if(message.content.includes(`A Raider Pokémon has arrived! Who will be brave enough to take on the challenge?`)){
+                    raiderSettings.lockRoles.forEach(r => {
+                        message.channel.overwritePermissions(r, {
+                            SEND_MESSAGES: false
+                        }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}togglepvraider off`);
+                    })
+
+                    message.channel.send(`.Raider Lock activated! Type \`${s.prefix}pvraider\` to unlock the channel and fight the Raider.`);
+                }
+
+                else{
+                    let targetEmbed = message.embeds.fields.find(e => e.value === `You have successfully tamed a Raider! It has been added to your Pokemon.`);
+                    if(targetEmbed){
+                        raiderSettings.lockRoles.forEach(r => {
+                            message.channel.overwritePermissions(r, {
+                                SEND_MESSAGES: null
+                            }, `The Raider has been tamed!`);
+                        });
+
+                        message.channel.send(`🎊The Raider has been tamed by ${targetEmbed.embed.author.name}!🎊`);
+                    }
+                }
+
+            }
+            return;
+        }
+        //POKEVERSE RAIDERLOCK END
+
+        if(message.author.bot) return;
 
         //EVIRIR IS MENTIONED
         if (message.isMentioned(client.users.get(dragID))){

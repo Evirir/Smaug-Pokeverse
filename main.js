@@ -63,9 +63,10 @@ client.on('message', async message => {
 		const newPrefix = new Settings({
 			serverID: message.guild.id,
 			prefix: ",,",
-			owo: true
+			owo: true,
+			raiderLock: false
 		});
-		newPrefix.save().catch(err => console.log(err));
+		await newPrefix.save().catch(err => console.log(err));
 	}
 	else prefix = p.prefix;
 
