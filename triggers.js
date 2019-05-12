@@ -142,7 +142,15 @@ module.exports = {
                 else{
                     if(!message.embeds || !message.embeds.fields) return;
 
-                    let targetEmbed = message.embeds.fields.find(e => e.value === `You have successfully tamed a Raider! It has been added to your Pokemon.`);
+                    let targetEmbed = message.embeds.find(e => {
+                        e.fields.find(f => {
+                            f.value === `You have successfully tamed a Raider! It has been added to your Pokemon.`
+                        });
+
+                        if(e) return true;
+                        else return false;
+                    }).catch(err => console.log(err));
+
                     if(targetEmbed){
                         raider.hasRaider = false;
                         raiderSettings.lockRoles.forEach(r => {
@@ -155,6 +163,22 @@ module.exports = {
 
                         console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
                         return message.channel.send(`🎊The Raider has been tamed by ${targetEmbed.embed.author.name}!🎊`);
+                    }
+                    
+
+                    targetEmbed = message.embeds.find(e => e.footer === `!fight / !catch / !travel`);
+                    if(targetEmbed){
+                        raider.hasRaider = false;
+                        raiderSettings.lockRoles.forEach(r => {
+                            message.channel.overwritePermissions(r, {
+                                SEND_MESSAGES: true
+                            }, `The Raider has despawned.`);
+                        });
+
+                        await raider.save().catch(err => console.log(err));
+
+                        console.log(`Raider despawned at ${message.guild.name}/${message.channel.name}`);
+                        return message.channel.send(`The Raider has despawned...`);
                     }
                 }
             }
