@@ -134,7 +134,9 @@ module.exports = {
                         }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}togglepvraider off.`);
                     })
 
-                    message.channel.send(`.Raider Lock activated! Type \`${s.prefix}pvraider\` to unlock the channel and fight the Raider.`);
+                    await raider.save().catch(err => console.log(err));
+                    console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
+                    return message.channel.send(`Raider Lock activated! Type \`${s.prefix}pvraider\` in other channels to unlock the channel and fight the Raider.`);
                 }
 
                 else{
@@ -149,10 +151,12 @@ module.exports = {
                             }, `The Raider has been tamed!`);
                         });
 
-                        message.channel.send(`🎊The Raider has been tamed by ${targetEmbed.embed.author.name}!🎊`);
+                        await raider.save().catch(err => console.log(err));
+
+                        console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
+                        return message.channel.send(`🎊The Raider has been tamed by ${targetEmbed.embed.author.name}!🎊`);
                     }
                 }
-                await raider.save().catch(err => console.log(err));
             }
             return;
         }
