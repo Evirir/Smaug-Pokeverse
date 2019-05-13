@@ -70,10 +70,18 @@ module.exports = {
                                 if(wp && wp.wishedBy.length){
                                     let msg = `**${result}** spawned! Wished by: `;
                                     wp.wishedBy.forEach(user => {
-                                        if(message.guild.members.some(m => m.id === user))
-                                            msg += `<@${user}> `;
+                                        if(message.guild.member(user)){
+                                            msg += `<@${user.id}> `;
+
+                                            let embed = new Discord.RichEmbed()
+                                            .setColor('GOLD')
+                                            .setTitle(`**${result}** spawned! Your wished Pokemon!`)
+                                            .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n**Message link:** <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}>`);
+
+                                            message.client.users.get(user).send(embed);
+                                        }
+                                        message.channel.send(msg);
                                     });
-                                    message.channel.send(msg);
                                 }
 
                                 let sub = await Subs.findOne().catch(err => console.log(err));
@@ -85,7 +93,7 @@ module.exports = {
                                 .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n**Message link:** <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}>`);
 
                                 sb.forEach(u => {
-                                    if(client.users.get(u) && message.guild.members.some(m => m.id === u)){
+                                    if(message.guild.member(u) && !wp.wishedBy.includes(u)){
                                         client.users.get(u).send(embed);
                                     }
                                 });
