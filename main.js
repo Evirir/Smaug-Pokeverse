@@ -95,6 +95,8 @@ client.on('message', async message => {
 		message.channel.send(`Hey <@${message.author.id}>! As a new hoarder, you have received **1000💰**!`);
 	}
 
+	if(message.author.bot) return;
+
 	if(command.wip){
 		let msg = "";
 		msg += `I have no spell slots left for this spell...\n`;
