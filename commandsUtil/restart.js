@@ -1,5 +1,3 @@
-const {dragID} = require(`../specificData/users.json`);
-
 module.exports = {
 	name: `restart`,
 	description: `Restarts the bot. Type ,,restart confirm`,
