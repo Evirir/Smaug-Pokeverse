@@ -10,6 +10,8 @@ const trigger = require('./triggers');
 const Money = require('./models/money.js');
 const Settings = require('./models/serverSettings.js');
 
+let cooldowns = new Discord.Collection();
+
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
@@ -104,6 +106,25 @@ client.on('message', async message => {
 	}
 	if(command.args && !args.length){
 		return client.commands.get(`help`).execute(message,[command.name]);
+	}
+
+	if(!cooldowns.has(command.name) && command.cd) cooldowns.set(command.name, new Discord.Collection());
+
+	if(command.cd){
+		const now = Date.now();
+		const timestamps = cooldowns.get(command.name);
+		const cdTime = command.cd * 1000;
+
+		if(timestamps.has(message.author.id)){
+			const nextTime = timestamps.get(message.author.id) + cdTime;
+			if(now < nextTime){
+				const timeLeft = (nextTime - now)/1000;
+				return message.channel.send(`${message.author.username}, this command is on a cooldown of **${timeLeft.toFixed(2)}s**.`);
+			}
+
+			timestamps.set(message.author.id, now);
+			setTimeout(() => timestamps.delete(message.author.id), cdTime);
+		}
 	}
 
 	try{

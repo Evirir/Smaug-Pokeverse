@@ -1,34 +1,17 @@
-const {consoleID} = require(`../specificData/channels.json`);
+const Discord = require('discord.js');
 
 module.exports = {
 	name: 'invite',
-	description: 'Creates a magical telepotation link to this server.',
+	description: 'Gets the link to invite me to your server!',
 	util: true,
-	wip: true,
 
 	async execute(message, args) {
-		if(message.channel.type !== 'text')
-			return message.channel.send(`Sorry, this is a DM channel so I couldn't do that.`);
-		if(!message.member.hasPermission('CREATE_INSTANT_INVITE'))
-			return message.reply(`you do not have the permission to create instant invites.`);
+		let embed = new Discord.RichEmbed()
+		.setTitle(`Interested to have me in your server? Chant this long, blue, magical spell while worshipping the god of the dragons!`)
+		.setDescription(`<https://discordapp.com/oauth2/authorize?&client_id=557528854147629056&scope=bot&permissions=67434561>`)
+		.setColor('BLUE')
+		.setFooter(`Regards,\nSmaug the dragon\nCarefully made by Evirir the Blue\nP.S. Nah jk, just click on the link`);
 
-		await message.channel.send(`In most cases, there is already an existing link to this server. Are you sure that you want to create a new permanent invite link?`);
-		await message.react('✅');
-		await message.react('❌');
-
-		const filter = (reaction, user) => {
-			return (['✅','❌'].includes(reaction.emoji.name) && user.id === message.author.id);
-		};
-		const collector = message.createReactionCollector(filter, {max: 1, time: 30000});
-
-		collector.on('collect', (reaction, reactionCollector) => {
-			if(reaction.emoji.name === '❌') return message.channel.send(`Invite link creation cancelled.`);
-
-			const invite = message.channel.createInvite({
-				maxAge: 0,
-			}, `Requested by ${message.author.username}`)
-
-			.then(() => message.channel.send(`Send them this link to teleport them here: https://discord.gg/${invite.code}`));
-		});
+		message.channel.send(embed);
 	}
 };
