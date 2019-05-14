@@ -34,7 +34,7 @@ module.exports = {
         .addField(`Coins`, `${money.money}💰`);
 
         money.inventory.forEach(item => {
-            embed.addField(`${item.name} x${item.amount}`);
+            embed.addField(`${item.name} x${item.amount}`,`\u200b`);
         });
 
         message.channel.send(embed);
