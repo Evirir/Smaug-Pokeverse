@@ -114,19 +114,19 @@ client.on('message', async message => {
 
 	if(command.cd){
 		const now = Date.now();
-		const timestamps = cooldowns.get(command.name);
+		let timestamps = cooldowns.get(command.name);
 		const cdTime = command.cd * 1000;
 
 		if(timestamps.has(message.author.id)){
 			const nextTime = timestamps.get(message.author.id) + cdTime;
 			if(now < nextTime){
 				const timeLeft = (nextTime - now)/1000;
-				return message.channel.send(`${message.author.username}, this command is on a cooldown of **${timeLeft.toFixed(2)}s**.`);
+				const cdMessage = await message.channel.send(`${message.author.username}, this command is on a cooldown of **${timeLeft.toFixed(2)}s**.`);
+				cdMessage.delete(3000);
 			}
-
-			timestamps.set(message.author.id, now);
-			setTimeout(() => timestamps.delete(message.author.id), cdTime);
 		}
+		timestamps.set(message.author.id, now);
+		setTimeout(() => timestamps.delete(message.author.id), cdTime);
 	}
 
 	try{

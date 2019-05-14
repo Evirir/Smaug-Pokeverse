@@ -9,12 +9,12 @@ module.exports = {
 	description: `Plays the wifi game. Each word either has wifi or does not have wifi.\nI would tell you if your word has wifi, but how it's determined...it's your job to figure that out \\o.=.o/`,
 	args: true,
 	usage: `[word]`,
-    cd: 3,
+    cd: 2,
 
 	async execute(message, args){
         var msg = "";
         if(args.length > 1){
-            msg += `<@${message.author.id}>, only the first word will be considered!\n`;
+            msg += `Only the first word will be considered!\n`;
         }
 
 		var str = args[0];
@@ -45,6 +45,7 @@ module.exports = {
         else            msg += (`**` + str + `** does NOT have wifi. More words?`);
 
         const sentMessage = await message.channel.send(msg);
-        sentMessage.delete(50000);
+        sentMessage.delete(5000);
+        message.delete(5000);
   	}
 };
