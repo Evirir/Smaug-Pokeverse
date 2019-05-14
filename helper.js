@@ -27,10 +27,6 @@ module.exports = {
     		return client.users.get(mention);
     	}
 
-        else if(isNaN(mention)){
-            return client.users.get(mention);
-        }
-
         else{
             return client.users.find(u => u.tag === mention);
         }

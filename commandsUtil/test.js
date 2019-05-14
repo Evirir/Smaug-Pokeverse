@@ -24,6 +24,6 @@ module.exports = {
 
 	async execute(message, args){
 		let image = graph.png();
-		message.channel.send(image);
+		message.channel.send({files: [image]});
 	}
 }
