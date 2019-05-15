@@ -139,12 +139,12 @@ module.exports = {
                     raiderSettings.lockRoles.forEach(r => {
                         message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: false
-                        }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}togglepvraider off.`);
+                        }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}raiderset off.`);
                     })
 
                     await raider.save().catch(err => console.log(err));
                     console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`Raider Lock activated! Type \`${s.prefix}pvraider\` in other channels to unlock the channel and fight the Raider.`);
+                    return message.channel.send(`Raider Lock activated! Type \`${s.prefix}raid\` in other channels to unlock the channel and fight the Raider.`);
                 }
 
                 else{
