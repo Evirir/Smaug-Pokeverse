@@ -134,7 +134,7 @@ module.exports = {
                     raider = newRaider;
                 }
 
-                if(message.content.includes(`A Raider Pokémon has arrived! Who will be brave enough to take on the challenge?`)){
+                if(message.content.includes(`Who will be brave enough to take on the challenge?`)){
                     raider.hasRaider = true;
                     raiderSettings.lockRoles.forEach(r => {
                         message.channel.overwritePermissions(message.guild.roles.get(r), {
