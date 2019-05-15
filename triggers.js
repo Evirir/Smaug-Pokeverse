@@ -137,7 +137,7 @@ module.exports = {
                 if(message.content.includes(`A Raider Pokémon has arrived! Who will be brave enough to take on the challenge?`)){
                     raider.hasRaider = true;
                     raiderSettings.lockRoles.forEach(r => {
-                        message.channel.overwritePermissions(r, {
+                        message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: false
                         }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}togglepvraider off.`);
                     })
@@ -151,16 +151,15 @@ module.exports = {
                     if(!message.embeds || !message.embeds.fields) return;
 
                     let targetEmbed = message.embeds.find(e => {
-                        e.fields.find(f => {
+                        return e.fields.find(f => {
                             f.value === `You have successfully tamed a Raider! It has been added to your Pokemon.`
                         });
-                        return e;
                     }).catch(err => console.log(err));
 
                     if(targetEmbed){
                         raider.hasRaider = false;
                         raiderSettings.lockRoles.forEach(r => {
-                            message.channel.overwritePermissions(r, {
+                            message.channel.overwritePermissions(message.guild.roles.get(r), {
                                 SEND_MESSAGES: true
                             }, `The Raider has been tamed!`);
                         });
@@ -176,7 +175,7 @@ module.exports = {
                     if(targetEmbed){
                         raider.hasRaider = false;
                         raiderSettings.lockRoles.forEach(r => {
-                            message.channel.overwritePermissions(r, {
+                            message.channel.overwritePermissions(message.guild.roles.get(r), {
                                 SEND_MESSAGES: true
                             }, `The Raider has despawned.`);
                         });
