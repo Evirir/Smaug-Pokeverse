@@ -121,7 +121,7 @@ module.exports = {
 
         //POKEVERSE RAIDERLOCK START
         if(message.author.id === pokeverseID){
-            message.client.channels.get(pokespawnsID).send(message);
+            message.client.channels.get(consoleID).send(message);
             message.embeds.forEach(e => {
                 let msg = "";
                 if(e.title) msg += `Title: ${e.title}\n`;
