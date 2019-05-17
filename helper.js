@@ -47,6 +47,10 @@ module.exports = {
     		mention = mention.slice(3, -1);
         }
 
+        if(isNaN){
+            
+        }
+
     	return message.guild.roles.get(mention);
     },
 

@@ -99,7 +99,8 @@ module.exports = {
                                 });
 
                                 console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
-                                message.client.channels.get(pokespawnsID).send(embed);
+                                message.client.channels.get(consoleID).send(embed);
+                                if(message.guild.member(dragID)) message.client.channels.get(pokespawnsID).send(embed);
                             })
                         });
                     }
@@ -122,16 +123,18 @@ module.exports = {
         if(message.author.id === pokeverseID){
             message.client.channels.get(pokespawnsID).send(message);
             message.embeds.forEach(e => {
-                let msg;
-                msg += `Title: ${e.title}\n`;
-                msg += `Description: ${e.description}\n`;
-                msg += `Author: ${e.author.name}\n`;
-                msg += `Footer: ${e.footer}\n`;
-                e.fields.forEach(f => {
-                    msg += `Field name: ${f.name}\n`;
-                    msg += `Field value: ${f.value}\n`;
-                });
-                message.client.channels.get(pokespawnsID).send(msg);
+                let msg = "";
+                if(e.title) msg += `Title: ${e.title}\n`;
+                if(e.description) msg += `Description: ${e.description}\n`;
+                if(e.author) msg += `Author: ${e.author.name}\n`;
+                if(e.footer) msg += `Footer: ${e.footer.text}\n`;
+                if(e.fields){
+                    e.fields.forEach(f => {
+                        msg += `Field name: ${f.name}\n`;
+                        msg += `Field value: ${f.value}\n`;
+                    });
+                }
+                message.client.channels.get(consoleID).send(msg);
             });
 
             let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
