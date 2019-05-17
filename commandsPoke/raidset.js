@@ -14,7 +14,7 @@ module.exports = {
 
     async execute(message, args) {
         let s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-        if(!s) return console.log(`No guild settings found: togglepvraider.js`);
+        if(!s) return console.log(`No guild settings found: raidset.js`);
 
         let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
         if(!raiderSettings){
@@ -29,7 +29,7 @@ module.exports = {
         if(!args.length){
             let embed = new Discord.RichEmbed()
             .setColor(raiderSettings.raiderLockEnabled? "BLUE":"RED")
-            .setDescription(`The Pokeverse Raider Lock is **${raiderSettings.raiderLockEnabled? "enabled":"disabled"}** for this server.\nSee \`${s.prefix}help tpr\` for more info.`);
+            .setDescription(`The Pokeverse Raider Lock is **${raiderSettings.raiderLockEnabled? "enabled":"disabled"}** for this server.\nSee \`${s.prefix}help raidset/raid\` for more info.`);
 
             return message.channel.send(embed);
         }
@@ -38,12 +38,12 @@ module.exports = {
             if(args[0] === 'on'){
                 raiderSettings.raiderLockEnabled = true;
                 raiderSettings.save().catch(err => console.log(err));
-                return message.reply(`the Pokeverse Raider Lock has been **enabled** for this server. See \`${s.prefix}help pvraider\` on how to use the Raider Lock.`);
+                return message.reply(`the Pokeverse Raider Lock has been **enabled** for this server. See \`${s.prefix}help raid\` on how to use the Raider Lock.`);
             }
             else{
                 raiderSettings.raiderLockEnabled = false;
                 raiderSettings.save().catch(err => console.log(err));
-                return message.reply(`the Pokeverse Raider Lock has been **disabled** for this server. See \`${s.prefix}help pvraider\` on how to use the Raider Lock.`);
+                return message.reply(`the Pokeverse Raider Lock has been **disabled** for this server. See \`${s.prefix}help raid\` on how to use the Raider Lock.`);
             }
         }
 

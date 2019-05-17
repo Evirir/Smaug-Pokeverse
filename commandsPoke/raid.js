@@ -16,11 +16,11 @@ module.exports = {
 
     async execute(message, args) {
         let s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-        if(!s) return console.log(`No guild setting found: pvraider.js`);
+        if(!s) return console.log(`No guild setting found: raid.js`);
 
         let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
         if(!raiderSettings || !raiderSettings.raiderLockEnabled)
-            return message.channel.send(`Raider Lock is disabled in this server. Please see \`${s.prefix}help togglepvraider\` for more info.`);
+            return message.channel.send(`Raider Lock is disabled in this server. Please see \`${s.prefix}help raidset\` for more info.`);
 
         let targetChannel = getMentionChannel(message, args[0]);
         if(!targetChannel) return message.reply(`I cannot find this channel in this server.`);
@@ -46,12 +46,12 @@ module.exports = {
             if(raider.activeUserID === message.author.id){
                 targetChannel.overwritePermissions(message.author, {
                     SEND_MESSAGES: null
-                }, `${message.author.tag} has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}pvraider to engage!`);
+                }, `${message.author.tag} has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}raid to engage!`);
 
                 raider.activeUserID = undefined;
                 await raider.save().catch(err => console.log(err));
 
-                targetChannel.send(`**${message.author.tag}** has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}pvraider to engage!`);
+                targetChannel.send(`**${message.author.tag}** has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}raid to engage!`);
                 if(targetChannel !== message.channel) message.channel.send(`**${message.author.tag}** has left the fight with the Raider in #${targetChannel.name}. Use ${s.prefix}pvraider to engage!`);
                 return;
             }
