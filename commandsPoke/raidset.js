@@ -10,7 +10,7 @@ module.exports = {
     description: 'Modify the Raider Lock settings.\n**Make sure you do not add roles that aren\'t supposed to see the channels.**',
     aliases: ['raiderset','rs'],
     poke: true,
-    notes: `**Arguments:**\n\`on\`/\`off\`: Enables/Disables the Raider Lock\n\`roles [add/remove] [@mentionRole/roleID/everyone]\`: Adds/Removes target role from locking list (Use everyone to lock @everyone)\n`,
+    notes: `**Arguments:**\n\`on\`/\`off\`: Enables/Disables the Raider Lock\n\`roles [add/remove] [@mentionRole/roleID/role name/everyone]\`: Adds/Removes target role from locking list (Use everyone to lock @everyone)\n`,
 
     async execute(message, args) {
         let s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));

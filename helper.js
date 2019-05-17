@@ -48,7 +48,8 @@ module.exports = {
         }
 
         if(isNaN){
-            start = msg.indexOf(" ") + 1;
+            let start = mention.indexOf(" ") + 1;
+            mention = mention.slice(start);
             return message.guild.roles.find(r => r.name ===
         }
 
