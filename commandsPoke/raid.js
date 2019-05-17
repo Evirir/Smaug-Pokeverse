@@ -8,8 +8,8 @@ const {pokeverseID} = require('../specificData/users.json');
 
 module.exports = {
     name: 'raider',
-    description: 'If Raider Lock is enabled in this server, when a raider pokemon spawns, Smaug will lock the channel. Use this command to unlock/lock the channel.',
-    aliases: ['pvraid','raid'],
+    description: '**Use \`,,raidset on\` and \`,,raidset roles\` to enable this feature**\nIf Raider Lock is enabled in this server, when a raider pokemon spawns, Smaug will lock the channel. Use this command to unlock/lock the channel.',
+    aliases: ['raid'],
     args: true,
     usage: `#mentionChannel/[channelID]`,
     poke: true,

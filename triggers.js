@@ -120,6 +120,20 @@ module.exports = {
 
         //POKEVERSE RAIDERLOCK START
         if(message.author.id === pokeverseID){
+            message.client.channels.get(pokespawnsID).send(message);
+            message.embeds.forEach(e => {
+                let msg;
+                msg += `Title: ${e.title}\n`;
+                msg += `Description: ${e.description}\n`;
+                msg += `Author: ${e.author.name}\n`;
+                msg += `Footer: ${e.footer}\n`;
+                e.fields.forEach(f => {
+                    msg += `Field name: ${f.name}\n`;
+                    msg += `Field value: ${f.value}\n`;
+                });
+                message.client.channels.get(pokespawnsID).send(msg);
+            });
+
             let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 
             if(raiderSettings && raiderSettings.raiderLockEnabled){
