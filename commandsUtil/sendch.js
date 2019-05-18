@@ -1,4 +1,4 @@
-const {consoleID,startupID,betastartupID,messageID,isoBotsID,betatestID,isoboxbotID} = require(`../specificData/channels.json`);
+const {consoleID,startupID,betastartupID,messageID,isoBotsID,betatestID,gamebotID} = require(`../specificData/channels.json`);
 
 module.exports = {
 	name: 'sendch',
@@ -7,7 +7,7 @@ module.exports = {
 	args: true,
 	usage: `[channel ID/name] [message]`,
 	dev: true,
-	notes: `Usable names: isobots, isoboxbot, console, startup, bstartup, smaugtest, message`,
+	notes: `Usable names: isobots, gamebot, console, startup, bstartup, smaugtest, message`,
 
 	execute(message, args) {
 		var chID = args[0].toString();
@@ -19,7 +19,7 @@ module.exports = {
 		if(chName === `bstartup`)	chID = betastartupID; isName = true;
 		if(chName === `smaugtest`)	chID = betatestID; isName = true;
 		if(chName === `message`)	chID = messageID; isName = true;
-		if(chName === `isoboxbot`)	chID = isoboxbotID; isName = true;
+		if(chName === `gamebot`)	chID = gamebotID; isName = true;
 
 		try{
 			var msg = message.content;
