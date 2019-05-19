@@ -158,21 +158,19 @@ module.exports = {
                     raiderSettings.lockRoles.forEach(r => {
                         message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: false
-                        }, `A Raider spawned in this channel. To disable this feature, type ${s.prefix}raiderset off.`);
+                        }, `A Raider spawned in this channel. To disable this feature, type \`${s.prefix}raiderset off\`.`);
                     })
 
                     await raider.save().catch(err => console.log(err));
                     console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`Raider Lock activated! Type \`${s.prefix}raid\` in other channels to unlock the channel and fight the Raider.`);
+                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid\` in other channels to unlock the channel and fight the Raider.**`);
                 }
 
                 else{
-                    if(!message.embeds || !message.embeds.fields) return;
+                    if(!message.embeds) return;
 
                     let targetEmbed = message.embeds.find(e => {
-                        return e.fields.find(f => {
-                            f.value === `You have successfully tamed a Raider! It has been added to your Pokemon.`
-                        });
+                        e.description === `You have successfully tamed a Raider! It has been added to your Pokemon.`
                     }).catch(err => console.log(err));
 
                     if(targetEmbed){
@@ -186,7 +184,8 @@ module.exports = {
                         await raider.save().catch(err => console.log(err));
 
                         console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
-                        return message.channel.send(`🎊The Raider has been tamed by ${targetEmbed.embed.author.name}!🎊`);
+                        await message.channel.send(`🎊The Raider has been tamed by **${targetEmbed.author.name}**!🎊`);
+                        return message.channel.send(`Be sure to thank **Evirir the Blue** for this feature! ^.=.^`);
                     }
 
 
