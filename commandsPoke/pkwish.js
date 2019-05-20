@@ -28,7 +28,7 @@ module.exports = {
 
         let list = "";
         let currentPage = 0;
-        const maxPage = ceil(w.wishlist.length/15.0);
+        const maxPage = Math.ceil(w.wishlist.length/15.0);
 
         if(args.length && !isNaN(args[0])){
             if(args[0] >= 1 || args[0] <= maxPage) currentPage = args[0] - 1;
