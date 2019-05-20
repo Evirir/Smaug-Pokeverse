@@ -55,7 +55,7 @@ module.exports = {
 
             await raider.save().catch(err => console.log(err));
 			console.log(`Test raider spawned at #${targetChannel.name}.`);
-            message.channel.send(`Test raider spawned at #${targetChannel.id}.`);
+            message.channel.send(`Test raider spawned at #${targetChannel.name}.`);
             return targetChannel.send(`**Raider Lock activated! Type \`${prefix}raid\` in other channels to unlock the channel and fight the Raider.**`);
         }
 	}
