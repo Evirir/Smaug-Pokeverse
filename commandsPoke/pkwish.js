@@ -27,15 +27,54 @@ module.exports = {
         }
 
         let list = "";
-        w.wishlist.forEach(p => {
-            list += p + '\n';
-        });
+        let currentPage = 0;
+        const maxPage = ceil(w.wishlist.length/15.0);
+
+        if(args.length && !isNaN(args[0])){
+            if(args[0] >= 1 || args[0] <= maxPage) currentPage = args[0] - 1;
+        }
+
+        for(let i = currentPage*15; i < min((currentPage + 1)*15, w.wishlist.length); i++){
+            list += w.wishlist[i] + '\n';
+        }
 
         let embed = new Discord.RichEmbed()
         .setAuthor(`${targetUser.username}'s wishlist`, targetUser.displayAvatarURL)
         .setDescription(list)
-        .setColor('GOLD');
+        .setColor('GOLD')
+        .setFooter(currentPage + 1);
 
-        message.channel.send(embed);
+        let sent = await message.channel.send(embed);
+        await sent.react('⬅');
+        await sent.react('➡');
+
+        const valid = ['⬅','➡'];
+        const filter = (r, user) => {
+            return user === message.author && valid.includes(reaction.emoji.name);
+        };
+        const collector = message.channel.createReactionCollector(filter, { time: 3*60000 });
+
+        collector.on('collect', reaction => {
+            reaction.remove(message.author);
+            if(reaction.emoji.name === '⬅'){
+                if(currentPage === 0) return;
+                currentPage--;
+            }
+            else{
+                if(currentPage === maxPage - 1) return;
+                currentPage++;
+            }
+
+            list = "";
+            for(let i = currentPage*15; i < min((currentPage + 1)*15, w.wishlist.length); i++){
+                list += w.wishlist[i] + '\n';
+            }
+
+            embed
+            .setDescription(list)
+            .setFooter(currentPage + 1);
+
+            sent.edit(embed);
+        });
     }
 };

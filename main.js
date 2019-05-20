@@ -9,6 +9,8 @@ const {consoleID, messageID, startupID, betastartupID} = require(`./specificData
 const trigger = require('./triggers');
 const Money = require('./models/money.js');
 const Settings = require('./models/serverSettings.js');
+const GraphUser = require('./models/graphUser.js');
+const GraphClient = require('./models/graphClient.js');
 
 let cooldowns = new Discord.Collection();
 
@@ -60,8 +62,8 @@ client.on('message', async message => {
 	if(!message.guild) return;
 
 	let prefix = ",,";
-	const p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-	if(!p){
+	const s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+	if(!s){
 		const newPrefix = new Settings({
 			serverID: message.guild.id,
 			prefix: ",,",
@@ -70,7 +72,7 @@ client.on('message', async message => {
 		});
 		await newPrefix.save().catch(err => console.log(err));
 	}
-	else prefix = p.prefix;
+	else prefix = s.prefix;
 
 	if(!message.content.toLowerCase().startsWith(prefix)) {
 		return trigger.execute(client, message);
@@ -127,6 +129,35 @@ client.on('message', async message => {
 		}
 		timestamps.set(message.author.id, now);
 		setTimeout(() => timestamps.delete(message.author.id), cdTime);
+	}
+
+	if(command.hoard){
+		let graphClient = await GraphClient.findOne().catch(err => console.log(err));
+		if(!graphClient){
+			graphClient = new GraphClient({
+				totalGraphers: 0
+			});
+		}
+
+		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
+		if(!graphUser){
+			graphUser = new GraphUser({
+				userID: message.author.id,
+				graphID: graphClient.totalGraphers,
+				node: graphClient.totalGraphers,
+				energy: 6
+			});
+			await graphUser.save().catch(err => console.log(err));
+			graphClient.totalGraphers++;
+
+			let embed = new Discord.RichEmbed()
+			.setAuthor(`**${message.author.username}**, welcome to the graph arena! Here are your details:`, message.author.displayAvatarURL)
+			.setColor('ORANGE')
+			.setDescription(`You can always check your details with ${prefix}profile`)
+
+			message.channel.send
+		}
+		await graphClient.save().catch(err => console.log(err));
 	}
 
 	try{

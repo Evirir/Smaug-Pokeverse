@@ -33,10 +33,12 @@ module.exports = {
         .setColor('GOLD')
         .addField(`Coins`, `${money.money}💰`);
 
+        let list = "";
         money.inventory.forEach(item => {
-            embed.addField(`${item.name} x${item.amount}`,`\u200b`);
+            list += `${item.name} x${item.amount}\n`;
         });
 
+        embed.addField(`Items`, list);
         message.channel.send(embed);
 	}
 };
