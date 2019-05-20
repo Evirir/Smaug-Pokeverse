@@ -12,7 +12,7 @@ module.exports = {
     usage: `#mentionChannel/channelID (d/r)`,
     dev: true,
 
-	async execute(message, args) {
+	async execute(message, args, prefix) {
         let targetChannel = getMentionChannel(message, args[0]);
         if(!targetChannel || !message.guild.channels.get(targetChannel.id)) return message.reply(`I cannot find this channel in this server.`);
 
@@ -41,9 +41,9 @@ module.exports = {
             });
 
             await raider.save().catch(err => console.log(err));
-			console.log(`Test raider despawned from <#${targetChannel.id}>.`);
-            message.channel.send(`Test raider despawned from <#${targetChannel.id}>.`);
-            return targetChannel.send(`🎊Evirir decided to befriend everyone! But who knows how long this will last...🎊`);
+			console.log(`Test raider despawned from #${targetChannel.name}.`);
+            message.channel.send(`Test raider despawned from #${targetChannel.name}.`);
+            return targetChannel.send(`Channel unlocked.`);
         }
         else{
             raider.hasRaider = true;
@@ -54,9 +54,9 @@ module.exports = {
             })
 
             await raider.save().catch(err => console.log(err));
-			console.log(`Test raider spawned at <#${targetChannel.id}>.`);
-            message.channel.send(`Test raider spawned at <#${targetChannel.id}>.`);
-            return targetChannel.send(`.Evirir spawned! Raider Lock activated! >.=.< Type \`,,raid #${targetChannel.name}\` to unlock the channel and fight the Raider.`);
+			console.log(`Test raider spawned at #${targetChannel.name}.`);
+            message.channel.send(`Test raider spawned at #${targetChannel.id}.`);
+            return targetChannel.send(`**Raider Lock activated! Type \`${prefix}raid\` in other channels to unlock the channel and fight the Raider.**`);
         }
 	}
 };
