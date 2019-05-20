@@ -170,7 +170,7 @@ module.exports = {
                     if(!message.embeds) return;
 
                     let targetEmbed = message.embeds.find(e => {
-                        e.description === `You have successfully tamed a Raider! It has been added to your Pokemon.`
+                        e.description === `You have successfully tamed a Raider!`
                     }).catch(err => console.log(err));
 
                     if(targetEmbed){
