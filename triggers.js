@@ -163,7 +163,7 @@ module.exports = {
 
                     await raider.save().catch(err => console.log(err));
                     console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid\` in other channels to unlock the channel and fight the Raider.**`);
+                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**`);
                 }
 
                 else{
