@@ -68,11 +68,13 @@ module.exports = {
 			return message.reply("すみません, I've never heard of this spell...maybe");
 
 		let embed = new Discord.RichEmbed()
-		.setTitle(`\`${command.name}\``);
+		.setTitle(`\`${command.name}\``)
+		.setColor('BLUE');
 
 		if(command.aliases) 	embed.addField(`Aliases`, `\`${command.aliases.join('\` \`')}\``);
 		if(command.description) embed.addField(`Description`, command.description);
 		if(command.usage) 		embed.addField(`Usage`, `\`${prefix}${command.name} ${command.usage}\``);
+		if(command.cd)			embed.addField(`Cooldown`, `\`${parseFloat(command.cd.toFixed(1))}s\``);
 		if(command.notes)		embed.addField(`Notes`, command.notes);
 
 		message.channel.send(embed);
