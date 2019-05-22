@@ -52,7 +52,7 @@ module.exports = {
         const filter = (r, user) => {
             return user === message.author && valid.includes(reaction.emoji.name);
         };
-        const collector = message.channel.createReactionCollector(filter, { time: 3*60000 });
+        const collector = message.createReactionCollector(filter, { time: 3*60000 });
 
         collector.on('collect', reaction => {
             reaction.remove(message.author);
