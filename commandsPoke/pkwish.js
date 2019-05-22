@@ -34,7 +34,7 @@ module.exports = {
             if(args[0] >= 1 || args[0] <= maxPage) currentPage = args[0] - 1;
         }
 
-        for(let i = currentPage*15; i < min((currentPage + 1)*15, w.wishlist.length); i++){
+        for(let i = currentPage*15; i < Math.min((currentPage + 1)*15, w.wishlist.length); i++){
             list += w.wishlist[i] + '\n';
         }
 
@@ -66,7 +66,7 @@ module.exports = {
             }
 
             list = "";
-            for(let i = currentPage*15; i < min((currentPage + 1)*15, w.wishlist.length); i++){
+            for(let i = currentPage*15; i < Math.min((currentPage + 1)*15, w.wishlist.length); i++){
                 list += w.wishlist[i] + '\n';
             }
 
