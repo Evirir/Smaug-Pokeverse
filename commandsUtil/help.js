@@ -10,6 +10,7 @@ module.exports = {
 	description: `Shows list of spells that I know. Use \`${defaultPrefix}help [spell]\` to view details of the spell.`,
 	aliases: ['commands','command','cmd'],
 	usage: '[spell-name]',
+	util: true,
 	notes: `(Also, nice job on getting help on a help command)`,
 
 	async execute(message, args){

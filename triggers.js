@@ -169,7 +169,10 @@ module.exports = {
                 else{
                     if(!message.embeds || !message.embeds.length) return;
 
-                    let targetEmbed = message.embeds.find(e => e.description.includes(`You have successfully tamed a Raider!`));
+                    let targetEmbed = message.embeds.find(e => {
+                        if(!e.description) return false;
+                        return e.description.includes(`You have successfully tamed a Raider!`);
+                    });
 
                     if(targetEmbed){
                         raider.hasRaider = false;
