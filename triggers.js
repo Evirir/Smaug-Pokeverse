@@ -152,6 +152,8 @@ module.exports = {
                     raider = newRaider;
                 }
 
+                if(!message.embeds || !message.embeds.length) return;
+
                 let targetEmbed = message.embeds.find(e => e.footer === `!fightr / !fr`);
 
                 if(targetEmbed){
@@ -161,15 +163,13 @@ module.exports = {
                     raiderSettings.lockRoles.forEach(r => {
                         message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: false
-                        }, `A Raider spawned in this channel. To disable this feature, type \`${s.prefix}raiderset off\`.`);
+                        });
                     })
 
                     await raider.save().catch(err => console.log(err));
                     console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
                     return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${e.author.name}**`);
                 }
-
-                if(!message.embeds || !message.embeds.length) return;
 
                 targetEmbed = message.embeds.find(e => {
                     if(!e.description) return false;
@@ -178,10 +178,13 @@ module.exports = {
 
                 if(targetEmbed){
                     raider.hasRaider = false;
-                    raiderSettings.lockRoles.forEach(r => {
-                        message.channel.overwritePermissions(message.guild.roles.get(r), {
+                    raider.activeUserID = undefined;
+        			raider.spawnedBy = undefined;
+
+                    raiderSettings.lockRoles.forEach(async r => {
+                        await message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: true
-                        }, `The Raider has been tamed!`);
+                        });
                     });
 
                     await raider.save().catch(err => console.log(err));
@@ -196,11 +199,15 @@ module.exports = {
                 targetEmbed = message.embeds.find(e => e.footer === `!fight / !catch / !travel`);
                 if(targetEmbed){
                     raider.hasRaider = false;
-                    raiderSettings.lockRoles.forEach(r => {
-                        message.channel.overwritePermissions(message.guild.roles.get(r), {
+                    raider.activeUserID = undefined;
+        			raider.spawnedBy = undefined;
+
+                    raiderSettings.lockRoles.forEach(async r => {
+                        await message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: true
-                        }, `The Raider has despawned.`);
+                        });
                     });
+
                     await raider.save().catch(err => console.log(err));
 
                     console.log(`Raider despawned at ${message.guild.name}/${message.channel.name}`);
