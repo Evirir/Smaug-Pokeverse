@@ -124,7 +124,7 @@ client.on('message', async message => {
 			if(now < nextTime){
 				const timeLeft = (nextTime - now)/1000;
 				const cdMessage = await message.channel.send(`${message.author.username}, this command is on a cooldown of **${timeLeft.toFixed(2)}s**.`);
-				cdMessage.delete(3000);
+				return cdMessage.delete(3000);
 			}
 		}
 		timestamps.set(message.author.id, now);
@@ -155,7 +155,7 @@ client.on('message', async message => {
 			.setColor('ORANGE')
 			.setDescription(`You can always check your details with ${prefix}profile`)
 
-			message.channel.send
+			message.channel.send(embed);
 		}
 		await graphClient.save().catch(err => console.log(err));
 	}
