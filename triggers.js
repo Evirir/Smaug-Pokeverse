@@ -119,7 +119,7 @@ module.exports = {
         }
         //POKEASSISTANT END
 
-        //POKEVERSE RAIDERLOCK START
+        //POKEVERSE RAIDER LOCK START
         if(message.author.id === pokeverseID){
             if(!message.embeds) message.client.channels.get(consoleID).send("**PV Message:**\n"+message);
             else{
@@ -147,14 +147,17 @@ module.exports = {
                 if(!raider){
                     let newRaider = new Raider({
                         channelID: message.channel.id,
-                        hasRaider: false,
-                        activeUserID: undefined
+                        hasRaider: false
                     });
                     raider = newRaider;
                 }
 
-                if(message.content.includes(`Who will be brave enough to take on the challenge?`)){
+                let targetEmbed = message.embeds.find(e => e.footer === `!fightr / !fr`);
+
+                if(targetEmbed){
                     raider.hasRaider = true;
+                    raider.spawnedBy = e.author.name;
+
                     raiderSettings.lockRoles.forEach(r => {
                         message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: false
@@ -163,52 +166,51 @@ module.exports = {
 
                     await raider.save().catch(err => console.log(err));
                     console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**`);
+                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${e.author.name}**`);
                 }
 
-                else{
-                    if(!message.embeds || !message.embeds.length) return;
+                if(!message.embeds || !message.embeds.length) return;
 
-                    let targetEmbed = message.embeds.find(e => {
-                        if(!e.description) return false;
-                        return e.description.includes(`You have successfully tamed a Raider!`);
+                targetEmbed = message.embeds.find(e => {
+                    if(!e.description) return false;
+                    return e.description.includes(`You have successfully tamed a Raider!`);
+                });
+
+                if(targetEmbed){
+                    raider.hasRaider = false;
+                    raiderSettings.lockRoles.forEach(r => {
+                        message.channel.overwritePermissions(message.guild.roles.get(r), {
+                            SEND_MESSAGES: true
+                        }, `The Raider has been tamed!`);
                     });
 
-                    if(targetEmbed){
-                        raider.hasRaider = false;
-                        raiderSettings.lockRoles.forEach(r => {
-                            message.channel.overwritePermissions(message.guild.roles.get(r), {
-                                SEND_MESSAGES: true
-                            }, `The Raider has been tamed!`);
-                        });
+                    await raider.save().catch(err => console.log(err));
 
-                        await raider.save().catch(err => console.log(err));
-
-                        console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
-                        await message.channel.send(`🎊The Raider has been tamed by **${targetEmbed.author.name}**!🎊`);
-                        return message.channel.send(`Be sure to thank **Evirir the Blue** for this feature! ^.=.^`);
-                    }
-
-
-                    targetEmbed = message.embeds.find(e => e.footer === `!fight / !catch / !travel`);
-                    if(targetEmbed){
-                        raider.hasRaider = false;
-                        raiderSettings.lockRoles.forEach(r => {
-                            message.channel.overwritePermissions(message.guild.roles.get(r), {
-                                SEND_MESSAGES: true
-                            }, `The Raider has despawned.`);
-                        });
-
-                        await raider.save().catch(err => console.log(err));
-
-                        console.log(`Raider despawned at ${message.guild.name}/${message.channel.name}`);
-                        return message.channel.send(`The Raider has despawned...`);
-                    }
+                    console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
+                    message.channel.send(`🎊The Raider has been tamed by **${targetEmbed.author.name}**!🎊`);
+                    if(raider.spawnedBy) message.channel.send(`This raider is spawned by **${raider.spawnedBy}**`);
+                    return;
                 }
+
+
+                targetEmbed = message.embeds.find(e => e.footer === `!fight / !catch / !travel`);
+                if(targetEmbed){
+                    raider.hasRaider = false;
+                    raiderSettings.lockRoles.forEach(r => {
+                        message.channel.overwritePermissions(message.guild.roles.get(r), {
+                            SEND_MESSAGES: true
+                        }, `The Raider has despawned.`);
+                    });
+                    await raider.save().catch(err => console.log(err));
+
+                    console.log(`Raider despawned at ${message.guild.name}/${message.channel.name}`);
+                    return message.channel.send(`The Raider has despawned...`);
+                }
+
             }
             return;
         }
-        //POKEVERSE RAIDERLOCK END
+        //POKEVERSE RAIDER LOCK END
 
         if(message.author.bot) return;
 

@@ -23,14 +23,12 @@ module.exports = {
 
         let raider = await Raider.findOne({channelID: targetChannel.id}).catch(err => console.log(err));
         if(!raider){
-            let newRaider = new Raider({
+            raider = new Raider({
                 channelID: targetChannel.id,
                 hasRaider: false,
                 activeUserID: undefined
             });
-            raider = newRaider;
         }
-
 
         if(args.length > 1 && (args[1] === 'r' || args[1] === 'd')){
             raider.hasRaider = false;
@@ -41,9 +39,10 @@ module.exports = {
             });
 
             await raider.save().catch(err => console.log(err));
-			console.log(`Test raider despawned from #${targetChannel.name}.`);
-            message.channel.send(`Test raider despawned from #${targetChannel.name}.`);
-            return targetChannel.send(`Channel unlocked.`);
+			console.log(`Test Raider despawned from #${targetChannel.name}.`);
+            message.channel.send(`Test Raider despawned from #${targetChannel.name}.`);
+            if(message.channel !== targetChannel) targetChannel.send(`Test Raider despawned.`);
+			return;
         }
         else{
             raider.hasRaider = true;
@@ -56,7 +55,7 @@ module.exports = {
             await raider.save().catch(err => console.log(err));
 			console.log(`Test raider spawned at #${targetChannel.name}.`);
             message.channel.send(`Test raider spawned at #${targetChannel.name}.`);
-            return targetChannel.send(`**Raider Lock activated! Type \`${prefix}raid\` in other channels to unlock the channel and fight the Raider.**`);
+            return targetChannel.send(`**Raider Lock activated! Type \`${prefix}raid #${targetChannel.name}\` in other channels to unlock the channel and fight the Raider.**`);
         }
 	}
 };

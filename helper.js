@@ -43,7 +43,7 @@ module.exports = {
     },
 
     getMentionRole(message, mention){
-    	if (mention.startsWith('<@&') && mention.endsWith('>')) {
+    	if(mention.startsWith('<@&') && mention.endsWith('>')) {
     		mention = mention.slice(3, -1);
         }
 

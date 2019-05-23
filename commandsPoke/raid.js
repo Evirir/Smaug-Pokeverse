@@ -9,7 +9,7 @@ const {pokeverseID} = require('../specificData/users.json');
 module.exports = {
     name: 'raider',
     description: 'If Raider Lock is enabled in this server, when a raider pokemon spawns, Smaug will lock the channel. Use this command to unlock the channel, and use this command again to leave the fight.',
-    aliases: ['raid'],
+    aliases: ['raid','rs'],
     args: true,
     usage: `#mentionChannel/[channelID]`,
     poke: true,
@@ -39,7 +39,7 @@ module.exports = {
             raider.activeUserID = message.author.id;
 
             await raider.save().catch(err => console.log(err));
-            targetChannel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!`);
+            targetChannel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!\n\n**PLEASE, REMEMBER TO USE \`${s.prefix}raid\` AGAIN BEFORE YOU EXIT!`);
             if(targetChannel !== message.channel) message.channel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!`);
             return;
         }
