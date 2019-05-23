@@ -39,7 +39,7 @@ module.exports = {
             raider.activeUserID = message.author.id;
 
             await raider.save().catch(err => console.log(err));
-            targetChannel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!\n\n**PLEASE, REMEMBER TO USE \`${s.prefix}raid\` AGAIN BEFORE YOU EXIT!`);
+            targetChannel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!\n\n**PLEASE, REMEMBER TO USE \`${s.prefix}raid\` AGAIN BEFORE YOU EXIT!**`);
             if(targetChannel !== message.channel) message.channel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!`);
             return;
         }
