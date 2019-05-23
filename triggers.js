@@ -164,11 +164,11 @@ module.exports = {
                         message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: false
                         });
-                    })
+                    });
 
                     await raider.save().catch(err => console.log(err));
                     console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${e.author.name}**`);
+                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${e.author.name}**`).catch(err => console.log(err));
                 }
 
                 targetEmbed = message.embeds.find(e => {
@@ -185,7 +185,7 @@ module.exports = {
                         await message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: true
                         });
-                        console.log(`${message.guild.name}: ${message.guild.roles.get(r).name} unlocked.`);
+                        console.log(`${message.guild.name}/${message.channel.name}: ${message.guild.roles.get(r).name} unlocked.`);
                     });
 
                     await raider.save().catch(err => console.log(err));
