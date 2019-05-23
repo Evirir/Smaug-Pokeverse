@@ -185,6 +185,7 @@ module.exports = {
                         await message.channel.overwritePermissions(message.guild.roles.get(r), {
                             SEND_MESSAGES: true
                         });
+                        console.log(`${message.guild.name}: ${message.guild.roles.get(r).name} unlocked.`);
                     });
 
                     await raider.save().catch(err => console.log(err));
