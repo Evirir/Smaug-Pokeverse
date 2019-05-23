@@ -26,12 +26,14 @@ module.exports = {
             raider = new Raider({
                 channelID: targetChannel.id,
                 hasRaider: false,
-                activeUserID: undefined
             });
         }
 
         if(args.length > 1 && (args[1] === 'r' || args[1] === 'd')){
             raider.hasRaider = false;
+			raider.activeUserID = undefined;
+			raider.spawnedBy = undefined;
+
             raiderSettings.lockRoles.forEach(r => {
                 targetChannel.overwritePermissions(r, {
                     SEND_MESSAGES: true
@@ -46,6 +48,8 @@ module.exports = {
         }
         else{
             raider.hasRaider = true;
+			raider.activeUserID = undefined;
+			
             raiderSettings.lockRoles.forEach(r => {
                 targetChannel.overwritePermissions(r, {
                     SEND_MESSAGES: false
