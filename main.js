@@ -163,9 +163,9 @@ client.on('message', async message => {
 	try{
 		command.execute(message, args, prefix);
 	}
-	catch(error){
-		console.error(error);
-		client.channels.get(consoleID).send(error);
+	catch(err){
+		console.log(err);
+		client.channels.get(consoleID).send(err.message);
 		if(message.author.id === dragID)
 			return message.reply(`I have some issues here, go check the log ó.=.ò"`)
 		else
