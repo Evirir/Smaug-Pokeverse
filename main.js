@@ -153,7 +153,7 @@ client.on('message', async message => {
 			let embed = new Discord.RichEmbed()
 			.setAuthor(`**${message.author.username}**, welcome to the graph arena! Here are your details:`, message.author.displayAvatarURL)
 			.setColor('ORANGE')
-			.setDescription(`You can always check your details with ${prefix}profile`)
+			.setDescription(`You can always check your details with \`${prefix}profile\``)
 
 			message.channel.send(embed);
 		}
