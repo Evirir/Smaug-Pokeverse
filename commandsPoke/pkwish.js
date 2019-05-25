@@ -32,7 +32,7 @@ module.exports = {
         let maxPage = Math.ceil(w.wishlist.length/15.0) - 1;
 
         if(args.length && !isNaN(args[0])){
-            if(args[0] >= 1 || args[0] <= maxPage) currentPage = args[0] - 1;
+            if(args[0] >= 1 && args[0] <= maxPage) currentPage = args[0] - 1;
         }
 
         for(let i = currentPage*15; i < Math.min((currentPage + 1)*15, w.wishlist.length); i++){
