@@ -1,5 +1,5 @@
 const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
-const {consoleID, messageID, pokecordLogID} = require('../specificData/channels.json');
+const {consoleID, messageID, pokecordLogID, pokeverseLogID} = require('../specificData/channels.json');
 
 const Raider = require('../models/pokeverseRaider.js');
 const RaiderSettings = require('../models/pokeverseRaiderSettings.js');
@@ -14,7 +14,7 @@ module.exports = {
                 if(e.description) msg += `Description: ${e.description}\n`;
                 if(e.author) msg += `Author: ${e.author.name}\n`;
                 if(e.footer) msg += `Footer: ${e.footer.text}\n`;
-                message.client.channels.get(consoleID).send(msg).catch(err => console.log(err));
+                message.client.channels.get(pokeverseLogID).send(msg).catch(err => console.log(err));
             });
         }
 

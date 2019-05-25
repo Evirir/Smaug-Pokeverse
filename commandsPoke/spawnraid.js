@@ -49,7 +49,7 @@ module.exports = {
         else{
             raider.hasRaider = true;
 			raider.activeUserID = undefined;
-			
+
             raiderSettings.lockRoles.forEach(r => {
                 targetChannel.overwritePermissions(r, {
                     SEND_MESSAGES: false
