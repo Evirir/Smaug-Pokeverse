@@ -152,7 +152,7 @@ module.exports = {
 
                 if(targetEmbed){
                     raider.hasRaider = true;
-                    raider.spawnedBy = e.author.name;
+                    raider.spawnedBy = targetEmbed.author.name;
 
                     raiderSettings.lockRoles.forEach(r => {
                         message.channel.overwritePermissions(message.guild.roles.get(r), {
@@ -162,7 +162,7 @@ module.exports = {
 
                     await raider.save().catch(err => console.log(err));
                     console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${e.author.name}**`).catch(err => console.log(err));
+                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${targetEmbed.author.name}**`).catch(err => console.log(err));
                 }
 
                 targetEmbed = message.embeds.find(e => {
