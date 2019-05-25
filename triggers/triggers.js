@@ -3,20 +3,10 @@ const {bot_name} = require('../config.json');
 const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
 const {consoleID, messageID, pokespawnsID} = require('../specificData/channels.json');
 
-///Pokecord
-const db = require('../pokemons/pokemons.json');
-const imghash = require('imghash');
-const request = require('request').defaults({ encoding: null });
-
-const mongoose = require('mongoose');
-const LastSpawns = require('../models/pokemonLastSpawn.js');
 const Settings = require('../models/serverSettings.js');
-const WishlistP = require('../models/wishlistPokemon.js');
-const Subs = require('../models/pokemonSubscribers.js');
 
-//Pokeverse raider channel lock
-const Raider = require('../models/pokeverseRaider.js');
-const RaiderSettings = require('../models/pokeverseRaiderSettings.js');
+const Pokecord = require('./pokecord.js');
+const Pokeverse = require('./pokeverse.js');
 
 module.exports = {
     async execute(client, message) {
@@ -28,191 +18,13 @@ module.exports = {
 
         //POKEASSISTANT
         if (message.author.id === pokecordID) {
-
-            message.embeds.forEach(async (e) => {
-                if (e.description !== undefined && e.description.startsWith("Guess the pokémon and type")) {
-                    if (e.image) {
-                        let url = e.image.url;
-
-                    request(url, async function(err, res, body) {
-                        if (err !== null) return;
-
-                        imghash
-                            .hash(body)
-                            .then(async hash => {
-                                let result = db[hash];
-
-                                if (result === undefined) {
-                                    let embed = new Discord.RichEmbed()
-      		                        .setColor(0xFF4500)
-                                    .setTitle("Pokemon Not Found")
-                                    .setDescription(`Please contact the owner ${message.client.users.get(dragID).username} to add this Pokemon to the database.`);
-                                    return message.channel.send(embed);
-                                }
-
-                                let Spawn = await LastSpawns.findOne({channelID: message.channel.id}).catch(err => console.log(err));
-
-                                if(!Spawn){
-                                    const newSpawn = new LastSpawns({
-                                        channelID: message.channel.id,
-                                        lastSpawn: result
-                                    });
-                                    newSpawn.save().catch(err => console.log(err));
-                                }
-                                else{
-                                    Spawn.lastSpawn = result;
-                                    Spawn.capturedBy = null;
-                                    Spawn.save().catch(err => console.log(err));
-                                }
-
-                                const wp = await WishlistP.findOne({name: result}).catch(err => console.log(err));
-
-                                if(wp && wp.wishedBy.length){
-                                    let msg = `**${result}** spawned! Wished by: `;
-                                    wp.wishedBy.forEach(user => {
-                                        if(message.guild.member(user)){
-                                            msg += `<@${user.id}> `;
-
-                                            let embed = new Discord.RichEmbed()
-                                            .setColor('GOLD')
-                                            .setTitle(`**${result}** spawned! Your wished Pokemon!`)
-                                            .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n**Message link:** <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}>`);
-
-                                            message.client.users.get(user).send(embed);
-                                        }
-                                        message.channel.send(msg);
-                                    });
-                                }
-
-                                let sub = await Subs.findOne().catch(err => console.log(err));
-                                let sb = sub.subs;
-
-                                let embed = new Discord.RichEmbed()
-                                .setColor('GREEN')
-                                .setTitle(`**${result}** spawned`)
-                                .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n**Message link:** <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}>`);
-
-                                sb.forEach(u => {
-                                    if(message.guild.member(u) && !wp.wishedBy.includes(u)){
-                                        client.users.get(u).send(embed);
-                                    }
-                                });
-
-                                console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
-                                message.client.channels.get(consoleID).send(embed);
-                                if(message.guild.member(dragID)) message.client.channels.get(pokespawnsID).send(embed);
-                            })
-                        });
-                    }
-                }
-            });
-
-            if(message.content.startsWith('Congratulations')){
-                let Spawn = await LastSpawns.findOne({channelID: message.channel.id}).catch(err => console.log(err));
-
-                if(Spawn){
-                    Spawn.capturedBy = message.mentions.users.first().username;
-                    Spawn.save().catch(err => console.log(err));
-                }
-            }
-            return;
+            return Pokecord.execute(client, message, prefix);
         }
-        //POKEASSISTANT END
 
-        //POKEVERSE RAIDER LOCK START
+        //POKEVERSE RAIDER LOCK
         if(message.author.id === pokeverseID){
-            if(!message.embeds) message.client.channels.get(consoleID).send("**PV Message:**\n"+message);
-            else{
-                message.embeds.forEach(e => {
-                    let msg = "**PV Embed:**\n";
-                    if(e.title) msg += `Title: ${e.title}\n`;
-                    if(e.description) msg += `Description: ${e.description}\n`;
-                    if(e.author) msg += `Author: ${e.author.name}\n`;
-                    if(e.footer) msg += `Footer: ${e.footer.text}\n`;
-                    message.client.channels.get(consoleID).send(msg);
-                });
-            }
-
-            let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-
-            if(raiderSettings && raiderSettings.raiderLockEnabled){
-
-                let raider = await Raider.findOne({channelID: message.channel.id}).catch(err => console.log(err));
-                if(!raider){
-                    let newRaider = new Raider({
-                        channelID: message.channel.id,
-                        hasRaider: false
-                    });
-                    raider = newRaider;
-                }
-
-                if(!message.embeds || !message.embeds.length) return;
-
-                let targetEmbed = message.embeds.find(e => (e.footer && e.footer.text.includes(`!fightr / !fr`)));
-
-                if(targetEmbed){
-                    raider.hasRaider = true;
-                    raider.spawnedBy = targetEmbed.author.name;
-
-                    raiderSettings.lockRoles.forEach(r => {
-                        message.channel.overwritePermissions(message.guild.roles.get(r), {
-                            SEND_MESSAGES: false
-                        });
-                    });
-
-                    await raider.save().catch(err => console.log(err));
-                    console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`**Raider Lock activated! Type \`${s.prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${targetEmbed.author.name}**`).catch(err => console.log(err));
-                }
-
-                targetEmbed = message.embeds.find(e => {
-                    if(!e.description) return false;
-                    return e.description.includes(`You have successfully tamed a Raider!`);
-                });
-
-                if(targetEmbed){
-                    raider.hasRaider = false;
-                    raider.activeUserID = undefined;
-        			raider.spawnedBy = undefined;
-
-                    raiderSettings.lockRoles.forEach(async r => {
-                        await message.channel.overwritePermissions(message.guild.roles.get(r), {
-                            SEND_MESSAGES: true
-                        });
-                        console.log(`${message.guild.name}/${message.channel.name}: ${message.guild.roles.get(r).name} unlocked.`);
-                    });
-
-                    await raider.save().catch(err => console.log(err));
-
-                    console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
-                    message.channel.send(`🎊The Raider has been tamed by **${targetEmbed.author.name}**!🎊`);
-                    if(raider.spawnedBy) message.channel.send(`This raider is spawned by **${raider.spawnedBy}**`);
-                    return;
-                }
-
-
-                targetEmbed = message.embeds.find(e => e.footer === `!fight / !catch / !travel`);
-                if(targetEmbed){
-                    raider.hasRaider = false;
-                    raider.activeUserID = undefined;
-        			raider.spawnedBy = undefined;
-
-                    raiderSettings.lockRoles.forEach(async r => {
-                        await message.channel.overwritePermissions(message.guild.roles.get(r), {
-                            SEND_MESSAGES: true
-                        });
-                    });
-
-                    await raider.save().catch(err => console.log(err));
-
-                    console.log(`Raider despawned at ${message.guild.name}/${message.channel.name}`);
-                    return message.channel.send(`The Raider has despawned...`);
-                }
-
-            }
-            return;
+            return Pokeverse.execute(client, message, prefix);
         }
-        //POKEVERSE RAIDER LOCK END
 
         if(message.author.bot) return;
 
@@ -265,7 +77,7 @@ module.exports = {
             return message.reply(`I'm here~ **wags tail**`);
         }
 
-        //MESSAGE CONTAINS TRIGGER
+        //MESSAGE CONTENT TRIGGERS
         const msg = message.content.toLowerCase();
 
         if(msg.includes('good dragon'))
