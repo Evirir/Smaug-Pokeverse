@@ -55,7 +55,7 @@ module.exports = {
                 return client.commands.get('help').execute(message,[]);
 
             if(message.author === (client.users.get(dragID))){
-                if(msg.includes(`hey`) || msg.includes(`hi`) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
+                if(msg.includes(`hey`) || msg.includes(` hi `) || msg.includes(`rytsas`) || msg.includes(`hewwo`))
                     return message.channel.send(`Hey <@${dragID}>! *snuggles you*`);
                 if(msg.includes(`thank you`) || msg.includes(`thanks`))
                     return message.channel.send(`You're welcome <@${dragID}>! **licks you**`);

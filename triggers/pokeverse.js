@@ -1,3 +1,6 @@
+const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
+const {consoleID, messageID, pokecordLogID} = require('../specificData/channels.json');
+
 const Raider = require('../models/pokeverseRaider.js');
 const RaiderSettings = require('../models/pokeverseRaiderSettings.js');
 

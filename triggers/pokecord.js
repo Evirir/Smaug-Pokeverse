@@ -1,5 +1,8 @@
 const Discord = require('discord.js');
 
+const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
+const {consoleID, messageID, pokecordLogID} = require('../specificData/channels.json');
+
 const db = require('../pokemons/pokemons.json');
 const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
