@@ -154,7 +154,7 @@ module.exports = {
 
                 if(!message.embeds || !message.embeds.length) return;
 
-                let targetEmbed = message.embeds.find(e => e.footer.includes(`!fightr / !fr`));
+                let targetEmbed = message.embeds.find(e => e.footer.text.includes(`!fightr / !fr`));
 
                 if(targetEmbed){
                     raider.hasRaider = true;
