@@ -9,7 +9,7 @@ module.exports = {
 	description: `Plays the wifi game. Each word either has wifi or does not have wifi.\nI would tell you if your word has wifi, but how it's determined...it's your job to figure that out \\o.=.o/`,
 	args: true,
 	usage: `[word]`,
-    cd: 2,
+    cd: 5,
 
 	async execute(message, args){
         var msg = "";
@@ -24,7 +24,7 @@ module.exports = {
         var occ = new Array(26);
         occ.fill(0);
 
-        for(var i=0;i<s.length;i++){
+        for(var i=0; i<s.length; i++){
             if(!isLetter(str[i].toLowerCase()))
                 return message.channel.send(`Please input a valid word! Words must only consist of English alphabets.`);
             if(i > 25){
@@ -34,7 +34,7 @@ module.exports = {
             occ[s.charCodeAt(i)-97]++;
         }
 
-        for(var i=0;i<26;i++){
+        for(var i=0; i<26; i++){
             if(occ[i] > 1){
                 hasWifi=false;
                 break;

@@ -110,7 +110,9 @@ client.on('message', async message => {
 			if(now < nextTime){
 				const timeLeft = (nextTime - now)/1000;
 				const cdMessage = await message.channel.send(`${message.author.username}, this command is on a cooldown of **${timeLeft.toFixed(2)}s**.`);
-				return cdMessage.delete(3000);
+				cdMessage.delete(5000);
+				message.delete(5000);
+				return;
 			}
 		}
 
