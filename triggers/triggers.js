@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const {bot_name} = require('../config.json');
 const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
-const {consoleID, messageID, pokespawnsID} = require('../specificData/channels.json');
+const {consoleID, messageID, pokecordLogID} = require('../specificData/channels.json');
 
 const Settings = require('../models/serverSettings.js');
 

@@ -82,7 +82,7 @@ module.exports = {
 
                             console.log(`${message.guild.name}/${message.channel.name}: ${result} spawned`);
                             message.client.channels.get(consoleID).send(embed);
-                            if(message.guild.member(dragID)) message.client.channels.get(pokespawnsID).send(embed);
+                            if(message.guild.member(dragID)) message.client.channels.get(pokecordLogID).send(embed);
                         })
                     });
                 }
