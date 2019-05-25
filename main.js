@@ -6,7 +6,7 @@ const {uri} = require('./config.json');
 const {defaultPrefix, token, bot_name} = require('./config.json');
 const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json`);
 const {consoleID, messageID, startupID, betastartupID} = require(`./specificData/channels.json`);
-const trigger = require('./triggers');
+const trigger = require('./triggers/triggers.js');
 const Money = require('./models/money.js');
 const Settings = require('./models/serverSettings.js');
 const GraphUser = require('./models/graphUser.js');
@@ -16,27 +16,15 @@ let cooldowns = new Discord.Collection();
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
+const Categories = [`Hoard`,`Poke`,`Std`,`Util`];
 
-const commandFiles = fs.readdirSync('./commandsStd').filter(file => file.endsWith('.js'));
-for(const file of commandFiles){
-	const command = require(`./commandsStd/${file}`);
-	client.commands.set(command.name, command);
-}
-const hoardFiles = fs.readdirSync('./commandsHoard').filter(file => file.endsWith('.js'));
-for(const file of hoardFiles){
-	const command = require(`./commandsHoard/${file}`);
-	client.commands.set(command.name, command);
-}
-const utilFiles = fs.readdirSync('./commandsUtil').filter(file => file.endsWith('.js'));
-for(const file of utilFiles){
-	const command = require(`./commandsUtil/${file}`);
-	client.commands.set(command.name, command);
-}
-const pokeFiles = fs.readdirSync('./commandsPoke').filter(file => file.endsWith('.js'));
-for(const file of pokeFiles){
-	const command = require(`./commandsPoke/${file}`);
-	client.commands.set(command.name, command);
-}
+Categories.forEach(category => {
+	const commandFiles = fs.readdirSync(`./commands${category}`).filter(file => file.endsWith('.js'));
+	for(const file of commandFiles){
+		const command = require(`./commands${category}/${file}`);
+		client.commands.set(command.name, command);
+	}
+});
 
 client.once('ready', () => {
 	mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
@@ -68,7 +56,6 @@ client.on('message', async message => {
 			serverID: message.guild.id,
 			prefix: ",,",
 			owo: true,
-			raiderLock: false
 		});
 		await newPrefix.save().catch(err => console.log(err));
 	}
@@ -94,7 +81,6 @@ client.on('message', async message => {
 			inventory: []
 		});
 		await newMoney.save().catch(err => console.log(err));
-		message.channel.send(`Hey <@${message.author.id}>! As a new hoarder, you have received **1000💰**!`);
 	}
 
 	if(message.author.bot) return;
@@ -109,7 +95,7 @@ client.on('message', async message => {
 		return message.channel.send(`This command is only available to developers.`);
 	}
 	if(command.args && !args.length){
-		return client.commands.get(`help`).execute(message,[command.name]);
+		return client.commands.get(`help`).execute(message, [command.name]);
 	}
 
 	if(!cooldowns.has(command.name) && command.cd) cooldowns.set(command.name, new Discord.Collection());
@@ -127,6 +113,7 @@ client.on('message', async message => {
 				return cdMessage.delete(3000);
 			}
 		}
+
 		timestamps.set(message.author.id, now);
 		setTimeout(() => timestamps.delete(message.author.id), cdTime);
 	}

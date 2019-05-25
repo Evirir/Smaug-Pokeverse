@@ -1,22 +1,22 @@
 const Discord = require('discord.js');
-const {bot_name} = require('./config.json');
-const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('./specificData/users.json');
-const {consoleID, messageID, pokespawnsID} = require('./specificData/channels.json');
+const {bot_name} = require('../config.json');
+const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
+const {consoleID, messageID, pokespawnsID} = require('../specificData/channels.json');
 
 ///Pokecord
-const db = require('./pokemons/pokemons.json');
+const db = require('../pokemons/pokemons.json');
 const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
 
 const mongoose = require('mongoose');
-const LastSpawns = require('./models/pokemonLastSpawn.js');
-const Settings = require('./models/serverSettings.js');
-const WishlistP = require('./models/wishlistPokemon.js');
-const Subs = require('./models/pokemonSubscribers.js');
+const LastSpawns = require('../models/pokemonLastSpawn.js');
+const Settings = require('../models/serverSettings.js');
+const WishlistP = require('../models/wishlistPokemon.js');
+const Subs = require('../models/pokemonSubscribers.js');
 
 //Pokeverse raider channel lock
-const Raider = require('./models/pokeverseRaider.js');
-const RaiderSettings = require('./models/pokeverseRaiderSettings.js');
+const Raider = require('../models/pokeverseRaider.js');
+const RaiderSettings = require('../models/pokeverseRaiderSettings.js');
 
 module.exports = {
     async execute(client, message) {
@@ -129,12 +129,6 @@ module.exports = {
                     if(e.description) msg += `Description: ${e.description}\n`;
                     if(e.author) msg += `Author: ${e.author.name}\n`;
                     if(e.footer) msg += `Footer: ${e.footer.text}\n`;
-                    if(e.fields){
-                        e.fields.forEach(f => {
-                            msg += `Field name: ${f.name}\n`;
-                            msg += `Field value: ${f.value}\n`;
-                        });
-                    }
                     message.client.channels.get(consoleID).send(msg);
                 });
             }
@@ -154,7 +148,7 @@ module.exports = {
 
                 if(!message.embeds || !message.embeds.length) return;
 
-                let targetEmbed = message.embeds.find(e => e.footer.text.includes(`!fightr / !fr`));
+                let targetEmbed = message.embeds.find(e => (e.footer && e.footer.text.includes(`!fightr / !fr`)));
 
                 if(targetEmbed){
                     raider.hasRaider = true;
