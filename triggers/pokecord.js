@@ -61,7 +61,7 @@ module.exports = {
                                         let embed = new Discord.RichEmbed()
                                         .setColor('GOLD')
                                         .setTitle(`**${result}** spawned! Your wished Pokemon!`)
-                                        .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n**Message link:** <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}>`);
+                                        .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n[**Message link**](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id} "${result}")`);
 
                                         message.client.users.get(user).send(embed);
                                     }
@@ -75,7 +75,7 @@ module.exports = {
                             let embed = new Discord.RichEmbed()
                             .setColor('GREEN')
                             .setTitle(`**${result}** spawned`)
-                            .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n**Message link:** <https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id}>`);
+                            .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n[**Message link**](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id} "${result}")`);
 
                             sb.forEach(u => {
                                 if(message.guild.member(u) && !wp.wishedBy.includes(u)){
