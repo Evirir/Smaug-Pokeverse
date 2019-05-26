@@ -60,6 +60,7 @@ module.exports = {
                                         msg += `<@${user.id}> `;
 
                                         let embed = new Discord.RichEmbed()
+                                        .setAuthor('Pokecord wishlist', message.client.users.get(pokecordID).displayAvatarURL)
                                         .setColor('GOLD')
                                         .setTitle(`**${result}** spawned! Your wished Pokemon!`)
                                         .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n[**Message link**](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id} "${result}")`);
@@ -74,6 +75,7 @@ module.exports = {
                             let sb = sub.subs;
 
                             let embed = new Discord.RichEmbed()
+                            .setAuthor('Pokecord spawn', message.client.users.get(pokecordID).displayAvatarURL)
                             .setColor('GREEN')
                             .setTitle(`**${result}** spawned`)
                             .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n[**Message link**](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id} "${result}")`);
