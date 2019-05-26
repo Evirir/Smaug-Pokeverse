@@ -32,7 +32,8 @@ module.exports = {
                                 .setColor(0xFF4500)
                                 .setTitle("Pokemon Not Found")
                                 .setDescription(`Please contact the owner ${message.client.users.get(dragID).username} to add this Pokemon to the database.`);
-                                return message.channel.send(embed);
+                                message.channel.send(embed);
+                                return message.client.channels.get(consoleID).send(`Unknown pokemon found. Hash: ${hash}`);
                             }
 
                             let Spawn = await LastSpawns.findOne({channelID: message.channel.id}).catch(err => console.log(err));
