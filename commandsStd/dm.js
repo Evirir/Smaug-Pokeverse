@@ -20,7 +20,7 @@ module.exports = {
 
 		let msg = message.content;
 
-		msg = msg.substring(msg.indexOf(/\s+/) + 1;);
+		msg = msg.substring(msg.indexOf(/\s+/) + 1);
 
 		start = msg.indexOf(" ") + 1;
 		if(start == 0) return message.reply(`please specify your message!`);
