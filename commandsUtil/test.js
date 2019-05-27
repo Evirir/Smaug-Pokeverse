@@ -7,15 +7,6 @@ module.exports = {
 	dev: true,
 
 	async execute(message, args){
-		let sent = await message.channel.send("Test");
-		await sent.react('👌');
-
-		const filter = (reaction, user) => {
-			return true;
-		}
-		const collector = await sent.createReactionCollector(filter, { time: 15000 });
-
-		collector.on('collect', r => console.log(`Collected ${r.emoji.name}`));
-		collector.on('end', collected => console.log(`Collected ${collected.size} items`));
+		message.client.channels.get(44).send(`Nope`).catch(err => message.channel.send(`Nope`));
 	}
 }

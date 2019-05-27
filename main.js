@@ -154,11 +154,11 @@ client.on('message', async message => {
 	}
 	catch(err){
 		console.log(err);
-		client.channels.get(consoleID).send(err.message);
+		client.channels.get(consoleID).send(`Error at ${message.guild.id}/${message.channel.id}/${message.id}: \`${err.message}\``);
 		if(message.author.id === dragID)
-			return message.reply(`I have some issues here, go check the log ó.=.ò"`)
+			return message.reply(`I have some issues here, go check the log ó.=.ò"\nError: \`${err.message}\``)
 		else
-			return message.reply(`I've encountered some error, tell <@${dragID}> and blame him for that =. .=`);
+			return message.reply(`I've encountered some error, tell <@${dragID}> and blame him for that =. .=\nError: \`${err.message}\``);
 	}
 });
 
