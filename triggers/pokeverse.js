@@ -32,14 +32,17 @@ module.exports = {
             }
 
             if(raider.hasRaider && message.content.includes(`You exited the battle.`)){
-                targetChannel.overwritePermissions(message.author, {
+                const targetUser = message.client.users.get(raider.activeUserID);
+
+                message.channel.overwritePermissions(targetUser, {
                     SEND_MESSAGES: null
                 });
+
+                message.channel.send(`**${targetUser.tag}** has left the raid in **#${message.channel.name}**. Use \`${prefix}raid #${message.channel.name}\` to engage!`);
 
                 raider.activeUserID = undefined;
                 await raider.save().catch(err => console.log(err));
 
-                message.channel.send(`**${message.author.tag}** has left the raid in **#${messaage.channel.name}**. Use \`${s.prefix}raid #${message.channel.name}\` to engage!`);
                 return;
             }
 
@@ -68,7 +71,7 @@ module.exports = {
 
             if(targetEmbed){
                 console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
-                let msg = `🎊The Raider has been tamed by **${targetEmbed.author.name}**!🎊`;
+                let msg = `🎊 The Raider has been tamed by **${targetEmbed.author.name}**! 🎊`;
                 if(raider.spawnedBy){
                     msg += `\nThis raider is spawned by **${raider.spawnedBy}**.`;
                     console.log(`spawnedBy found: ${raider.spawnedBy}`);

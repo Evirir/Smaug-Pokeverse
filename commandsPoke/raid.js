@@ -37,7 +37,7 @@ module.exports = {
             raider.activeUserID = message.author.id;
 
             await raider.save().catch(err => console.log(err));
-            targetChannel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!\n\nNote: After you exited the battle, if the channel is still locked, please use \`${prefix}raid #${targetChannel.name}\` again.`);
+            targetChannel.send(`**${message.author.tag}** has engaged in a fight with the Raider in **#${targetChannel.name}**!\n(In case after you exited the battle but the channel is still locked, please use \`${prefix}raid #${targetChannel.name}\` again.)`);
             if(targetChannel !== message.channel) message.channel.send(`**${message.author.tag}** has engaged in a raid in **#${targetChannel.name}**!`);
             return;
         }
