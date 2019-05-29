@@ -31,7 +31,19 @@ module.exports = {
                 raider = newRaider;
             }
 
-            if(!message.embeds || !message.embeds.length) return;
+            if(raider.hasRaider && message.content.includes(`You exited the battle.`)){
+                targetChannel.overwritePermissions(message.author, {
+                    SEND_MESSAGES: null
+                });
+
+                raider.activeUserID = undefined;
+                await raider.save().catch(err => console.log(err));
+
+                message.channel.send(`**${message.author.tag}** has left the raid in **#${messaage.channel.name}**. Use \`${s.prefix}raid #${message.channel.name}\` to engage!`);
+                return;
+            }
+
+            if(!message.embeds) return;
 
             //Raider spawned
             let targetEmbed = message.embeds.find(e => (e.footer && e.footer.text.includes(`!fightr / !fr`)));
@@ -48,7 +60,7 @@ module.exports = {
 
                 await raider.save().catch(err => console.log(err));
                 console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                return message.channel.send(`**Raider Lock activated! Type \`${prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.**\nSpawned by: **${targetEmbed.author.name}**`).catch(err => console.log(err));
+                return message.channel.send(`Raider Lock activated! Type \`${prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.\nSpawned by: **${targetEmbed.author.name}**`).catch(err => console.log(err));
             }
 
             //Raider tamed
@@ -56,11 +68,12 @@ module.exports = {
 
             if(targetEmbed){
                 console.log(`Raider tamed at ${message.guild.name}/${message.channel.name}`);
-                message.channel.send(`🎊The Raider has been tamed by **${targetEmbed.author.name}**!🎊`);
+                let msg = `🎊The Raider has been tamed by **${targetEmbed.author.name}**!🎊`;
                 if(raider.spawnedBy){
-                    message.channel.send(`This raider is spawned by **${raider.spawnedBy}**`);
+                    msg += `\nThis raider is spawned by **${raider.spawnedBy}**.`;
                     console.log(`spawnedBy found: ${raider.spawnedBy}`);
                 }
+                message.channel.send(msg);
 
                 raiderSettings.lockRoles.forEach(async r => {
                     await message.channel.overwritePermissions(message.guild.roles.get(r), {
