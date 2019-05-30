@@ -26,7 +26,9 @@ module.exports = {
     titleCase: titleCase,
     extract: extract,
 
-    getMentionUser(client, mention){
+    getMentionUser(message, position){
+        let mention = extract(message.content, position);
+
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
 
@@ -34,18 +36,20 @@ module.exports = {
     			mention = mention.slice(1);
     		}
 
-    		return client.users.get(mention);
+    		return message.client.users.get(mention);
     	}
-        else if(!isNaN(mention)){
-            return client.users.get(mention);
+
+        if(isNaN(mention)){
+            return message.client.users.find(u => u.tag === mention);
         }
-        else{
-            return client.users.find(u => u.tag === mention);
-        }
+
+        return message.client.users.get(mention);
     },
 
-    getMentionChannel(message, mention){
-    	if (mention.startsWith('<#') && mention.endsWith('>')) {
+    getMentionChannel(message, position){
+        let mention = extract(message.content, position);
+
+    	if(mention.startsWith('<#') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
         }
 
@@ -60,7 +64,7 @@ module.exports = {
         }
 
         if(isNaN(mention)){
-            return message.guild.roles.find(r => r.name.toLowerCase() === mention.toLowerCase());
+            return message.guild.roles.find(r => r.name === mention);
         }
 
     	return message.guild.roles.get(mention);
@@ -74,5 +78,5 @@ module.exports = {
         let diffSec =  Math.floor(tmpSec/(1000));
 
         return `${timefy(diffHr)}h ${timefy(diffMin)}m ${timefy(diffSec)}s`;
-    },
+    }
 };

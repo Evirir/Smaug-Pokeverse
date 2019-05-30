@@ -21,7 +21,7 @@ module.exports = {
         if(!raiderSettings || !raiderSettings.raiderLockEnabled)
             return message.channel.send(`Raider Lock is disabled in this server. Please see \`${prefix}help raidset\` for more info.`);
 
-        let targetChannel = getMentionChannel(message, args[0]);
+        let targetChannel = getMentionChannel(message, 0);
         if(!targetChannel) return message.reply(`I cannot find this channel in this server.`);
 
         let raider = await Raider.findOne({channelID: targetChannel.id}).catch(err => console.log(err));

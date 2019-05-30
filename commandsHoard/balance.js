@@ -11,10 +11,8 @@ module.exports = {
     usage: `@mentionUser/userTag`,
 
 	async execute(message, args){
-		let target;
-		let raw = message.content.slice(message.content.indexOf(' ') + 1).trim();
-        if(args.length) target = getMentionUser(message.client, raw) || message.author;
-        else target = message.author;
+		let target = message.author;
+        if(args.length) target = getMentionUser(message, 0) || message.author;
 
 		let money = await Money.findOne({userID: target.id}).catch(err => console.log(err));
 		if(!money){

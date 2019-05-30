@@ -14,8 +14,9 @@ module.exports = {
 
 	execute(message, args){
 		if(!message.mentions.users.size) return message.reply(`you must mention a user to add coins to.`);
-        const target = message.mentions.users.first();
-        const addedCoins = parseInt(args[1]);
+        const addedCoins = parseInt(args[0]);
+		const target = getMentionUser(message, 1);
+		
         Money.findOne({
             userID: target.id
         }, (err, money) => {
