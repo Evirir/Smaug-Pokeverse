@@ -13,7 +13,7 @@ module.exports = {
     dev: true,
 
 	async execute(message, args, prefix) {
-        let targetChannel = getMentionChannel(message, args[0]);
+        let targetChannel = getMentionChannel(message, 0);
         if(!targetChannel || !message.guild.channels.get(targetChannel.id)) return message.reply(`I cannot find this channel in this server.`);
 
         let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));

@@ -14,7 +14,7 @@ module.exports = {
 
 	async execute (message, args) {
         let target = message.author;
-        if(args.length) target = getMentionUser(message, args[0]) || message.author;
+        if(args.length) target = getMentionUser(message, 0) || message.author;
 
         let graphClient = await GraphClient.findOne({}).catch(err => console.log(err));
         if(!graphClient) return console.log(`profile.js: No graph client found`);

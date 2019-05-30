@@ -9,7 +9,7 @@ module.exports = {
 	dev: true,
 
 	async execute(message, args){
-		const arg1 = extract(message.content, 0);
-		message.channel.send(arg1);
+		const arg1 = getMentionRole(message, 1, 1);
+		message.channel.send(arg1.id);
 	}
 }

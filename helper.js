@@ -13,9 +13,10 @@ function titleCase(str) {
    return splitStr.join(' ');
 }
 
-function extract(content, position){
+function extract(message, position){
+    let content = message.content;
     position++;
-    while(position--) {content = content.slice(content.search(/ +/) + 1).trim(); console.log(`Position=${position}, content=${content}`);}
+    while(position--) content = content.slice(content.search(/\s+/) + 1).trim();
     return content;
 }
 
@@ -27,6 +28,13 @@ module.exports = {
     extract: extract,
 
     getMentionUser(message, mention){
+        let mention;
+        const args = message.content.split(/ +/);
+        args.shift().toLowerCase();
+
+        if(toEnd) mention = extract(message, position);
+        else mention = args[position];
+
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
 
@@ -44,7 +52,14 @@ module.exports = {
         return message.client.users.get(mention);
     },
 
-    getMentionChannel(message, mention){
+    getMentionChannel(message, position, toEnd = 0){
+        let mention;
+        const args = message.content.split(/ +/);
+        args.shift().toLowerCase();
+
+        if(toEnd) mention = extract(message, position);
+        else mention = args[position];
+
     	if(mention.startsWith('<#') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
         }
@@ -53,12 +68,19 @@ module.exports = {
     },
 
     getMentionRole(message, mention){
+        let mention;
+        const args = message.content.split(/ +/);
+        args.shift().toLowerCase();
+
+        if(toEnd) mention = extract(message, position);
+        else mention = args[position];
+
     	if(mention.startsWith('<@&') && mention.endsWith('>')) {
     		mention = mention.slice(3, -1);
         }
 
         if(isNaN(mention)){
-            return message.guild.roles.find(r => r.name === mention);
+            return message.guild.roles.find(r => r.name.toLowerCase() === mention.toLowerCase());
         }
 
     	return message.guild.roles.get(mention);

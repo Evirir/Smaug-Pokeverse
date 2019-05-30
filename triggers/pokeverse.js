@@ -34,11 +34,13 @@ module.exports = {
             if(raider.hasRaider && message.content.includes(`You exited the battle.`)){
                 const targetUser = message.client.users.get(raider.activeUserID);
 
+                if(!targetUser) return message.channel.send(`Someone has left the raid here. Use \`${prefix}raid #${message.channel.name}\` to engage!`);
+
                 message.channel.overwritePermissions(targetUser, {
                     SEND_MESSAGES: null
                 });
 
-                message.channel.send(`**${targetUser.tag}** has left the raid in **#${message.channel.name}**. Use \`${prefix}raid #${message.channel.name}\` to engage!`);
+                message.channel.send(`**${targetUser.tag}** has left the raid here. Use \`${prefix}raid #${message.channel.name}\` to engage!`);
 
                 raider.activeUserID = undefined;
                 await raider.save().catch(err => console.log(err));
