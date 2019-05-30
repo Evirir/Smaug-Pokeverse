@@ -27,7 +27,7 @@ module.exports = {
     titleCase: titleCase,
     extract: extract,
 
-    getMentionUser(message, mention){
+    getMentionUser(message, position, toEnd = 0){
         let mention;
         const args = message.content.split(/ +/);
         args.shift().toLowerCase();
@@ -67,7 +67,7 @@ module.exports = {
     	return message.guild.channels.get(mention);
     },
 
-    getMentionRole(message, mention){
+    getMentionRole(message, position, toEnd = 0){
         let mention;
         const args = message.content.split(/ +/);
         args.shift().toLowerCase();
