@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const cytoscape = require('cytoscape');
-const {extract} = require('../helper.js');
+const {getMentionRole, extract} = require('../helper.js');
 
 module.exports = {
 	name: `test`,
@@ -9,6 +9,7 @@ module.exports = {
 	dev: true,
 
 	async execute(message, args){
-		message.channel.send(getMentionRole(message, 0).name);
+		const arg1 = extract(message.content, 0);
+		message.channel.send(arg1);
 	}
 }

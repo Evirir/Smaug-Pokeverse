@@ -19,7 +19,7 @@ module.exports = {
 		}
 
 		if(!message.member.hasPermission('MANAGE_GUILD')){
-			return message.reply('you do not have the permission to change the prefix!');
+			return message.reply('you the \`MANAGE SERVER\` permission to change the prefix!');
 		}
 
 		let p = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));

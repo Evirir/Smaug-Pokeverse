@@ -15,7 +15,7 @@ function titleCase(str) {
 
 function extract(content, position){
     position++;
-    while(position--) content = content.slice(content.indexOf(/\s+/) + 1).trim();
+    while(position--) {content = content.slice(content.search(/ +/) + 1).trim(); console.log(`Position=${position}, content=${content}`);}
     return content;
 }
 
@@ -26,9 +26,7 @@ module.exports = {
     titleCase: titleCase,
     extract: extract,
 
-    getMentionUser(message, position){
-        let mention = extract(message.content, position);
-
+    getMentionUser(message, mention){
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
 
@@ -46,9 +44,7 @@ module.exports = {
         return message.client.users.get(mention);
     },
 
-    getMentionChannel(message, position){
-        let mention = extract(message.content, position);
-
+    getMentionChannel(message, mention){
     	if(mention.startsWith('<#') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
         }
@@ -56,9 +52,7 @@ module.exports = {
     	return message.guild.channels.get(mention);
     },
 
-    getMentionRole(message, position){
-        let mention = extract(message.content, position);
-
+    getMentionRole(message, mention){
     	if(mention.startsWith('<@&') && mention.endsWith('>')) {
     		mention = mention.slice(3, -1);
         }

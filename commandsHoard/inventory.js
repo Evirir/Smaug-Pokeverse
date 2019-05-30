@@ -12,7 +12,7 @@ module.exports = {
 
     async execute (message, args) {
         let target = message.author;
-        if(args.length) target = getMentionUser(message, 0) || message.author;
+        if(args.length) target = getMentionUser(message, args[0]) || message.author;
 
         let money = await Money.findOne({userID: target.id}).catch(err => console.log(err));
         if(!money){

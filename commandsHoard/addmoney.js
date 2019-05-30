@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-
+const {getMentionUser, extract} = require('../helper.js');
 const Money = require('../models/money.js');
 
 module.exports = {
@@ -15,8 +15,8 @@ module.exports = {
 	execute(message, args){
 		if(!message.mentions.users.size) return message.reply(`you must mention a user to add coins to.`);
         const addedCoins = parseInt(args[0]);
-		const target = getMentionUser(message, 1);
-		
+		const target = getMentionUser(message, extract(message, 1));
+
         Money.findOne({
             userID: target.id
         }, (err, money) => {
