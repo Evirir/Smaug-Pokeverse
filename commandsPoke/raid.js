@@ -21,7 +21,7 @@ module.exports = {
         if(!raiderSettings || !raiderSettings.raiderLockEnabled)
             return message.channel.send(`Raider Lock is disabled in this server. Please see \`${prefix}help raidset\` for more info.`);
 
-        let targetChannel = getMentionChannel(message, 0); 
+        let targetChannel = getMentionChannel(message, 0);
         if(!targetChannel) return message.reply(`I cannot find this channel in this server.`);
 
         let raider = await Raider.findOne({channelID: targetChannel.id}).catch(err => console.log(err));
@@ -43,9 +43,8 @@ module.exports = {
         }
         else {
             if(raider.activeUserID === message.author.id){
-                targetChannel.overwritePermissions(message.author, {
-                    SEND_MESSAGES: null
-                });
+                const exiterPerm = targetChannel.permissionOverwrites.get(message.author.id);
+                if(exiterPerm) exiterPerm.delete();
 
                 raider.activeUserID = undefined;
                 await raider.save().catch(err => console.log(err));

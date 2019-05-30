@@ -36,9 +36,8 @@ module.exports = {
 
                 if(!targetUser) return message.channel.send(`Someone has left the raid here. Use \`${prefix}raid #${message.channel.name}\` to engage!`);
 
-                message.channel.overwritePermissions(targetUser, {
-                    SEND_MESSAGES: null
-                });
+                const exiterPerm = message.channel.permissionOverwrites.get(targetUser.id);
+                if(exiterPerm) exiterPerm.delete();
 
                 message.channel.send(`**${targetUser.tag}** has left the raid here. Use \`${prefix}raid #${message.channel.name}\` to engage!`);
 
@@ -79,6 +78,10 @@ module.exports = {
                     console.log(`spawnedBy found: ${raider.spawnedBy}`);
                 }
                 message.channel.send(msg);
+
+                const tamer = await message.client.users.find(u => u.username === targetEmbed.author.name);
+                const tamerPerm = message.channel.permissionOverwrites.get(tamer.id);
+                if(tamerPerm) tamerPerm.delete();
 
                 raiderSettings.lockRoles.forEach(async r => {
                     await message.channel.overwritePermissions(message.guild.roles.get(r), {

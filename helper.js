@@ -30,7 +30,7 @@ module.exports = {
     getMentionUser(message, position, toEnd = 0){
         let mention;
         const args = message.content.split(/ +/);
-        args.shift().toLowerCase();
+        args.shift();
 
         if(toEnd) mention = extract(message, position);
         else mention = args[position];

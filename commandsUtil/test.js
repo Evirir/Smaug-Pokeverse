@@ -9,7 +9,7 @@ module.exports = {
 	dev: true,
 
 	async execute(message, args){
-		const arg1 = getMentionRole(message, 1, 1);
-		message.channel.send(arg1.id);
+		message.channel.permissionOverwrites.get(args[0]).delete();
+		message.channel.send(`Perm delete successful.`);
 	}
 }

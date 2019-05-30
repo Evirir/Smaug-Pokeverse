@@ -9,30 +9,26 @@ module.exports = {
     aliases: ['am'],
     hoard: true,
 	args: true,
-    usage: `@mentionUser [amount]`,
+    usage: `[@mentionUser/userTag#2212/userID] [amount]`,
 	dev: true,
 
-	execute(message, args){
-		if(!message.mentions.users.size) return message.reply(`you must mention a user to add coins to.`);
+	async execute(message, args){
         const addedCoins = parseInt(args[0]);
 		const target = getMentionUser(message, 1, 1);
+		if(!target) return message.reply(`I couldn't find that user.`);
 
-        Money.findOne({
-            userID: target.id
-        }, (err, money) => {
-			if(err) return console.log(err);
+        const money = await Money.findOne({userID: target.id}).catch(err => console.log(err));
 
-			if(!money) return message.channel.send(`That user hasn't joined the game yet!`);
+		if(!money) return message.channel.send(`That user hasn't joined the game yet!`);
 
-			money.money += addedCoins;
-            money.save().catch(err => console.log(err));
+		money.money += addedCoins;
+        money.save().catch(err => console.log(err));
 
-			let embed = new Discord.RichEmbed()
-			.setAuthor(`Added ${addedCoins} to ${target.tag}'s hoard!`, target.displayAvatarURL)
-			.setColor('GREEN')
-            .addField("Balance", money.money, true);
+		let embed = new Discord.RichEmbed()
+		.setAuthor(`Added ${addedCoins} to ${target.tag}'s hoard!`, target.displayAvatarURL)
+		.setColor('GREEN')
+        .addField("Balance", money.money, true);
 
-			return message.channel.send(embed);
-        });
+		return message.channel.send(embed);
 	}
 };
