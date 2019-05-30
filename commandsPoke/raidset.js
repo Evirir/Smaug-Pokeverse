@@ -68,7 +68,7 @@ module.exports = {
             let type = args[1];
             if(type !== 'add' && type !== 'remove') return message.reply('invalid arguments. The second argument must be either add/remove.');
 
-            let role = getMentionRole(message, args[2]);
+            let role = getMentionRole(message, 2);
             if(!role){
                 if(args[2] === 'everyone') role = message.guild.defaultRole;
                 else return message.reply(`that role does not exist in this server.`);

@@ -1,9 +1,8 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
-const {uri} = require('./config.json');
+const {defaultPrefix, bot_name} = require('./config.json');
 
-const {defaultPrefix, token, bot_name} = require('./config.json');
 const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json`);
 const {consoleID, messageID, startupID, betastartupID} = require(`./specificData/channels.json`);
 const trigger = require('./triggers/triggers.js');
@@ -27,7 +26,7 @@ Categories.forEach(category => {
 });
 
 client.once('ready', () => {
-	mongoose.connect(uri, {useNewUrlParser: true}).catch(err => console.log(err));
+	mongoose.connect(process.env.RACCOON, {useNewUrlParser: true}).catch(err => console.log(err));
 	let startmsg = `It's currently **${client.readyAt}**\n`;
 	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);
@@ -162,4 +161,4 @@ client.on('message', async message => {
 	}
 });
 
-client.login(token);
+client.login(process.env.MEOWS);

@@ -5,16 +5,26 @@ function timefy(t){
     else return t;
 }
 
+function titleCase(str) {
+   let splitStr = str.toLowerCase().split(' ');
+   for (let i = 0; i < splitStr.length; i++) {
+       splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+   }
+   return splitStr.join(' ');
+}
+
+function extract(content, position){
+    position++;
+    while(position--) content = content.slice(content.indexOf(/\s+/) + 1).trim();
+    return content;
+}
+
 module.exports = {
     DayinMS: 24*60*60*1000,
 
-    titleCase(str) {
-       var splitStr = str.toLowerCase().split(' ');
-       for (var i = 0; i < splitStr.length; i++) {
-           splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
-       }
-       return splitStr.join(' ');
-   },
+    timefy: timefy,
+    titleCase: titleCase,
+    extract: extract,
 
     getMentionUser(client, mention){
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
@@ -42,14 +52,14 @@ module.exports = {
     	return message.guild.channels.get(mention);
     },
 
-    getMentionRole(message, mention){
+    getMentionRole(message, position){
+        let mention = extract(message.content, position);
+
     	if(mention.startsWith('<@&') && mention.endsWith('>')) {
     		mention = mention.slice(3, -1);
         }
 
-        if(isNaN){
-            let start = mention.indexOf(" ") + 1;
-            mention = mention.slice(start).trim();
+        if(isNaN(mention)){
             return message.guild.roles.find(r => r.name.toLowerCase() === mention.toLowerCase());
         }
 
@@ -61,7 +71,7 @@ module.exports = {
         let tmpMin = diffTime - (diffHr*(1000*60*60));
         let diffMin = Math.floor(tmpMin/(1000*60));
         let tmpSec = tmpMin - (diffMin*(1000*60));
-        let diffSec = Math.floor(tmpSec/(1000));
+        let diffSec =  Math.floor(tmpSec/(1000));
 
         return `${timefy(diffHr)}h ${timefy(diffMin)}m ${timefy(diffSec)}s`;
     },
