@@ -8,7 +8,7 @@ module.exports = {
 	execute(message, args) {
         if(args[0] !== `confirm`) return message.channel.send(`${message.author} ,,restart confirm`);
 
-        message.channel.send(`Bot will restart.`);
+        await message.channel.send(`Restarting bot.`);
         process.exit();
 	}
 };
