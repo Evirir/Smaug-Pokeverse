@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 
 const pokeverseRaiderSchema = mongoose.Schema({
     channelID: String,

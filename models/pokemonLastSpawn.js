@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 
 const pokemonLastSpawnSchema = mongoose.Schema({
     channelID: String,

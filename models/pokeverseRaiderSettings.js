@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 
 const pokeverseRaiderSettingsSchema = mongoose.Schema({
     serverID: String,

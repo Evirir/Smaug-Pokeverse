@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 
 const graphClientSchema = mongoose.Schema({
     totalGraphers: Number

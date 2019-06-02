@@ -1,4 +1,4 @@
-
+const mongoose = require('mongoose');
 
 const graphItemSchema = mongoose.Schema({
     name: String,
