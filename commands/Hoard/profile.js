@@ -34,7 +34,7 @@ module.exports = {
         let embed = new Discord.RichEmbed()
         .setAuthor(`${target.username}'s profile`, target.displayAvatarURL)
         .setColor('GOLD')
-		.setDescription(`Current node in this server: **\`${currentNode}\`**\nYou're the **${ordinal(graphUser.joined + 1)}** person to join this game.`)
+		.setDescription(`**Current node:** \`${currentNode}\``)
 	    .addField(`Coins`, `${graphUser.money}💰`)
 		.addField(`Kills`, graphUser.kills, true)
 		.addField(`Deaths`, graphUser.deaths, true)
