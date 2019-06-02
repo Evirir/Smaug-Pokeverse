@@ -25,7 +25,7 @@ function extract(message, position){
 
 function ordinal(num){
     num = num.toString();
-    
+
     let suffix = "";
     if(num.endsWith('1'))       suffix = "st";
     else if(num.endsWith('2'))  suffix = "nd";
@@ -130,5 +130,14 @@ module.exports = {
 
         await graphClient.save().catch(err => console.log(err));
         return newUser;
+    },
+
+    async newGraphServerUser(user, graphServer){
+        currentNode = graphServer.nodeCount.toString();
+        await graphServer.graphUsers.set(user.id, currentNode);
+        await graphServer.nodeUsers.set(currentNode, [user.id]);
+        await graphServer.adj.set(currentNode, []);
+        graphServer.nodeCount++;
+        await graphServer.save().catch(err => console.log(err));
     }
 };

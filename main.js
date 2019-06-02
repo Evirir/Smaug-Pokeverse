@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const {defaultPrefix, bot_name, Categories} = require('./config.json');
-const {newGraphUser} = require('./helper.js');
+const {newGraphUser, newGraphServerUser} = require('./helper.js');
 
 const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json`);
 const {consoleID, messageID, startupID, betastartupID} = require(`./specificData/channels.json`);
@@ -130,14 +130,10 @@ client.on('message', async message => {
 			});
 			await graphServer.save().catch(err => console.log(err));
 		}
+
 		let currentNode = graphServer.graphUsers.get(message.author.id);
 		if(currentNode === undefined){
-			currentNode = graphServer.nodeCount.toString();
-			await graphServer.graphUsers.set(message.author.id, currentNode);
-			await graphServer.nodeUsers.set(currentNode, [message.author.id]);
-			await graphServer.adj.set(currentNode, []);
-			graphServer.nodeCount++;
-			await graphServer.save().catch(err => console.log(err));
+			await newGraphServerUser(message.author, graphServer);
 		}
 
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));

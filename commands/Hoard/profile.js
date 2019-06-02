@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const GraphUser = require('../../models/graphUser.js');
 const GraphServer = require('../../models/graphServer.js');
-const {getMentionUser, newGraphUser, ordinal} = require('../../helper.js');
+const {getMentionUser, newGraphUser, newGraphServerUser, ordinal} = require('../../helper.js');
 
 module.exports = {
 	name: 'profile',
@@ -24,9 +24,7 @@ module.exports = {
 
 		let currentNode = graphServer.graphUsers.get(target.id);
 		if(currentNode === undefined){
-			graphServer.graphUsers.set(target.id, graphServer.nodeCount);
-			currentNode = graphServer.nodeCount++;
-			await graphServer.save().catch(err => console.log(err));
+			await newGraphServerUser(target, graphServer);
 		}
 
 		const kda = (graphUser.deaths === 0) ? graphUser.kills : graphUser.kills/graphUser.deaths;
