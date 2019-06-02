@@ -5,7 +5,7 @@ module.exports = {
     usage: `confirm`,
     dev: true,
 
-	execute(message, args) {
+	async execute(message, args) {
         if(args[0] !== `confirm`) return message.channel.send(`${message.author} ,,restart confirm`);
 
         await message.channel.send(`Restarting bot.`);
