@@ -15,7 +15,7 @@ module.exports = {
 
         let graphUser = await GraphUser.findOne({userID: target.id}).catch(err => console.log(err));
         if(!graphUser){
-            graphUser = newGraphUser(target);
+            graphUser = await newGraphUser(target);
             await graphUser.save().catch(err => console.log(err));
         }
 
@@ -25,6 +25,7 @@ module.exports = {
 		let currentNode = graphServer.graphUsers.get(target.id);
 		if(currentNode === undefined){
 			await newGraphServerUser(target, graphServer);
+			currentNode = graphServer.graphUsers.get(target.id);
 		}
 
 		const kda = (graphUser.deaths === 0) ? graphUser.kills : graphUser.kills/graphUser.deaths;
