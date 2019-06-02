@@ -6,8 +6,9 @@ const {getMentionUser, newGraphUser} = require('../../helper.js');
 
 module.exports = {
 	name: 'profile',
-	description: `Checks your profile.`,
+	description: `Checks someone's profile.`,
     aliases: ['pf'],
+	usage: `[target]`,
 
 	async execute (message, args) {
         let target = message.author;

@@ -7,7 +7,7 @@ module.exports = {
 	name: 'balance',
 	description: `Check someone's balance.`,
     aliases: ['bal'],
-    usage: `@mentionUser/userTag`,
+    usage: `[target]`,
 
 	async execute(message, args){
 		let target = message.author;
