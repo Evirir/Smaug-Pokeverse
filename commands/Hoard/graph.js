@@ -19,7 +19,7 @@ module.exports = {
 		.setColor(`GOLD`)
 		.setAuthor(message.author.username, message.author.displayAvatarURL)
 		.setTitle(`${message.guild.name}'s graph`)
-		.setDescription(`Your neighbours are: \`${neighbours.join(', ')}\``)
+		.setDescription(neighbours.length ? "You have no neighbours. Both a good thing and a bad thing." : `Your neighbours are: \`${neighbours.join(', ')}\``)
 
 		message.channel.send(embed);
 	}
