@@ -64,7 +64,9 @@ module.exports = {
 
                 await raider.save().catch(err => console.log(err));
                 console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
-                message.client.users.get(geomID).send(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
+
+                const geomUser = await message.client.users.get(geomID);
+                if(message.guild.member(geomUser)) geomUser.send(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
                 return message.channel.send(`Raider Lock activated! Type \`${prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the Raider.\nSpawned by: **${targetEmbed.author.name}**`).catch(err => console.log(err));
             }
 
