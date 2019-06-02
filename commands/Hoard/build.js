@@ -20,7 +20,7 @@ module.exports = {
         let adj = graphServer.adj;
         let currentNode = parseInt(graphServer.graphUsers.get(message.author.id));
         let targetNode = parseInt(args[0]);
-        if(isNaN(targetNode) || targetNode >= graphServer.nodeCount || targetNode < 0) return message.channel.send(`Invalid node number. Node range: \`0-${graphServer.nodeCount - 1}\``);
+        if(isNaN(targetNode) || targetNode >= graphServer.nodeCount || targetNode < 0) return message.channel.send(`Invalid node number. Node range: \`[0, ${graphServer.nodeCount - 1}]\``);
 
         if(targetNode === currentNode) return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
 
