@@ -21,15 +21,20 @@ module.exports = {
 			.setDescription(`Hey, I'm Smaug the dragon! My current prefix is \`${prefix}\`\nHere are all the magic spells that I know:`)
 			.setFooter(`Send ${prefix}help [command] for more info on the spell! ^.=.^`);
 
+			let devArray = [];
+
 			Categories.forEach(category => {
 				const commandFiles = fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith('.js'));
 				let commandArray = [];
 				commandFiles.forEach(file => {
 					const command = require(`../${category}/${file}`);
-					if(!command.hidden)	commandArray.push(command.name);
+					if(command.dev) devArray.push(command.name);
+					else if(!command.hidden)	commandArray.push(command.name);
 				});
 				embed.addField(`${category} commands`, `\`${commandArray.join('` `')}\``)
 			});
+
+			embed.addField(`Developer commands`, `\`${devArray.join('` `')}\``);
 
 			return message.channel.send(embed);
 		}
