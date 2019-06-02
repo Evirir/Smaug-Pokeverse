@@ -147,7 +147,7 @@ client.on('message', async message => {
 	}
 	catch(err){
 		console.log(err);
-		client.channels.get(consoleID).send(`Error at ${message.guild.id}/${message.channel.id}/${message.id}: \`${err.message}\``);
+		client.channels.get(consoleID).send(`Error at ${message.guild.name}/${message.channel.name}/${message.id} (${message.guild.id}/${message.channel.id}):\n\`${err.message}\``);
 		if(message.author.id === dragID)
 			return message.reply(`I have some issues here, go check the log ó.=.ò"\nError: \`${err.message}\``)
 		else
