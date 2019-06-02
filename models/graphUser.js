@@ -5,6 +5,7 @@ const graphUserSchema = mongoose.Schema({
     graphID: Number,
     node: Number,
     energy: Number,
+    money: Number,
     type: String,
     kills: Number,
     deaths: Number,

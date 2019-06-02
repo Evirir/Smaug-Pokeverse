@@ -15,6 +15,7 @@ const GraphClient = require('./models/graphClient.js');
 let cooldowns = new Discord.Collection();
 
 const client = new Discord.Client();
+const hoardCommands = [];
 client.commands = new Discord.Collection();
 
 Categories.forEach(category => {
@@ -22,6 +23,7 @@ Categories.forEach(category => {
 	for(const file of commandFiles){
 		const command = require(`./commands/${category}/${file}`);
 		client.commands.set(command.name, command);
+		if(category === 'Hoard') hoardCommands.push(command.name);
 	}
 });
 
@@ -107,7 +109,7 @@ client.on('message', async message => {
 		setTimeout(() => timestamps.delete(message.author.id), cdTime);
 	}
 
-	if(command.hoard){
+	if(hoardCommands.includes(command.name)){
 		let graphClient = await GraphClient.findOne().catch(err => console.log(err));
 		if(!graphClient){
 			graphClient = new GraphClient({
@@ -117,24 +119,26 @@ client.on('message', async message => {
 
 		let graphServer = await GraphServer.findOne().catch(err => console.log(err));
 		if(!graphServer){
-			graphServer = new GraphClient({
-				totalGraphers: 0
+			graphServer = new GraphServer({
+				serverID: message.guild.id,
+			    nodeCount: 0,
+			    adj: []
 			});
 		}
 
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
 		if(!graphUser){
 			graphUser = newGraphUser(message, graphClient);
-			await graphUser.save().catch(err => console.log(err));
 			graphClient.totalGraphers++;
 
-			let embed = new Discord.RichEmbed()
+			const embed = new Discord.RichEmbed()
 			.setAuthor(`${message.author.username}, welcome to the graph arena!`, message.author.displayAvatarURL)
 			.setDescription(`Most of the commands in this game is useless for now tho haha`)
 			.setColor('ORANGE')
 
 			message.channel.send(embed);
 		}
+		await graphUser.save().catch(err => console.log(err));
 		await graphClient.save().catch(err => console.log(err));
 	}
 

@@ -102,6 +102,7 @@ module.exports = {
             userID: message.author.id,
             graphID: graphClient.totalGraphers,
             node: graphClient.totalGraphers,
+            money: 1000,
             energy: 6,
             kills: 0,
             deaths: 0,

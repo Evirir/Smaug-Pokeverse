@@ -6,7 +6,7 @@ const Item = require('../../models/graphItem.js');
 
 module.exports = {
 	name: 'use',
-	description: `owo what's this? *uses something*  *triggers volcano*`,
+	description: `owo what's this? *uses something*  *triggers volcano eruption*`,
     usage: `[item]`,
     wip: true,
 
