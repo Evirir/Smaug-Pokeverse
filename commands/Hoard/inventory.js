@@ -29,7 +29,7 @@ module.exports = {
         .addField(`Coins`, `${graphUser.money}💰`);
 
         let list = "";
-        money.inventory.forEach(item => {
+        graphUser.inventory.forEach(item => {
             list += `${item.name} x${item.amount}\n`;
         });
 
