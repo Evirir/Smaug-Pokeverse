@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const GraphUser = require('./models/graphUser.js');
+const GraphServer = require('./models/graphServer.js');
 const GraphClient = require('./models/graphClient.js');
 
 function timefy(t){
@@ -99,13 +100,13 @@ module.exports = {
     },
 
     async newGraphUser(user){
-        const graphClient = await GraphClient.findOne().catch(err => console.log(err));
+        //const {userTypes} = require('./specificData/userTypes.js');
+        let graphClient = await GraphClient.findOne().catch(err => console.log(err));
         if(!graphClient) return console.log(`helper.js/newGraphUser: No graphClient found.`);
 
-        return new GraphUser({
+        const newUser = new GraphUser({
             userID: user.id,
-            graphID: graphClient.totalGraphers,
-            node: graphClient.totalGraphers,
+            joined: graphClient.totalGraphers++,
             money: 1000,
             energy: 6,
             kills: 0,
@@ -113,5 +114,8 @@ module.exports = {
             nextDaily: new Date(),
             inventory: []
         });
+
+        await graphClient.save().catch(err => console.log(err));
+        return newUser;
     }
 };

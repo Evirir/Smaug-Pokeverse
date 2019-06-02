@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const GraphUser = require('../../models/graphUser.js');
-const GraphClient = require('../../models/graphClient.js');
+const GraphServer = require('../../models/graphServer.js');
 const {getMentionUser, newGraphUser} = require('../../helper.js');
 
 module.exports = {
@@ -10,25 +10,35 @@ module.exports = {
     aliases: ['pf'],
 
 	async execute (message, args) {
-        let target = message.author;;
+        let target = message.author;
         if(args.length) target = getMentionUser(message, 0) || message.author;
 
         let graphUser = await GraphUser.findOne({userID: target.id}).catch(err => console.log(err));
         if(!graphUser){
-            graphUser = new newGraphUser(message.author);
+            graphUser = newGraphUser(target);
             await graphUser.save().catch(err => console.log(err));
         }
 
-		const kda = (deaths === 0) ? kills : kills/deaths;
+		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+        if(!graphServer) return console.log(`profile.js: No graphServer data found.`);
+
+		let currentNode = graphServer.graphUsers.get(target.id);
+		if(!currentNode){
+			graphServer.graphUsers.set(target.id, graphServer.nodeCount);
+			currentNode = graphServer.nodeCount++;
+			await graphServer.save().catch(err => console.log(err));
+		}
+
+		const kda = (graphUser.deaths === 0) ? graphUser.kills : graphUser.kills/graphUser.deaths;
 
         let embed = new Discord.RichEmbed()
         .setAuthor(`${target.username}'s profile`, target.displayAvatarURL)
         .setColor('GOLD')
-		.addField(`Currently at node: ${target.node}`, '\u200B')
+		.setDescription(`In this server, you're currently at node: \`${currentNode}\``)
         .addField(`Coins`, `${graphUser.money}💰`)
-		.addField(`Kills`, kills, true)
-		.addField(`Deaths`, deaths, true)
-		.addField(`KDA`, kda.toFixed(2))
+		.addField(`Kills`, graphUser.kills, true)
+		.addField(`Deaths`, graphUser.deaths, true)
+		.addField(`KDA`, kda.toFixed(2), true)
 
         message.channel.send(embed);
     }

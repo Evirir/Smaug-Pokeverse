@@ -116,30 +116,32 @@ client.on('message', async message => {
 				totalGraphers: 0
 			});
 		}
+		await graphClient.save().catch(err => console.log(err));
 
-		let graphServer = await GraphServer.findOne().catch(err => console.log(err));
+		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(!graphServer){
 			graphServer = new GraphServer({
 				serverID: message.guild.id,
 			    nodeCount: 0,
-			    adj: []
+			    adj: [],
+			    graphUsers: [],
+			    nodeUsers: []
 			});
 		}
+		await graphServer.save().catch(err => console.log(err));
 
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
 		if(!graphUser){
-			graphUser = newGraphUser(message, graphClient);
-			graphClient.totalGraphers++;
+			graphUser = await newGraphUser(message.author);
 
 			const embed = new Discord.RichEmbed()
 			.setAuthor(`${message.author.username}, welcome to the graph arena!`, message.author.displayAvatarURL)
-			.setDescription(`Most of the commands in this game is useless for now tho haha`)
+			.setDescription(`Most of the commands in this game are useless for now tho haha`)
 			.setColor('ORANGE')
 
 			message.channel.send(embed);
 		}
 		await graphUser.save().catch(err => console.log(err));
-		await graphClient.save().catch(err => console.log(err));
 	}
 
 	try{
