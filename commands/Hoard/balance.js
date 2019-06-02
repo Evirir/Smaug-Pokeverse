@@ -15,12 +15,7 @@ module.exports = {
 
 		let graphUser = await GraphUser.findOne({userID: target.id}).catch(err => console.log(err));
 		if(!graphUser){
-        	graphUser = new GraphUser({
-        		userID: target.id,
-        		money: 1000,
-        		nextDaily: new Date(),
-        		inventory: []
-        	});
+        	graphUser = newgraphUser(target);
         	await graphUser.save().catch(err => console.log(err));
         }
 

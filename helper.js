@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const GraphUser = require('./models/graphUser.js');
+const GraphClient = require('./models/graphClient.js');
 
 function timefy(t){
     if(t<10) return '0'+t;
@@ -97,9 +98,12 @@ module.exports = {
         return `${timefy(diffHr)}h ${timefy(diffMin)}m ${timefy(diffSec)}s`;
     },
 
-    newGraphUser(message, graphClient){
+    newGraphUser(user){
+        const graphClient = await GraphClient.findOne().catch(err => console.log(err));
+        if(!graphClient) return console.log(`helper.js/newGraphUser: No graphClient found.`);
+
         return new GraphUser({
-            userID: message.author.id,
+            userID: user.id,
             graphID: graphClient.totalGraphers,
             node: graphClient.totalGraphers,
             money: 1000,
