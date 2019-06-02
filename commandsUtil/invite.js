@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const {inviteLink} = require('../config.json');
 
 module.exports = {
 	name: 'invite',
@@ -8,7 +9,7 @@ module.exports = {
 	async execute(message, args) {
 		let embed = new Discord.RichEmbed()
 		.setTitle(`Interested to have me in your server? Chant this blue, magical spell while worshipping the dragon god.`)
-		.setDescription(`[Flaargle Fla Gengubble](https://discordapp.com/oauth2/authorize?&client_id=557528854147629056&scope=bot&permissions=325712 "Nah just click on it")`)
+		.setDescription(`[Flaargle Fla Gengubble](${inviteLink} "Nah just click on it")`)
 		.setColor('GOLD');
 
 		message.channel.send(embed);
