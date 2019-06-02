@@ -1,26 +1,26 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
-const {defaultPrefix, bot_name} = require('./config.json');
+const {defaultPrefix, bot_name, Categories} = require('./config.json');
+const {newGraphUser} = require('./helper.js');
 
 const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json`);
 const {consoleID, messageID, startupID, betastartupID} = require(`./specificData/channels.json`);
 const trigger = require('./triggers/triggers.js');
-const Money = require('./models/money.js');
 const Settings = require('./models/serverSettings.js');
 const GraphUser = require('./models/graphUser.js');
+const GraphServer = require('./models/graphServer.js');
 const GraphClient = require('./models/graphClient.js');
 
 let cooldowns = new Discord.Collection();
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-const Categories = [`Hoard`,`Poke`,`Std`,`Util`];
 
 Categories.forEach(category => {
-	const commandFiles = fs.readdirSync(`./commands${category}`).filter(file => file.endsWith('.js'));
+	const commandFiles = fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith('.js'));
 	for(const file of commandFiles){
-		const command = require(`./commands${category}/${file}`);
+		const command = require(`./commands/${category}/${file}`);
 		client.commands.set(command.name, command);
 	}
 });
@@ -70,18 +70,6 @@ client.on('message', async message => {
 
 	if(!command) return;
 
-	//Hoard check
-	const money = await Money.findOne({userID: message.author.id}).catch(err => console.log(err));
-	if(!money){
-		let newMoney = new Money({
-			userID: message.author.id,
-			money: 1000,
-			nextDaily: new Date(),
-			inventory: []
-		});
-		await newMoney.save().catch(err => console.log(err));
-	}
-
 	if(message.author.bot) return;
 
 	if(command.wip){
@@ -127,21 +115,23 @@ client.on('message', async message => {
 			});
 		}
 
+		let graphServer = await GraphServer.findOne().catch(err => console.log(err));
+		if(!graphServer){
+			graphServer = new GraphClient({
+				totalGraphers: 0
+			});
+		}
+
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
 		if(!graphUser){
-			graphUser = new GraphUser({
-				userID: message.author.id,
-				graphID: graphClient.totalGraphers,
-				node: graphClient.totalGraphers,
-				energy: 6
-			});
+			graphUser = newGraphUser(message, graphClient);
 			await graphUser.save().catch(err => console.log(err));
 			graphClient.totalGraphers++;
 
 			let embed = new Discord.RichEmbed()
-			.setAuthor(`**${message.author.username}**, welcome to the graph arena! Here are your details:`, message.author.displayAvatarURL)
+			.setAuthor(`${message.author.username}, welcome to the graph arena!`, message.author.displayAvatarURL)
+			.setDescription(`Most of the commands in this game is useless for now tho haha`)
 			.setColor('ORANGE')
-			.setDescription(`You can always check your details with \`${prefix}profile\``)
 
 			message.channel.send(embed);
 		}

@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const GraphUser = require('./models/graphUser.js');
 
 function timefy(t){
     if(t<10) return '0'+t;
@@ -94,5 +95,18 @@ module.exports = {
         let diffSec =  Math.floor(tmpSec/(1000));
 
         return `${timefy(diffHr)}h ${timefy(diffMin)}m ${timefy(diffSec)}s`;
+    },
+
+    newGraphUser(message, graphClient){
+        return new GraphUser({
+            userID: message.author.id,
+            graphID: graphClient.totalGraphers,
+            node: graphClient.totalGraphers,
+            energy: 6,
+            kills: 0,
+            deaths: 0,
+            nextDaily: new Date(),
+            inventory: []
+        });
     }
 };
