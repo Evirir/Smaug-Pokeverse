@@ -7,7 +7,6 @@ module.exports = {
 	name: 'shop',
 	description: `Shop some goodies and make a mess in the shop`,
     aliases: ['s','buy'],
-    hoard: true,
     usage: `[item]`,
     wip: true,
 

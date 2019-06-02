@@ -8,7 +8,6 @@ module.exports = {
 	name: 'profile',
 	description: `Checks your profile.`,
     aliases: ['pf'],
-    hoard: true,
 
 	async execute (message, args) {
         let target = message.author;;

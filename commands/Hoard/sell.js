@@ -6,7 +6,6 @@ const GraphUser = require('../../models/graphUser.js');
 module.exports = {
 	name: 'sell',
 	description: `Shop some goodies and make a mess in the shop`,
-    hoard: true,
     usage: `[item]`,
     wip: true,
 

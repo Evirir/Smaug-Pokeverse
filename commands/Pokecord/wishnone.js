@@ -7,7 +7,6 @@ const {execute} = require('./pkwishadd.js');
 module.exports = {
 	name: `wishnone`,
 	description: `Removes all Pokemons from your wishlist.`,
-	poke: true,
     dev: true,
 
 	async execute(message, args) {

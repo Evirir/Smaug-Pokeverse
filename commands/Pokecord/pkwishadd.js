@@ -18,7 +18,6 @@ module.exports = {
     name: 'pkwishadd',
     description: 'Adds a Pokemon to your Pokecord wishlist.',
     aliases: ['wishadd','pwadd','wladd','pwa','wla'],
-    poke: true,
     args: true,
     usage: `[pokemon]`,
 

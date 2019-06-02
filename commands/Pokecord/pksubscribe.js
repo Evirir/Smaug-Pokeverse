@@ -8,7 +8,6 @@ module.exports = {
     description: 'Subscribe to Smaug\'s Pokecord notification. Smaug will DM you everytime a Pokemon spawns in one of your channels.',
     aliases: ['pksub'],
     usage: `[true/false/t/f/1/0]`,
-    poke: true,
 
     async execute(message, args) {
         let sb = await Subs.findOne({}).catch(err => console.log(err));

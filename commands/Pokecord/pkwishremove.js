@@ -16,7 +16,6 @@ module.exports = {
     name: 'pkwishremove',
     description: 'Removes a Pokemon from your Pokecord wishlist.',
     aliases: ['wishremove','pwremove','wlremove','pwr','wlr'],
-    poke: true,
 
     async execute(message, args) {
         let w = await Wishlist.findOne({userID: message.author.id}).catch(err => console.log(err));

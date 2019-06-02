@@ -7,7 +7,6 @@ module.exports = {
 	name: `spawnraid`,
 	description: `Fake spawns a Raider pokemon for testing. Add \`d\` or \`r\` as an argument to stop the test.`,
     aliases: [`spawnraider`,`spr`],
-	poke: true,
     args: true,
     usage: `#mentionChannel/channelID (d/r)`,
     dev: true,

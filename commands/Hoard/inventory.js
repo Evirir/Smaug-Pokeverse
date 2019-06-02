@@ -8,7 +8,6 @@ module.exports = {
     description: 'Checks someone\'s inventory.',
     aliases: ['i','inv'],
     usage: `@mentionUser/userTag`,
-    hoard: true,
 
     async execute (message, args) {
         let target = message.author;

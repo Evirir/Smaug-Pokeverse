@@ -7,7 +7,6 @@ module.exports = {
 	name: 'graph',
 	description: `Shows the graph in the server.`,
     aliases: ['g'],
-    hoard: true,
     wip: true,
 
 	async execute(message, args, prefix){

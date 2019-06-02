@@ -7,7 +7,6 @@ module.exports = {
 	name: 'addmoney',
 	description: `Adds money (for dev's testing).`,
     aliases: ['am'],
-    hoard: true,
 	args: true,
     usage: `[amount] [@mentionUser/userTag#1234/userID]`,
 	dev: true,

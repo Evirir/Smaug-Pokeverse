@@ -9,7 +9,6 @@ module.exports = {
 	name: 'daily',
 	description: `Claims your daily reward.`,
     aliases: ['day','d'],
-    hoard: true,
 
 	async execute (message, args) {
         let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));

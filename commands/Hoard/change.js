@@ -7,7 +7,6 @@ module.exports = {
 	name: 'change',
 	description: `Changes your type`,
     aliases: ['chg'],
-    hoard: true,
     usage: `[type]`,
     wip: true,
 

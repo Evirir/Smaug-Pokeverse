@@ -12,7 +12,6 @@ module.exports = {
     aliases: ['raid','rd'],
     args: true,
     usage: `#mentionChannel/[channelID]`,
-    poke: true,
     notes: `**Use \`,,raidset\` to enable this feature**\n`,
 
     async execute(message, args, prefix) {

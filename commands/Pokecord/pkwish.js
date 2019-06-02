@@ -9,7 +9,6 @@ module.exports = {
     description: 'Displays your Pokecord wishlist.',
     aliases: ['pw','wl','pkw'],
     usage: `[page] (optional)`,
-    poke: true,
 
     async execute(message, args) {
         let targetUser = message.mentions.users.first() || message.author;

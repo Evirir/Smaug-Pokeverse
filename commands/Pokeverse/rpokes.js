@@ -6,7 +6,6 @@ module.exports = {
 	name: `rpokes`,
 	description: `Refreshes/builds the pokemon database.`,
     aliases: [`rpoke`],
-	poke: true,
     dev: true,
     notes: `Please run this locally and push the updates manually to Git after using this command.`,
 

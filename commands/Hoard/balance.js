@@ -7,7 +7,6 @@ module.exports = {
 	name: 'balance',
 	description: `Check someone's balance.`,
     aliases: ['bal'],
-    hoard: true,
     usage: `@mentionUser/userTag`,
 
 	async execute(message, args){
