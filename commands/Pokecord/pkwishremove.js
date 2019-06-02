@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const PokemonNames = require('../../pokemons/pokemonNames.json');
-const mongoose = require('mongoose');
 const Wishlist = require('../../models/wishlist.js');
 const Settings = require('../../models/serverSettings.js');
 

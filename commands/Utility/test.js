@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const cytoscape = require('cytoscape');
 const {getMentionRole, extract} = require('../../helper.js');
 

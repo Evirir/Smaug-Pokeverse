@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const GraphUser = require('../../models/graphUser.js');
 const GraphServer = require('../../models/graphServer.js');
-const {getMentionUser, newGraphUser} = require('../../helper.js');
+const {getMentionUser, newGraphUser, ordinal} = require('../../helper.js');
 
 module.exports = {
 	name: 'profile',
@@ -35,8 +34,8 @@ module.exports = {
         let embed = new Discord.RichEmbed()
         .setAuthor(`${target.username}'s profile`, target.displayAvatarURL)
         .setColor('GOLD')
-		.setDescription(`In this server, you're currently at node: \`${currentNode}\``)
-        .addField(`Coins`, `${graphUser.money}💰`)
+		.setDescription(`Current node in this server: **\`${currentNode}\`**\nYou're the **${ordinal(graphUser.joined + 1)}** person to join this game.`)
+	    .addField(`Coins`, `${graphUser.money}💰`)
 		.addField(`Kills`, graphUser.kills, true)
 		.addField(`Deaths`, graphUser.deaths, true)
 		.addField(`KDA`, kda.toFixed(2), true)

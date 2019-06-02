@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Raider = require('../../models/pokeverseRaider.js');
 const RaiderSettings = require('../../models/pokeverseRaiderSettings.js');
 const {getMentionChannel} = require('../../helper.js');

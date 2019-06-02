@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const Raider = require('../../models/pokeverseRaider.js');
 const RaiderSettings = require('../../models/pokeverseRaiderSettings.js');
 const Settings = require('../../models/serverSettings.js');

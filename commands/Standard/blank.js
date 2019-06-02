@@ -11,11 +11,8 @@ module.exports = {
         if(isNaN(amount)) return message.channel.send(`Please input a valid number!`);
         if(amount < 1 || 100 < amount) return message.channel.send(`Please input a number between 1 and 100!`);
 
-        var msg = ".";
-        for(var i=0; i<(amount+2); i++)  msg += '\n';
-        msg += `*(${amount} line`;
-        if(amount==1) msg += ` of boring blanks)*`;
-        else msg += `s of boring blanks)*`;
+        var msg = "";
+        for(let i=0; i<(amount+2); i++)  msg += "** **\n";
         message.channel.send(msg);
 	}
 };

@@ -1,7 +1,5 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
-const {getMentionUser} = require('../../helper.js');
-const GraphUser = require('../../models/graphUser.js');
+const GraphServer = require('../../models/graphUser.js');
 
 module.exports = {
 	name: 'graph',

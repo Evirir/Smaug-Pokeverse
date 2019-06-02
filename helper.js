@@ -23,12 +23,25 @@ function extract(message, position){
     return content;
 }
 
+function ordinal(num){
+    num = num.toString();
+    
+    let suffix = "";
+    if(num.endsWith('1'))       suffix = "st";
+    else if(num.endsWith('2'))  suffix = "nd";
+    else if(num.endsWith('3'))  suffix = "rd";
+    else                        suffix = "th";
+
+    return num + suffix;
+}
+
 module.exports = {
     DayinMS: 24*60*60*1000,
 
     timefy: timefy,
     titleCase: titleCase,
     extract: extract,
+    ordinal: ordinal,
 
     getMentionUser(message, position, toEnd = 0){
         let mention;

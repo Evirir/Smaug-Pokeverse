@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const Subs = require('../../models/pokemonSubscribers.js');
 const Settings = require('../../models/serverSettings.js');
 

@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const Settings = require('../../models/serverSettings.js');
 
 module.exports = {

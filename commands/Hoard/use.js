@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const {getMentionUser} = require('../../helper.js');
 const GraphUser = require('../../models/graphUser.js');
 const Item = require('../../models/graphItem.js');

@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const PokeArray = require('../../pokemons/pokemonNames.json');
 const Wishlist = require('../../models/wishlist.js');
 const WishlistP = require('../../models/wishlistPokemon.js');

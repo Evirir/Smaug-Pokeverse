@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const pokemonLastSpawn = require('../../models/pokemonLastSpawn.js');
 
 module.exports = {

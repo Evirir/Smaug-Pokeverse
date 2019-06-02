@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+
 
 const wishlistPokemonSchema = mongoose.Schema({
     name: String,

@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const mongoose = require('mongoose');
 const GraphUser = require('../../models/graphUser.js');
 const {msToTime, DayinMS} = require('../../helper.js');
 

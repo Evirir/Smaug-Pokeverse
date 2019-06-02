@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Settings = require('../../models/serverSettings.js');
 const {getMentionUser} = require('../../helper.js');
 

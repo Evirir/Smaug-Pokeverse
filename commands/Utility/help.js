@@ -3,7 +3,6 @@ const fs = require('fs');
 const {defaultPrefix} = require('../../config.json');
 const {dragTag, botID} = require(`../../specificData/users.json`);
 
-//const mongoose = require('mongoose');
 const Settings = require('../../models/serverSettings.js');
 const {Categories} = require('../../config.json');
 

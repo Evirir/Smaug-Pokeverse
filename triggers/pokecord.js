@@ -7,7 +7,6 @@ const db = require('../pokemons/pokemons.json');
 const imghash = require('imghash');
 const request = require('request').defaults({ encoding: null });
 
-const mongoose = require('mongoose');
 const LastSpawns = require('../models/pokemonLastSpawn.js');
 const WishlistP = require('../models/wishlistPokemon.js');
 const Subs = require('../models/pokemonSubscribers.js');
