@@ -132,9 +132,11 @@ client.on('message', async message => {
 		}
 		let currentNode = graphServer.graphUsers.get(message.author.id);
 		if(currentNode === undefined){
-			currentNode = graphServer.nodeCount;
+			currentNode = graphServer.nodeCount.toString();
 			graphServer.graphUsers.set(message.author.id, currentNode);
 			graphServer.nodeUsers.set(currentNode, [message.author.id]);
+
+			graphServer.nodeCount++;
 			await graphServer.save().catch(err => console.log(err));
 		}
 
