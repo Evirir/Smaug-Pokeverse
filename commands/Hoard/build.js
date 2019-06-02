@@ -26,16 +26,14 @@ module.exports = {
 
         currentNode = currentNode.toString();
         targetNode = targetNode.toString();
-        if(!adj.get(currentNode)) adj.set(currentNode, []);
-        if(!adj.get(targetNode)) adj.set(targetNode, []);
 
         if(adj.get(currentNode).includes(targetNode) || adj.get(targetNode).includes(currentNode))
             return message.channel.send(`Edge **${currentNode}-${targetNode}** already exists.`);
 
         if(graphUser.money < buildCost) return message.channel.reply(`you do not have enough money.`);
 
-        adj.get(currentNode).push(targetNode);
-        adj.get(targetNode).push(currentNode);
+        await adj.get(currentNode).push(targetNode);
+        await adj.get(targetNode).push(currentNode);
 
         graphUser.money -= buildCost;
 
