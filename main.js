@@ -109,6 +109,7 @@ client.on('message', async message => {
 		setTimeout(() => timestamps.delete(message.author.id), cdTime);
 	}
 
+	//Hoard check start
 	if(hoardCommands.includes(command.name)){
 		let graphClient = await GraphClient.findOne().catch(err => console.log(err));
 		if(!graphClient){
@@ -127,8 +128,14 @@ client.on('message', async message => {
 			    graphUsers: [],
 			    nodeUsers: []
 			});
+			await graphServer.save().catch(err => console.log(err));
 		}
-		await graphServer.save().catch(err => console.log(err));
+		let currentNode = graphServer.graphUsers.get(message.author.id);
+		if(currentNode === undefined){
+			graphServer.graphUsers.set(message.author.id, graphServer.nodeCount);
+			currentNode = graphServer.nodeCount++;
+			await graphServer.save().catch(err => console.log(err));
+		}
 
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
 		if(!graphUser){
@@ -143,6 +150,7 @@ client.on('message', async message => {
 		}
 		await graphUser.save().catch(err => console.log(err));
 	}
+	//Hoard check end
 
 	try{
 		command.execute(message, args, prefix);
