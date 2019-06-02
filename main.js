@@ -116,8 +116,8 @@ client.on('message', async message => {
 			graphClient = new GraphClient({
 				totalGraphers: 0
 			});
+			await graphClient.save().catch(err => console.log(err));
 		}
-		await graphClient.save().catch(err => console.log(err));
 
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(!graphServer){
@@ -132,8 +132,9 @@ client.on('message', async message => {
 		}
 		let currentNode = graphServer.graphUsers.get(message.author.id);
 		if(currentNode === undefined){
-			graphServer.graphUsers.set(message.author.id, graphServer.nodeCount);
-			currentNode = graphServer.nodeCount++;
+			currentNode = graphServer.nodeCount;
+			graphServer.graphUsers.set(message.author.id, currentNode);
+			graphServer.nodeUsers.set(currentNode, [message.author.id]);
 			await graphServer.save().catch(err => console.log(err));
 		}
 
@@ -147,8 +148,9 @@ client.on('message', async message => {
 			.setColor('ORANGE')
 
 			message.channel.send(embed);
+			await graphUser.save().catch(err => console.log(err));
 		}
-		await graphUser.save().catch(err => console.log(err));
+
 	}
 	//Hoard check end
 

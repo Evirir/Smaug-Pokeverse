@@ -18,10 +18,17 @@ module.exports = {
         if(!graphUser) return console.log(`build.js: No graphUser data found.`);
 
         let adj = graphServer.adj;
-        const currentNode = graphServer.graphUsers.get(message.author.id);
-        const targetNode = parseInt(args[0]);
+        let currentNode = parseInt(graphServer.graphUsers.get(message.author.id));
+        let targetNode = parseInt(args[0]);
         if(isNaN(targetNode) || targetNode >= graphServer.nodeCount || targetNode < 0) return message.channel.send(`\`Invalid node number.\``);
+
         if(targetNode === currentNode) return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
+
+        currentNode = currentNode.toString();
+        targetNode = targetNode.toString();
+        if(!adj.get(currentNode)) adj.set(currentNode, []);
+        if(!adj.get(targetNode)) adj.set(targetNode, []);
+
         if(adj.get(currentNode).includes(targetNode) || adj.get(targetNode).includes(currentNode))
             return message.channel.send(`\`An edge to that node already exists.\``);
 

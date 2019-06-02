@@ -8,10 +8,10 @@ const graphServerSchema = mongoose.Schema({
         type: Map,
         of: Array
     },
-    
+
     graphUsers: {
         type: Map,
-        of: Number
+        of: String
     },
 
     nodeUsers: {
