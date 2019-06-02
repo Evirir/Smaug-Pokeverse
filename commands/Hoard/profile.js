@@ -24,7 +24,7 @@ module.exports = {
         if(!graphServer) return console.log(`profile.js: No graphServer data found.`);
 
 		let currentNode = graphServer.graphUsers.get(target.id);
-		if(!currentNode){
+		if(currentNode === undefined){
 			graphServer.graphUsers.set(target.id, graphServer.nodeCount);
 			currentNode = graphServer.nodeCount++;
 			await graphServer.save().catch(err => console.log(err));
