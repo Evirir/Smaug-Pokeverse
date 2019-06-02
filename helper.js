@@ -133,7 +133,7 @@ module.exports = {
     },
 
     async newGraphServerUser(user, graphServer){
-        currentNode = graphServer.nodeCount.toString();
+        const currentNode = graphServer.nodeCount.toString();
         await graphServer.graphUsers.set(user.id, currentNode);
         await graphServer.nodeUsers.set(currentNode, [user.id]);
         await graphServer.adj.set(currentNode, []);

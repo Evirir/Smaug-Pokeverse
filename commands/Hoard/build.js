@@ -17,23 +17,19 @@ module.exports = {
         let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
         if(!graphUser) return console.log(`build.js: No graphUser data found.`);
 
-        let adj = graphServer.adj;
-        let currentNode = parseInt(graphServer.graphUsers.get(message.author.id));
-        let targetNode = parseInt(args[0]);
-        if(isNaN(targetNode) || targetNode >= graphServer.nodeCount || targetNode < 0) return message.channel.send(`Invalid node number. Node range: \`[0, ${graphServer.nodeCount - 1}]\``);
+        let currentNode = graphServer.graphUsers.get(message.author.id);
+        let targetNode = args[0];
+        if(isNaN(targetNode) || parseInt(targetNode) >= graphServer.nodeCount || parseInt(targetNode) < 0) return message.channel.send(`Invalid node number. Node range: \`[0, ${graphServer.nodeCount - 1}]\``);
 
-        if(targetNode === currentNode) return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
+        if(parseInt(targetNode) === parseInt(currentNode)) return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
 
-        currentNode = currentNode.toString();
-        targetNode = targetNode.toString();
-
-        if(adj.get(currentNode).includes(targetNode) || adj.get(targetNode).includes(currentNode))
+    	if(graphServer.adj.get(currentNode).includes(targetNode) || graphServer.adj.get(targetNode).includes(currentNode))
             return message.channel.send(`Edge **${currentNode}-${targetNode}** already exists.`);
 
-        if(graphUser.money < buildCost) return message.channel.reply(`you do not have enough money.`);
+        if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
-        await adj.get(currentNode).push(targetNode);
-        await adj.get(targetNode).push(currentNode);
+        await graphServer.adj.get(currentNode).push(targetNode);
+        await graphServer.adj.get(targetNode).push(currentNode);
 
         graphUser.money -= buildCost;
 
@@ -45,7 +41,7 @@ module.exports = {
         .setAuthor(message.author.username, message.author.displayAvatarURL)
         .setTitle(`Edge successfully built!`)
         .setDescription(`An undirected edge **${currentNode}-${targetNode}** of weight ${buildWeight} has been built.`)
-        .addField(`Your new neighbours:`, `\`${adj.get(currentNode).join(', ')}\``);
+        .addField(`Your new neighbours:`, `\`${graphServer.adj.get(currentNode).join(', ')}\``);
 
         return message.channel.send(embed);
 	}
