@@ -98,7 +98,7 @@ module.exports = {
         return `${timefy(diffHr)}h ${timefy(diffMin)}m ${timefy(diffSec)}s`;
     },
 
-    newGraphUser(user){
+    async newGraphUser(user){
         const graphClient = await GraphClient.findOne().catch(err => console.log(err));
         if(!graphClient) return console.log(`helper.js/newGraphUser: No graphClient found.`);
 
