@@ -10,7 +10,7 @@ module.exports = {
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(!graphServer) return console.log(`graph.js: No graphServer data found.`);
 
-		const currentNode = graphServer.graphUsers.get(message.author.id)
+		const currentNode = graphServer.graphUsers.get(message.author.id);
 
 		graphServer.adj.get(currentNode).sort();
 		const neighbours = graphServer.adj.get(currentNode);
@@ -19,7 +19,7 @@ module.exports = {
 		.setColor(`GOLD`)
 		.setAuthor(message.author.username, message.author.displayAvatarURL)
 		.setTitle(`${message.guild.name}'s graph`)
-		.setDescription(neighbours.length ? "You have no neighbours. Both a good thing and a bad thing." : `Your neighbours are: \`${neighbours.join(', ')}\``)
+		.setDescription(neighbours.length === 0 ? "You have no neighbours. Both a good thing and a bad thing." : `Your neighbours are: \`${neighbours.join(', ')}\``)
 
 		message.channel.send(embed);
 	}
