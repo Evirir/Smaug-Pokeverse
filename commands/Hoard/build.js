@@ -30,9 +30,9 @@ module.exports = {
         if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
 		let currentAdj = graphServer.adj.get(currentNode);
-		currentAdj.push([targetNode, buildLength]);
+		currentAdj.push([targetNode, buildWeight]);
 		let targetAdj = graphServer.adj.get(targetNode);
-		targetAdj.push([currentNode, buildLength]);
+		targetAdj.push([currentNode, buildWeight]);
 
         await graphServer.adj.set(currentNode, currentAdj);
         await graphServer.adj.set(targetNode, targetAdj);
