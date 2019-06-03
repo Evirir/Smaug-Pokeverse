@@ -15,6 +15,10 @@ module.exports = {
 
 		graphServer.adj.get(currentNode).sort();
 		const neighbours = graphServer.adj.get(currentNode);
+		let list = "";
+		neighbours.forEach(e => {
+			list += `Node: ${e[0]}\tWeight: ${e[1]}\n`;
+		});
 
 		const embed = new Discord.RichEmbed()
 		.setColor(`GOLD`)
@@ -22,7 +26,7 @@ module.exports = {
 		.setTitle(`Graph of ${message.guild.name}`);
 
 		if(!neighbours.length) embed.setDescription("You have no neighbours. Both a good thing and a bad thing.");
-		else embed.addField(`Your neighbours`, `\`${neighbours.join(', ')}\``);
+		else embed.addField(`Your neighbours`, `\`\`\`${list}\`\`\``);
 
 		message.channel.send(embed);
 	}
