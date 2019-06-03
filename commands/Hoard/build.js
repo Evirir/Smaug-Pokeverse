@@ -35,8 +35,8 @@ module.exports = {
             return message.channel.send(`Edge \`${currentNode}-${targetNode}\` already exists.`);
         if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
-		graphServer.adj[currentNode].push([targetNode, buildWeight]);	graphServer.adj[currentNode].sort(cmpPair);
-		graphServer.adj[targetNode].push([currentNode, buildWeight]);	graphServer.adj[targetNode].sort(cmpPair);
+		await graphServer.adj[currentNode].push([targetNode, buildWeight]); await graphServer.adj[currentNode].sort(cmpPair);
+		await graphServer.adj[targetNode].push([currentNode, buildWeight]);	await graphServer.adj[targetNode].sort(cmpPair);
         graphUser.money -= buildCost;
 
         await graphUser.save().catch(err => console.log(err));
