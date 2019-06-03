@@ -35,9 +35,17 @@ module.exports = {
             return message.channel.send(`Edge \`${currentNode}-${targetNode}\` already exists.`);
         if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
-		await graphServer.adj[currentNode].push([targetNode, buildWeight]); await graphServer.adj[currentNode].sort(cmpPair);
-		await graphServer.adj[targetNode].push([currentNode, buildWeight]);	await graphServer.adj[targetNode].sort(cmpPair);
-        graphUser.money -= buildCost;
+		let curAdj = graphServer.adj[currentNode]; console.log(curAdj);
+		curAdj.push([targetNode, buildWeight]);
+		curAdj.sort(cmpPair);
+		graphServer.adj[currentNode] = curAdj;
+
+		let tarAdj = graphServer.adj[targetNode];
+		tarAdj.push([currentNode, buildWeight]);
+		curAdj.sort(cmpPair);
+		graphServer.adj[targetNode] = tarAdj;
+
+		graphUser.money -= buildCost;
 
         await graphUser.save().catch(err => console.log(err));
         await graphServer.save().catch(err => console.log(err));
@@ -48,7 +56,8 @@ module.exports = {
         .setTitle(`Edge successfully built!`)
         .setDescription(`An undirected edge **${currentNode}-${targetNode}** of weight ${buildWeight} has been built.`)
         .setFooter(`Use ${prefix}graph to see the new graph.`);
-
+		console.log(graphServer.adj[currentNode]);
+		console.log(GraphServer.findOne({serverID: message.guild.id}).adj[currentNode]);
         return message.channel.send(embed);
 	}
 };

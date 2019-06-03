@@ -4,14 +4,14 @@ const graphServerSchema = mongoose.Schema({
     serverID: String,
     nodeCount: Number,
 
-    adj: Array,
+    adj: [[Number, Number]],
 
     graphUsers: {
         type: Map,
         of: Number
     },
 
-    nodeUsers: Array
+    nodeUsers: [[String]]
 });
 
 module.exports = mongoose.model("GraphServer", graphServerSchema);

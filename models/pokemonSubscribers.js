@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const pokemonSubscribersSchema = mongoose.Schema({
-    subs: Array
+    subs: [String]
 });
 
 module.exports = mongoose.model("pokemonSubscribers", pokemonSubscribersSchema);
