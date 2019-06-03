@@ -13,10 +13,8 @@ module.exports = {
 
 		const currentNode = graphServer.graphUsers.get(message.author.id);
 
-		graphServer.adj.get(currentNode).sort();
-		const neighbours = graphServer.adj.get(currentNode);
 		let list = "";
-		neighbours.forEach(e => {
+		graphServer.adj[currentNode].forEach(e => {
 			list += `Node ${e[0]}: ${e[1]}\n`;
 		});
 

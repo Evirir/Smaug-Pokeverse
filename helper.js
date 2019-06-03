@@ -35,6 +35,10 @@ function ordinal(num){
     return num + suffix;
 }
 
+function getEdge(u, v, graphServer){
+    return adj[u].find(e => e[0] === v) || adj[v].find(e => e[0] === u);
+}
+
 module.exports = {
     DayinMS: 24*60*60*1000,
 
@@ -42,6 +46,7 @@ module.exports = {
     titleCase: titleCase,
     extract: extract,
     ordinal: ordinal,
+    getEdge: getEdge,
 
     getMentionUser(message, position, toEnd = 0){
         let mention;
@@ -133,10 +138,10 @@ module.exports = {
     },
 
     async newGraphServerUser(user, graphServer){
-        const currentNode = graphServer.nodeCount.toString();
+        const currentNode = graphServer.nodeCount;
         await graphServer.graphUsers.set(user.id, currentNode);
-        await graphServer.nodeUsers.set(currentNode, [user.id]);
-        await graphServer.adj.set(currentNode, []);
+        await graphServer.nodeUsers.push([user.id]);
+        await graphServer.adj.push([]);
         graphServer.nodeCount++;
         await graphServer.save().catch(err => console.log(err));
     }

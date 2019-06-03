@@ -1,6 +1,8 @@
 const Discord = require('discord.js');
 const GraphServer = require('../../models/graphServer.js');
 const GraphUser = require('../../models/graphUser.js');
+const {getEdge} = require('../../helper.js');
+
 const buildCost = 450;
 const buildWeight = 4;
 
@@ -19,24 +21,18 @@ module.exports = {
 		if(!args.length) return message.channel.send(`Please specify a node number within \`[0, ${graphServer.nodeCount - 1}]\``);
 
         let currentNode = graphServer.graphUsers.get(message.author.id);
-        let targetNode = args[0];
-        if(isNaN(targetNode) || parseInt(targetNode) >= graphServer.nodeCount || parseInt(targetNode) < 0) return message.channel.send(`Invalid node number. Please input a node within \`[0, \`${graphServer.nodeCount - 1}]\`.`);
+        let targetNode = parseInt(args[0]);
 
-        if(parseInt(targetNode) === parseInt(currentNode)) return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
-
-    	if(graphServer.adj.get(currentNode).includes(targetNode) || graphServer.adj.get(targetNode).includes(currentNode))
+        if(isNaN(args[0]) || targetNode >= graphServer.nodeCount || targetNode < 0)
+			return message.channel.send(`Invalid node number. Please input a node within \`[0, \`${graphServer.nodeCount - 1}]\`.`);
+        if(targetNode === currentNode))
+			return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
+    	if(getEdge(currentNode, targetNode, graphServer))
             return message.channel.send(`Edge **${currentNode}-${targetNode}** already exists.`);
-
         if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
-		let currentAdj = graphServer.adj.get(currentNode);
-		currentAdj.push([targetNode, buildWeight]);
-		let targetAdj = graphServer.adj.get(targetNode);
-		targetAdj.push([currentNode, buildWeight]);
-
-        await graphServer.adj.set(currentNode, currentAdj);
-        await graphServer.adj.set(targetNode, targetAdj);
-
+		graphServer.adj[currentNode].push([targetNode, buildWeight]);	graphServer.adj[currentNode].sort();
+		graphServer.adj[targetNode].push([currentNode, buildWeight]);	graphServer.adj[targetNode].sort();
         graphUser.money -= buildCost;
 
         await graphUser.save().catch(err => console.log(err));
