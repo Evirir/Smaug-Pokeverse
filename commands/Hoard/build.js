@@ -24,7 +24,7 @@ module.exports = {
         let targetNode = parseInt(args[0]);
 
         if(isNaN(args[0]) || targetNode >= graphServer.nodeCount || targetNode < 0)
-			return message.channel.send(`Invalid node number. Please input a node within \`[0, \`${graphServer.nodeCount - 1}]\`.`);
+			return message.channel.send(`Invalid node number. Please input a node within \`[0, ${graphServer.nodeCount - 1}]\`.`);
         if(targetNode === currentNode)
 			return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
     	if(getEdge(currentNode, targetNode, graphServer))
