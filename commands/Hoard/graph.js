@@ -23,7 +23,7 @@ module.exports = {
 		.setAuthor(message.author.username, message.author.displayAvatarURL)
 		.setTitle(`Graph of ${message.guild.name}`);
 
-		if(!neighbours.length) embed.setDescription("You have no neighbours. Both a good thing and a bad thing.");
+		if(!graphServer.adj[currentNode].length) embed.setDescription("You have no neighbours. Both a good thing and a bad thing.");
 		else embed
 		.setDescription(`\`Node u: w\` = The edge to node \`u\` has weight \`w\``)
 		.addField(`Your neighbours`, `\`\`\`${list}\`\`\``);
