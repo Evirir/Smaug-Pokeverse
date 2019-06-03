@@ -1,6 +1,6 @@
 const Raider = require('../../models/pokeverseRaider.js');
 const RaiderSettings = require('../../models/pokeverseRaiderSettings.js');
-const {getMentionChannel} = require('../../helper.js');
+const {getMentionChannel, getMentionUser} = require('../../helper.js');
 
 module.exports = {
 	name: `spawnraid`,
