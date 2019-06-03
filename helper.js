@@ -117,14 +117,14 @@ module.exports = {
         return `${timefy(diffHr)}h ${timefy(diffMin)}m ${timefy(diffSec)}s`;
     },
 
-    async newGraphUser(user){
+    async newGraphUser(user, joined = 1){
         //const {userTypes} = require('./specificData/userTypes.js');
         let graphClient = await GraphClient.findOne().catch(err => console.log(err));
         if(!graphClient) return console.log(`helper.js/newGraphUser: No graphClient found.`);
 
         const newUser = new GraphUser({
             userID: user.id,
-            joined: graphClient.totalGraphers++,
+            joined: (joined ? graphClient.totalGraphers : -1),
             money: 1000,
             energy: 6,
             kills: 0,
@@ -132,6 +132,8 @@ module.exports = {
             nextDaily: new Date(),
             inventory: []
         });
+
+        graphClient.totalGraphers += joined;
 
         await graphClient.save().catch(err => console.log(err));
         return newUser;

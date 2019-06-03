@@ -15,7 +15,7 @@ module.exports = {
 
         let graphUser = await GraphUser.findOne({userID: target.id}).catch(err => console.log(err));
         if(!graphUser){
-            graphUser = await newGraphUser(target);
+            graphUser = await newGraphUser(target, 0);
             await graphUser.save().catch(err => console.log(err));
         }
 

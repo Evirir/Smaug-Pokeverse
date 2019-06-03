@@ -137,7 +137,7 @@ client.on('message', async message => {
 		}
 
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
-		if(!graphUser){
+		if(!graphUser || graphUser.joined === -1){
 			graphUser = await newGraphUser(message.author);
 
 			const embed = new Discord.RichEmbed()
