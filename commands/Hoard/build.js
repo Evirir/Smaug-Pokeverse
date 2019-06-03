@@ -6,6 +6,10 @@ const {getEdge} = require('../../helper.js');
 const buildCost = 450;
 const buildWeight = 4;
 
+function cmpPair(a, b){
+	return a[0] - b[0];
+}
+
 module.exports = {
 	name: 'build',
 	description: `Builds an edge of weight ${buildWeight} from your current node to another node. Costs ${buildCost} money.`,
@@ -31,8 +35,8 @@ module.exports = {
             return message.channel.send(`Edge **${currentNode}-${targetNode}** already exists.`);
         if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
-		graphServer.adj[currentNode].push([targetNode, buildWeight]);	graphServer.adj[currentNode].sort();
-		graphServer.adj[targetNode].push([currentNode, buildWeight]);	graphServer.adj[targetNode].sort();
+		graphServer.adj[currentNode].push([targetNode, buildWeight]);	graphServer.adj[currentNode].sort(cmpPair);
+		graphServer.adj[targetNode].push([currentNode, buildWeight]);	graphServer.adj[targetNode].sort(cmpPair);
         graphUser.money -= buildCost;
 
         await graphUser.save().catch(err => console.log(err));
