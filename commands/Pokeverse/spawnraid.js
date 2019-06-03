@@ -7,7 +7,7 @@ module.exports = {
 	description: `Fake spawns a Raider pokemon for testing. Add \`d\` or \`r\` as an argument to stop the test.`,
     aliases: [`spawnraider`,`spr`],
     args: true,
-    usage: `#mentionChannel/channelID (d/r)`,
+    usage: `#mentionChannel/channelID [user/d/r]`,
     dev: true,
 
 	async execute(message, args, prefix) {
