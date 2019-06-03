@@ -23,21 +23,19 @@ module.exports = {
         if(!graphServer) return console.log(`profile.js: No graphServer data found.`);
 
 		let currentNode = graphServer.graphUsers.get(target.id);
-		if(currentNode === undefined){
-			await newGraphServerUser(target, graphServer);
-			currentNode = graphServer.graphUsers.get(target.id);
-		}
-
 		const kda = (graphUser.deaths === 0) ? graphUser.kills : graphUser.kills/graphUser.deaths;
 
         let embed = new Discord.RichEmbed()
         .setAuthor(`${target.username}'s profile`, target.displayAvatarURL)
         .setColor('GOLD')
-		.setDescription(`**Current node:** \`${currentNode}\``)
 	    .addField(`Coins`, `${graphUser.money}💰`)
 		.addField(`Kills`, graphUser.kills, true)
 		.addField(`Deaths`, graphUser.deaths, true)
-		.addField(`KDA`, kda.toFixed(2), true)
+		.addField(`KDA`, kda.toFixed(2), true);
+
+		if(currentNode === undefined) embed.setDescription(`This user is not in this server's graph.`);
+		else embed.setDescription(`**Current node:** \`${currentNode}\``);
+
 
         message.channel.send(embed);
     }

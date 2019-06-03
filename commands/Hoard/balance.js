@@ -13,10 +13,7 @@ module.exports = {
         if(args.length) target = getMentionUser(message, 0) || message.author;
 
 		let graphUser = await GraphUser.findOne({userID: target.id}).catch(err => console.log(err));
-		if(!graphUser){
-        	graphUser = newgraphUser(target);
-        	await graphUser.save().catch(err => console.log(err));
-        }
+		if(!graphUser)	return message.channel.send(`**${target.username}** has not joined the game yet.`);
 
 		let embed = new Discord.RichEmbed()
 		.setColor('GOLD');
