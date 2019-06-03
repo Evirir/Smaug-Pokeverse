@@ -18,8 +18,10 @@ module.exports = {
 		const embed = new Discord.RichEmbed()
 		.setColor(`GOLD`)
 		.setAuthor(message.author.username, message.author.displayAvatarURL)
-		.setTitle(`${message.guild.name}'s graph`)
-		.setDescription(neighbours.length === 0 ? "You have no neighbours. Both a good thing and a bad thing." : `Your neighbours are: \`${neighbours.join(', ')}\``)
+		.setTitle(`Graph of ${message.guild.name}`);
+
+		if(!neighbours.length) embed.setDescription("You have no neighbours. Both a good thing and a bad thing.");
+		else embed.addField(`Your neighbours`, `\`${neighbours.join(', ')}\``);
 
 		message.channel.send(embed);
 	}
