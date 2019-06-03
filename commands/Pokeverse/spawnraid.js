@@ -35,7 +35,7 @@ module.exports = {
             raiderSettings.lockRoles.forEach(r => {
                 targetChannel.overwritePermissions(r, {
                     SEND_MESSAGES: true
-                }, `The test Raider has committed suicide.`);
+                });
             });
 
             await raider.save().catch(err => console.log(err));
@@ -44,20 +44,31 @@ module.exports = {
             if(message.channel !== targetChannel) targetChannel.send(`Test Raider despawned.`);
 			return;
         }
+
         else{
             raider.hasRaider = true;
 			raider.activeUserID = undefined;
 
+			let spawnerMsg = "";
+			if(args.length > 1){
+				const spawnerUser = getMentionUser(message, 1, 1);
+				if(!spawnerUser) return message.reply(`invalid spawner.`);
+				spawnerMsg = `\nSpawned by: **${spawnerUser.username}**`;
+				raider.activeUserID = spawnerUser.id;
+
+				console.log(`spawnedBy found: ${spawnerUser.username}`);
+			}
+
             raiderSettings.lockRoles.forEach(r => {
                 targetChannel.overwritePermissions(r, {
                     SEND_MESSAGES: false
-                }, `A test Raider has spawned.`);
+                });
             })
 
             await raider.save().catch(err => console.log(err));
 			console.log(`Test raider spawned at #${targetChannel.name}.`);
             message.channel.send(`Test raider spawned at #${targetChannel.name}.`);
-            return targetChannel.send(`**Raider Lock activated! Type \`${prefix}raid #${targetChannel.name}\` in other channels to unlock the channel and fight the Raider.**`);
+            return targetChannel.send(`Raider Lock activated! Type \`${prefix}raid #${targetChannel.name}\` in other channels to unlock the channel and fight the Raider.` + spawnerMsg);
         }
 	}
 };

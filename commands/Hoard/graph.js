@@ -1,10 +1,11 @@
 const Discord = require('discord.js');
+const cytoscape = require('cytoscape');
 const GraphServer = require('../../models/graphServer.js');
 
 module.exports = {
 	name: 'graph',
 	description: `Shows the graph in the server.`,
-    aliases: ['gr'],
+    aliases: ['g','gr'],
 
 	async execute(message, args, prefix){
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
