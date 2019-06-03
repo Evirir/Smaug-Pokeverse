@@ -67,7 +67,7 @@ module.exports = {
     	}
 
         if(isNaN(mention)){
-            return message.client.users.find(u => u.tag === mention);
+            return message.client.users.find(u => u.tag === mention.substr(0, mention.indexOf('#')+4));
         }
 
         return message.client.users.get(mention);

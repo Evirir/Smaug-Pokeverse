@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const cytoscape = require('cytoscape');
-const {getMentionRole, extract} = require('../../helper.js');
+const {getMentionUser, extract} = require('../../helper.js');
 
 module.exports = {
 	name: `test`,
@@ -8,7 +8,6 @@ module.exports = {
 	dev: true,
 
 	async execute(message, args){
-		message.channel.permissionOverwrites.get(args[0]).delete();
-		message.channel.send(`Perm delete successful.`);
+		message.channel.send(getMentionUser(message, 0, 1).username);
 	}
 }
