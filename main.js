@@ -77,14 +77,14 @@ client.on('message', async message => {
 	if(command.wip){
 		let msg = "";
 		msg += `I have no spell slots left for this spell...\n`;
-		msg += `(\`${commandName}\` command under maintenance)`;
+		msg += `(\`${command.name}\` command under maintenance)`;
 		return message.reply(msg);
 	}
 	if(command.dev && message.author.id !== dragID){
 		return message.channel.send(`This command is only available to developers.`);
 	}
 	if(command.args && !args.length){
-		return client.commands.get(`help`).execute(message, [command.name], prefix);
+		return message.channel.send(`missing arguments! See \`${prefix}help ${command.name}\` for more info.`);
 	}
 
 	if(!cooldowns.has(command.name) && command.cd) cooldowns.set(command.name, new Discord.Collection());

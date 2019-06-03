@@ -32,7 +32,7 @@ module.exports = {
         if(targetNode === currentNode)
 			return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
     	if(getEdge(currentNode, targetNode, graphServer))
-            return message.channel.send(`Edge **${currentNode}-${targetNode}** already exists.`);
+            return message.channel.send(`Edge \`${currentNode}-${targetNode}\` already exists.`);
         if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
 		graphServer.adj[currentNode].push([targetNode, buildWeight]);	graphServer.adj[currentNode].sort(cmpPair);
