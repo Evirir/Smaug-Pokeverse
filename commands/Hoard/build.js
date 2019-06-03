@@ -8,7 +8,6 @@ module.exports = {
 	name: 'build',
 	description: `Builds an edge of weight ${buildWeight} from your current node to another node. Costs ${buildCost} money.`,
     aliases: ['bu'],
-    args: true,
     usage: `[node]`,
 
 	async execute(message, args, prefix){
@@ -17,9 +16,11 @@ module.exports = {
         let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
         if(!graphUser) return console.log(`build.js: No graphUser data found.`);
 
+		if(!args.length) return message.channel.send(`Please specify a node number within \`[0, ${graphServer.nodeCount - 1}]\``);
+
         let currentNode = graphServer.graphUsers.get(message.author.id);
         let targetNode = args[0];
-        if(isNaN(targetNode) || parseInt(targetNode) >= graphServer.nodeCount || parseInt(targetNode) < 0) return message.channel.send(`Invalid node number. Please input a node within \`0, \`${graphServer.nodeCount - 1}]\`.`);
+        if(isNaN(targetNode) || parseInt(targetNode) >= graphServer.nodeCount || parseInt(targetNode) < 0) return message.channel.send(`Invalid node number. Please input a node within \`[0, \`${graphServer.nodeCount - 1}]\`.`);
 
         if(parseInt(targetNode) === parseInt(currentNode)) return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
 
