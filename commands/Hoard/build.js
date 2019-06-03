@@ -47,7 +47,7 @@ module.exports = {
         .setAuthor(message.author.username, message.author.displayAvatarURL)
         .setTitle(`Edge successfully built!`)
         .setDescription(`An undirected edge **${currentNode}-${targetNode}** of weight ${buildWeight} has been built.`)
-        .addField(`Your neighbours:`, `\`${graphServer.adj.get(currentNode).join(', ')}\``);
+        .setFooter(`Use ${prefix}graph to see the new graph.`);
 
         return message.channel.send(embed);
 	}
