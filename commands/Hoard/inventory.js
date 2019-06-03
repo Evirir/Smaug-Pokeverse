@@ -26,14 +26,15 @@ module.exports = {
         let embed = new Discord.RichEmbed()
         .setAuthor(`${target.username}'s hoard`, target.displayAvatarURL)
         .setColor('GOLD')
-        .addField(`Coins`, `${graphUser.money}💰`);
+        .addField(`Coins`, `${graphUser.money}💰`, true)
+        .addField(`Energy`, `${graphUser.energy}`, true);
 
         let list = "";
         graphUser.inventory.forEach(item => {
             list += `${item.name} x${item.amount}\n`;
         });
 
-        embed.addField(`Items`, list);
+        if(list.length) embed.addField(`Items`, list);
         message.channel.send(embed);
 	}
 };
