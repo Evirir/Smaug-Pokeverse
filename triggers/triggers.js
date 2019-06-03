@@ -27,17 +27,6 @@ module.exports = {
 
         if(message.author.bot) return;
 
-        //EVIRIR IS MENTIONED
-        if (message.isMentioned(client.users.get(dragID))){
-            if(message.author.id === dragID) return;
-            if(message.author.id === godID){
-                return message.channel.send(`<@${message.author.id}>, ya' calling Evirir-sama?`);
-            }
-            else{
-                return message.channel.send(`Did someone call Evirir-sama...? I'll get him!`);
-            }
-        }
-
         //BOT SELF IS MENTIONED
         if (message.isMentioned(client.user) || message.content.toLowerCase().includes(`${bot_name}`)) {
             const msg = message.content.toLowerCase();
@@ -81,8 +70,6 @@ module.exports = {
 
         if(msg.includes('good dragon'))
             return message.channel.send(`Thanks! **licks your face**`);
-        if(msg.includes('dragon'))
-            return message.channel.send(`Did someone say...**DRAGON**?`);
         if(msg.includes(`rawr`))
             return message.channel.send('*ghrr*');
         if(msg.includes(`grr`) || msg.includes(`ghrr`))
