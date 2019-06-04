@@ -77,7 +77,7 @@ module.exports = {
 
         let wp = await WishlistP.findOne({name: addedPokemon}).catch(err => console.log(err));
         if(!wp){
-            let newWishlistP = new WishlistP({
+            const newWishlistP = new WishlistP({
                 name: addedPokemon,
                 wishedBy: [message.author.id]
             });
@@ -101,7 +101,7 @@ module.exports = {
                 else R = m - 1;
             }
             wp.wishedBy.splice(ans + 1, 0, message.author.id);
-            await w.save().catch(err => console.log(err));
+            await wp.save().catch(err => console.log(err));
         }
 
         let embed = new Discord.RichEmbed()
