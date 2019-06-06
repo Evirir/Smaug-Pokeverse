@@ -15,7 +15,7 @@ module.exports = {
 
 		let list = "";
 		graphServer.adj[currentNode].forEach(e => {
-			list += `Node ${e.v}: ${e.w}\n`;
+			list += `${e.v}(${e.w}), `;
 		});
 
 		const embed = new Discord.RichEmbed()
@@ -25,8 +25,8 @@ module.exports = {
 
 		if(!graphServer.adj[currentNode].length) embed.setDescription("You have no neighbours. Both a good thing and a bad thing.");
 		else embed
-		.setDescription(`\`Node u: w\` = The edge to node \`u\` has weight \`w\``)
-		.addField(`Your neighbours`, `\`\`\`${list}\`\`\``);
+		.addField(`Your neighbours`, `\`[${list}]\``)
+		.setFooter(`u(w) = The edge to node u has weight w`)
 
 		message.channel.send(embed);
 	}
