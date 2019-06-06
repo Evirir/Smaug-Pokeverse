@@ -1,5 +1,332 @@
 [
     {
+        "name": "spear",
+        "tier": 3,
+        "price": 35,
+        "energy": 1,
+        "type": "atkone",
+        "atk": 12,
+        "description": "Choose a player on your current node and deal 12 damage to him or her."
+    },
 
+    {
+        "name": "muddy road",
+        "tier": 3,
+        "price": 45,
+        "energy": 1,
+        "type": "trap",
+        "target": "edge",
+        "atk": 10,
+        "description": "Choose a road adjacent to you. Today, whoever walks on this road (including yourself) takes 10 damage every time they pass through this road. You may only use this item during Shopping Phase."
+    },
+
+    {
+        "name": "boomerang",
+        "tier": 3,
+        "price": 45,
+        "energy": 1,
+        "type": "atkone",
+        "atk": 16,
+        "description": "Choose a player on your current node and deal 16 damage to him or her."
+    },
+
+    {
+        "name": "bob-omb",
+        "aliases": ["bomb", "bobomb"],
+        "tier": 3,
+        "price": 50,
+        "energy": 2,
+        "type": "atkall",
+        "inc": true,
+        "atk": 19,
+        "description": "All players **including** you on your current node will be dealt 19 damage each. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "grenade",
+        "tier": 3,
+        "price": 55,
+        "energy": 2,
+        "type": "atkall",
+        "atk": 13,
+        "description": "All players excluding you on your current node will be dealt 13 damage each. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "energy pot s",
+        "alises": ["epots"],
+        "tier": 3,
+        "price": 55,
+        "energy": 0,
+        "type": "energy",
+        "eheal": 1,
+        "description": "Increases your energy today by 1. May only be used during Construction Phase."
+    },
+
+    {
+        "name": "shells",
+        "alises": ["shell"],
+        "tier": 3,
+        "price": 65,
+        "energy": 2,
+        "type": "atkall",
+        "atk": 25,
+        "split": true,
+        "description": "25 damage will be splitted evenly and dealt to players on your current node (excluding you), rounded down. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "steel sword",
+        "alises": ["ssword"],
+        "tier": 2,
+        "price": 75,
+        "energy": 2,
+        "type": "atkone",
+        "atk": 30,
+        "description": "Choose a player on your current node and deal 30 damage to him or her."
+    },
+
+    {
+        "name": "shurikens",
+        "aliases": ["shuriken"],
+        "tier": 2,
+        "price": 85,
+        "energy": 2,
+        "type": "atkone",
+        "atk": 36,
+        "description": "Choose a player on your current node and deal 36 damage to him or her."
+    },
+
+    {
+        "name": "spike traps",
+        "aliases": ["spike", "spikes"],
+        "tier": 2,
+        "price": 90,
+        "energy": 2,
+        "type": "atkedge",
+        "atk": 20,
+        "description": "Choose a road adjacent to you. Today, whoever walks on this road (including yourself) takes 20 damage every time they pass through this road. You may only use this item during Shopping Phase."
+    },
+
+    {
+        "name": "king bob-omb",
+        "aliases": ["king bobomb", "kbomb", "kingbomb", "kingbobomb"],
+        "tier": 2,
+        "price": 95,
+        "energy": 3,
+        "type": "atkall",
+        "inc": true,
+        "atk": 38,
+        "description": "All players **including** you on your current node will be dealt 38 damage each. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "time bomb",
+        "aliases": ["timebomb", "tbomb"],
+        "tier": 2,
+        "price": 95,
+        "energy": 2,
+        "type": "trap",
+        "target": "node",
+        "atk": 20,
+        "description": "Place it at your current node. Today, after the end of Action Phase, 20 damage will be dealt to every player (including yourself) on the node. May be used during Travelling Phase (including during travelling)."
+    },
+
+    {
+        "name": "machine gun",
+        "aliases": ["machine", "mgun"],
+        "tier": 2,
+        "price": 100,
+        "energy": 3,
+        "type": "atkall",
+        "atk": 20,
+        "description": "All players excluding you on your current node will be dealt 25 damage each. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "shop refresh",
+        "aliases": ["refresh"],
+        "tier": 2,
+        "price": 110,
+        "energy": 0,
+        "type": "refresh",
+        "description": "Purchase this item to get a new shopping list today. May only be used during the Shopping Phase."
+    },
+
+    {
+        "name": "fire flower",
+        "aliases": ["flower", "fflower"],
+        "tier": 2,
+        "price": 120,
+        "energy": 3,
+        "type": "atkall",
+        "split": true,
+        "atk": 50,
+        "description": "50 damage will be splitted evenly and dealt to players on your current node (excluding you), rounded down. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "energy pot l",
+        "aliases": ["epotl"],
+        "tier": 2,
+        "price": 150,
+        "energy": 0,
+        "type": "energy",
+        "atk": 3,
+        "description": "Increases your energy today by 3. May only be used during Construction Phase."
+    },
+
+    {
+        "name": "freeze gun",
+        "aliases": ["freeze", "fgun"],
+        "tier": 2,
+        "price": 150,
+        "energy": 2,
+        "type": "freeze",
+        "range": "one",
+        "description": "Choose a player on your current node. He or she will not be able to walk on the next day."
+    },
+
+    {
+        "name": "trap detector",
+        "aliases": ["detector", "trapdetect", "detrap"],
+        "tier": 2,
+        "price": 150,
+        "energy": 2,
+        "type": "detect",
+        "range": "local",
+        "description": "Detects all traps in your current node and all adjacent edges. You may only use this item during Travelling Phase (before moving)."
+    },
+
+    {
+        "name": "map hack",
+        "aliases": ["hack", "mhack"],
+        "tier": 1,
+        "price": 225,
+        "energy": 2,
+        "type": "detect",
+        "range": "global",
+        "description": "Detects all traps in the entire graph. You may only use this item during Travelling Phase (before moving)."
+    },
+
+    {
+        "name": "titanium sword",
+        "aliases": ["tsword"],
+        "tier": 1,
+        "price": 230,
+        "energy": 3,
+        "type": "atkone",
+        "atk": 65,
+        "description": "Choose a player on your current node and deal 65 damage to him or her."
+    },
+
+    {
+        "name": "nuclear bomb",
+        "aliases": ["nuclear"],
+        "tier": 1,
+        "price": 240,
+        "energy": 3,
+        "type": "atkall",
+        "inc": true,
+        "atk": 77,
+        "description": "All players including you on your current node will be dealt 77 damage each.  May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "electrolaser",
+        "aliases": ["laser"],
+        "tier": 1,
+        "price": 255,
+        "energy": 3,
+        "type": "atkone",
+        "atk": 75,
+        "description": "Choose a player on your current node and deal 75 damage to him or her."
+    },
+
+    {
+        "name": "laser traps",
+        "aliases": ["ltraps"],
+        "tier": 1,
+        "price": 255,
+        "energy": 3,
+        "type": "trap",
+        "target": "edge",
+        "atk": 50,
+        "description": "Choose a road adjacent to you. For the following 2 days (today and tomorrow), whoever walks on this road (including yourself) takes 50 damage every time they pass through this road. You may only use this item during Shopping Phase."
+    },
+
+    {
+        "name": "nuke",
+        "tier": 1,
+        "price": 275,
+        "energy": 3,
+        "type": "trap",
+        "target": "node",
+        "atk": 55,
+        "expire": 2,
+        "description": "Place it at your current node. For the following 2 days (today and tomorrow), after Action Phase, 55 damage will be dealt to every player (including yourself) on the node. May be used during Travelling Phase (including during travelling)."
+    },
+
+    {
+        "name": "energy pot xl",
+        "aliases": ["epotxl"],
+        "tier": 1,
+        "price": 300,
+        "energy": 0,
+        "type": "energy",
+        "atk": 6,
+        "description": "Increases your energy today by 6. May only be used during Construction Phase."
+    },
+
+    {
+        "name": "body swapper",
+        "aliases": ["swapper", "body swap"],
+        "tier": 1,
+        "price": 300,
+        "energy": 3,
+        "type": "swap",
+        "description": "Choose any player. You swap positions with him or her. You may only use this item during Travelling Phase (and the swap will be performed after everyone have moved)."
+    },
+
+    {
+        "name": "teleporter",
+        "aliases": ["teleport"],
+        "tier": 1,
+        "price": 300,
+        "energy": 0,
+        "type": "teleport",
+        "description": "Teleports user to any position. You may only use this item during Construction Phase. You may not use this item if you are frozen."
+    },
+
+    {
+        "name": "freeze bomb",
+        "aliases": ["fbomb"],
+        "tier": 1,
+        "price": 325,
+        "energy": 3,
+        "type": "freeze",
+        "range": "all",
+        "description": "All players (excluding you) on your current node will be unable to walk on the next day. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "railgun",
+        "tier": 1,
+        "price": 350,
+        "energy": 4,
+        "type": "atkall",
+        "atk": 66,
+        "description": "All players excluding you on your current node will be dealt 66 damage each. May only be used after you finished travelling during Travelling Phase."
+    },
+
+    {
+        "name": "raining bombs",
+        "aliases": ["rbomb"],
+        "tier": 1,
+        "price": 350,
+        "energy": 4,
+        "type": "atkall",
+        "split": true,
+        "description": "130 damage will be splitted evenly and dealt to players on your current node (excluding you), rounded down. May only be used after you finished travelling during Travelling Phase."
     }
 ]
