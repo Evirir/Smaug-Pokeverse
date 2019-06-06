@@ -7,7 +7,7 @@ const buildCost = 450;
 const buildWeight = 4;
 
 function cmpPair(a, b){
-	return a[0] - b[0];
+	return a.v - b.v;
 }
 
 module.exports = {
@@ -35,12 +35,13 @@ module.exports = {
 		const testEdge = await getEdge(currentNode, targetNode, graphServer);
     	if(testEdge)
             return message.channel.send(`Edge \`${currentNode}-${targetNode}\` already exists.`);
-        if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
+        if(graphUser.money < buildCost)
+			return message.reply(`you do not have enough money.`);
 
-		graphServer.adj[currentNode].push([targetNode, buildWeight]);
+		graphServer.adj[currentNode].push({v: targetNode, w: buildWeight});
 		graphServer.adj[currentNode].sort(cmpPair);
- 
-		graphServer.adj[targetNode].push([currentNode, buildWeight]);
+
+		graphServer.adj[targetNode].push({v: currentNode, w: buildWeight});
 		graphServer.adj[targetNode].sort(cmpPair);
 
 		graphUser.money -= buildCost;
@@ -54,10 +55,8 @@ module.exports = {
         .setTitle(`Edge successfully built!`)
         .setDescription(`An undirected edge **${currentNode}-${targetNode}** of weight ${buildWeight} has been built.`)
         .setFooter(`Use ${prefix}graph to see the new graph.`);
-		console.log(graphServer.adj[currentNode]);
 
 		const test = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-		console.log(test.adj[currentNode]);
         return message.channel.send(embed);
 	}
 };
