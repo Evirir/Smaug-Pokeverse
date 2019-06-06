@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 const mongoose = require('mongoose');
-const {defaultPrefix, bot_name, Categories} = require('./config.json');
+const {defaultPrefix, bot_name} = require('./config.json');
 const {newGraphUser, newGraphServerUser} = require('./helper.js');
 
 const {dragID, drag2ID, godID, zsID, botID} = require(`./specificData/users.json`);
@@ -18,13 +18,14 @@ const client = new Discord.Client();
 const hoardCommands = [];
 client.commands = new Discord.Collection();
 
-Categories.forEach(category => {
+const categories = fs.readdirSync('./commands');
+categories.forEach(category => {
 	const commandFiles = fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith('.js'));
-	for(const file of commandFiles){
+	commandFiles.forEach(file => {
 		const command = require(`./commands/${category}/${file}`);
 		client.commands.set(command.name, command);
 		if(category === 'Hoard') hoardCommands.push(command.name);
-	}
+	});
 });
 
 client.once('ready', () => {

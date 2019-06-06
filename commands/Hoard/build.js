@@ -17,7 +17,7 @@ module.exports = {
     usage: `[node]`,
 
 	async execute(message, args, prefix){
-        let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+        let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err)); console.log(graphServer.adj);console.log(graphServer.nodeCount);
         if(!graphServer) return console.log(`build.js: No graphServer data found.`);
         let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
         if(!graphUser) return console.log(`build.js: No graphUser data found.`);
@@ -31,19 +31,17 @@ module.exports = {
 			return message.channel.send(`Invalid node number. Please input a node within \`[0, ${graphServer.nodeCount - 1}]\`.`);
         if(targetNode === currentNode)
 			return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
-    	if(getEdge(currentNode, targetNode, graphServer))
+
+		const testEdge = await getEdge(currentNode, targetNode, graphServer);
+    	if(testEdge)
             return message.channel.send(`Edge \`${currentNode}-${targetNode}\` already exists.`);
         if(graphUser.money < buildCost) return message.reply(`you do not have enough money.`);
 
-		let curAdj = graphServer.adj[currentNode]; console.log(curAdj);
-		curAdj.push([targetNode, buildWeight]);
-		curAdj.sort(cmpPair);
-		graphServer.adj[currentNode] = curAdj;
-
-		let tarAdj = graphServer.adj[targetNode];
-		tarAdj.push([currentNode, buildWeight]);
-		curAdj.sort(cmpPair);
-		graphServer.adj[targetNode] = tarAdj;
+		graphServer.adj[currentNode].push([targetNode, buildWeight]);
+		graphServer.adj[currentNode].sort(cmpPair);
+ 
+		graphServer.adj[targetNode].push([currentNode, buildWeight]);
+		graphServer.adj[targetNode].sort(cmpPair);
 
 		graphUser.money -= buildCost;
 
@@ -57,7 +55,9 @@ module.exports = {
         .setDescription(`An undirected edge **${currentNode}-${targetNode}** of weight ${buildWeight} has been built.`)
         .setFooter(`Use ${prefix}graph to see the new graph.`);
 		console.log(graphServer.adj[currentNode]);
-		console.log(GraphServer.findOne({serverID: message.guild.id}).adj[currentNode]);
+
+		const test = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+		console.log(test.adj[currentNode]);
         return message.channel.send(embed);
 	}
 };

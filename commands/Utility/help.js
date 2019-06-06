@@ -4,7 +4,6 @@ const {defaultPrefix} = require('../../config.json');
 const {dragTag, botID} = require(`../../specificData/users.json`);
 
 const Settings = require('../../models/serverSettings.js');
-const {Categories} = require('../../config.json');
 
 module.exports = {
 	name: 'help',
@@ -23,7 +22,8 @@ module.exports = {
 
 			let devArray = [];
 
-			Categories.forEach(category => {
+			const categories = fs.readdirSync('./commands');
+			categories.forEach(category => {
 				const commandFiles = fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith('.js'));
 				let commandArray = [];
 				commandFiles.forEach(file => {
@@ -38,7 +38,7 @@ module.exports = {
 
 			return message.channel.send(embed);
 		}
-		
+
 		const {commands} = message.client;
 		const name = args[0].toLowerCase();
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));

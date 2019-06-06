@@ -59,6 +59,9 @@ module.exports = {
                 raiderSettings.lockRoles.forEach(r => {
                     message.channel.overwritePermissions(message.guild.roles.get(r), {
                         SEND_MESSAGES: false
+                    }).catch(err => {
+                        console.log(err);
+                        return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has the 'Manage Channels' permission.`);
                     });
                 });
 
