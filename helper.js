@@ -36,11 +36,7 @@ function ordinal(num){
 }
 
 function getEdge(u, v, graphServer){
-    console.log('graphServer=' + graphServer);
-    console.log('u=' + u);
-    console.log('v=' + v);
-    console.log('graphServer.adj=' + graphServer.adj);
-    return graphServer.adj[u].find(e => e[0] === v) || graphServer.adj[v].find(e => e[0] === u);
+    return graphServer.adj[u].find(e => e.v === v) || graphServer.adj[v].find(e => e.v === u);
 }
 
 module.exports = {
@@ -146,7 +142,7 @@ module.exports = {
     async newGraphServerUser(user, graphServer){
         const currentNode = graphServer.nodeCount;
         await graphServer.graphUsers.set(user.id, currentNode);
-        await graphServer.nodeUsers.push();
+        await graphServer.nodeUsers.push([]);
         await graphServer.adj.push([]);
         graphServer.nodeCount++;
         await graphServer.save().catch(err => console.log(err));
