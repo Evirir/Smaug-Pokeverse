@@ -17,7 +17,7 @@ module.exports = {
     usage: `[node]`,
 
 	async execute(message, args, prefix){
-        let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err)); console.log(graphServer.adj);console.log(graphServer.nodeCount);
+        let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
         if(!graphServer) return console.log(`build.js: No graphServer data found.`);
         let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
         if(!graphUser) return console.log(`build.js: No graphUser data found.`);

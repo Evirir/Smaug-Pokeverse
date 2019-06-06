@@ -15,7 +15,7 @@ module.exports = {
 
 		let list = "";
 		graphServer.adj[currentNode].forEach(e => {
-			list += `Node ${e[0]}: ${e[1]}\n`;
+			list += `Node ${e.v}: ${e.w}\n`;
 		});
 
 		const embed = new Discord.RichEmbed()
