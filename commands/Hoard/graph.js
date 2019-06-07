@@ -13,7 +13,7 @@ module.exports = {
 
 		const currentNode = graphServer.graphUsers.get(message.author.id);
 
-		let list = []];
+		let list = [];
 		graphServer.adj[currentNode].forEach(e => {
 			list.push( `${e.v}(${e.w})`);
 		});
