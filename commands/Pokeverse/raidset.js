@@ -7,7 +7,7 @@ const {pokeverseID} = require('../../specificData/users.json');
 module.exports = {
     name: 'raidset',
     description: 'Modify the Raider Lock settings.\n**Make sure you do not add roles that aren\'t supposed to see the channels.**',
-    aliases: ['raiderset','rs'],
+    aliases: ['raiderset','rs','rareset'],
     notes: `**Arguments:**\n\`on\`/\`off\`: Enables/Disables the Raider Lock\n\`roles [add/remove] [@mentionRole/roleID/role name/everyone]\`: Adds/Removes target role from locking list (Use everyone to lock @everyone)\n`,
 
     async execute(message, args) {

@@ -1,5 +1,6 @@
 const {dragID, godID, geomID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
 const {consoleID, pokeverseLogID} = require('../specificData/channels.json');
+const {getMentionChannel} = require('../helper.js');
 
 const Raider = require('../models/pokeverseRaider.js');
 const RaiderSettings = require('../models/pokeverseRaiderSettings.js');
@@ -31,6 +32,7 @@ module.exports = {
                 raider = newRaider;
             }
 
+            //user left raid
             if(raider.hasRaider && message.content.includes(`You exited the battle.`)){
                 const targetUser = message.client.users.get(raider.activeUserID);
 
@@ -47,6 +49,28 @@ module.exports = {
                 return;
             }
 
+            //Rare pokemon spawned
+            if(message.content.includes(`A rare Pokémon has spawned`)){
+                raider.hasRare = true;
+                raider.hasRaider = false;
+                raider.activeUserID = undefined;
+                raider.spawnedBy = undefined;
+
+                raiderSettings.lockRoles.forEach(r => {
+                    message.channel.overwritePermissions(message.guild.roles.get(r), {
+                        SEND_MESSAGES: false
+                    }).catch(err => {
+                        console.log(err);
+                        return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has 'Manage Channel Permissions' on in the channel.`);
+                    });
+                });
+
+                await raider.save().catch(err => console.log(err));
+                console.log(`Rare Pokémon spawned at ${message.guild.name}/${message.channel.name}`);
+
+                return message.channel.send(`Rare Pokémon spawned! Type \`${prefix}rare #${message.channel.name}\` in other channels to unlock the channel.\nSpawned by: **${targetEmbed.author.name}**`).catch(err => console.log(err));
+            }
+
             if(!message.embeds) return;
 
             //Raider spawned
@@ -61,7 +85,7 @@ module.exports = {
                         SEND_MESSAGES: false
                     }).catch(err => {
                         console.log(err);
-                        return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has the 'Manage Channels' permission.`);
+                        return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has 'Manage Channel Permissions' on in the channel.`);
                     });
                 });
 
@@ -97,6 +121,41 @@ module.exports = {
                 });
 
                 raider.hasRaider = false;
+                raider.activeUserID = undefined;
+                raider.spawnedBy = undefined;
+                await raider.save().catch(err => console.log(err));
+
+                return;
+            }
+
+            //Rare Pokémon killed/captured
+            targetEmbed = message.embeds.find(e => e.description && (e.description.includes(`has been captured by`) || e.description.includes(`has been killed by`)) && !(e.description.includes(`Lucky`) || e.description.includes(`Shiny`)) );
+
+            if(targetEmbed){
+                let status = "";
+                if(e.description.includes(`captured`)) status = `captured`;
+                else status = `killed`;
+
+
+                console.log(`Rare Pokémon ${status} at ${message.guild.name}/${message.channel.name}`);
+                const msg = `The rare Pokémon has been ${status} by **${targetEmbed.author.name}**.`;
+                message.channel.send(msg);
+
+                const tamer = await message.client.users.find(u => u.username === targetEmbed.author.name);
+                const tamerPerm = message.channel.permissionOverwrites.get(tamer.id);
+                if(tamerPerm) tamerPerm.delete();
+
+                const targetChannel = getMentionChannel(e.description.slice(e.description.indexOf('<#'), -1));
+                if(!targetChannel) console.log(`pokeverse.js: No target channel found.`);
+
+                raiderSettings.lockRoles.forEach(async r => {
+                    await targetChannel.overwritePermissions(message.guild.roles.get(r), {
+                        SEND_MESSAGES: true
+                    });
+                    console.log(`${message.guild.name}/${targetChannel.name}: ${message.guild.roles.get(r).name} unlocked.`);
+                });
+
+                raider.hasRare = false;
                 raider.activeUserID = undefined;
                 raider.spawnedBy = undefined;
                 await raider.save().catch(err => console.log(err));

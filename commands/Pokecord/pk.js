@@ -11,7 +11,7 @@ module.exports = {
 
         if(!spawn || !spawn.lastSpawn){
             let embed = new Discord.RichEmbed()
-            .setTitle(`Last Pokemon not detected yet!`)
+            .setTitle(`Last Pokémon not detected yet!`)
             .setColor(0xFF4500)
             .setFooter("Shamelessly copy-pasted most of PokeAssistant's code, by Evirir The Blue");
             return message.channel.send(embed);

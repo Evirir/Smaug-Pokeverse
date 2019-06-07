@@ -5,7 +5,7 @@ const {execute} = require('./pkwishadd.js');
 
 module.exports = {
 	name: `wishall`,
-	description: `Adds all Pokemons to your wishlist.`,
+	description: `Adds all Pokémons to your wishlist.`,
     dev: true,
 
 	async execute(message, args) {
@@ -50,6 +50,6 @@ module.exports = {
             }
         });
 
-        message.reply(`you have wished for all Pokemons. Wow.`);
+        message.reply(`you have wished for all Pokémons. Wow.`);
 	}
 };

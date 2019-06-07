@@ -4,7 +4,7 @@ const Settings = require('../../models/serverSettings.js');
 
 module.exports = {
     name: 'pksubscribe',
-    description: 'Subscribe to Smaug\'s Pokecord notification. Smaug will DM you everytime a Pokemon spawns in one of your channels.',
+    description: 'Subscribe to Smaug\'s Pokecord notification. Smaug will DM you everytime a Pokémon spawns in one of your channels.',
     aliases: ['pksub'],
     usage: `[true/false/t/f/1/0]`,
 
@@ -23,7 +23,7 @@ module.exports = {
             let embed = new Discord.RichEmbed()
             .setAuthor(`Smaug's Pokecord DM Notifications`, message.author.displayAvatarURL)
             .setColor(`GOLD`)
-            .setDescription(`By subscribing to this service, Smaug will DM you for every Pokecord Pokemon spawn in any of the channels you have acccess to!`)
+            .setDescription(`By subscribing to this service, Smaug will DM you for every Pokecord Pokémon spawn in any of the channels you have acccess to!`)
             .addField(`${message.author.username}, you are **${hasSubbed? "subscribed":"NOT subscribed"}** to the Pokecord notification service!`, `Type ${s.prefix}pksubscribe [true/false/t/f/1/0] to modify your subscription.`);
 
             return message.channel.send(embed);

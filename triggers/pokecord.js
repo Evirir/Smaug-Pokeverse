@@ -29,10 +29,10 @@ module.exports = {
                             if (result === undefined) {
                                 let embed = new Discord.RichEmbed()
                                 .setColor(0xFF4500)
-                                .setTitle("Pokemon Not Found")
-                                .setDescription(`Please contact the owner ${message.client.users.get(dragID).username} to add this Pokemon to the database.`);
+                                .setTitle("Pokémon Not Found")
+                                .setDescription(`Please contact the owner ${message.client.users.get(dragID).username} to add this Pokémon to the database.`);
                                 message.channel.send(embed);
-                                return message.client.channels.get(consoleID).send(`Unknown pokemon found. Hash: ${hash}`);
+                                return message.client.channels.get(consoleID).send(`Unknown pokemon found at ${message.guild.name}/${message.channel.name}(${message.channel.id})/${message.id}. Hash: ${hash}`);
                             }
 
                             let Spawn = await LastSpawns.findOne({channelID: message.channel.id}).catch(err => console.log(err));
@@ -60,7 +60,7 @@ module.exports = {
 
                                         let embed = new Discord.RichEmbed()
                                         .setColor('GOLD')
-                                        .setTitle(`**${result}** spawned: Your wished Pokemon!`)
+                                        .setTitle(`**${result}** spawned: Your wished Pokémon!`)
                                         .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n[**Message link**](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id} "${result}")`);
 
                                         message.client.users.get(user).send(embed);

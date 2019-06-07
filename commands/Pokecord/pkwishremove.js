@@ -13,7 +13,7 @@ function titleCase(str) {
 
 module.exports = {
     name: 'pkwishremove',
-    description: 'Removes a Pokemon from your Pokecord wishlist.',
+    description: 'Removes a Pokémon from your Pokecord wishlist.',
     aliases: ['wishremove','pwremove','wlremove','pwr','wlr'],
 
     async execute(message, args) {
@@ -46,7 +46,7 @@ module.exports = {
 
         if(!found){
             let embed = new Discord.RichEmbed()
-            .setAuthor(`${message.author.username}, this Pokemon is not in your wishlist, or it does not exist!`, message.author.displayAvatarURL)
+            .setAuthor(`${message.author.username}, this Pokémon is not in your wishlist, or it does not exist!`, message.author.displayAvatarURL)
             .setColor('RED');
 
             return message.channel.send(embed);
@@ -77,7 +77,7 @@ module.exports = {
 
         let embed = new Discord.RichEmbed()
         .setAuthor(`${message.author.username}, wishlist updated!`, message.author.displayAvatarURL)
-        .setDescription(`Removed Pokemon: **${removedPokemon}**`)
+        .setDescription(`Removed Pokémon: **${removedPokemon}**`)
         .setColor('ORANGE');
 
         message.channel.send(embed);

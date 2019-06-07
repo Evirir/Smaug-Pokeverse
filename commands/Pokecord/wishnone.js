@@ -5,7 +5,7 @@ const {execute} = require('./pkwishadd.js');
 
 module.exports = {
 	name: `wishnone`,
-	description: `Removes all Pokemons from your wishlist.`,
+	description: `Removes all Pokémons from your wishlist.`,
     dev: true,
 
 	async execute(message, args) {
@@ -33,6 +33,6 @@ module.exports = {
             }
         });
 
-        message.reply(`you have un-wished for all Pokemons. Oof.`);
+        message.reply(`you have un-wished for all Pokémons. Oof.`);
 	}
 };

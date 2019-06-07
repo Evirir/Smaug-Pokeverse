@@ -15,6 +15,6 @@ module.exports = {
 			PokeArray[i] = titleCase(PokeArray[i]);
 		}
         fs.writeFileSync('./pokemons/pokemonNames.json', JSON.stringify(PokeArray));
-        message.channel.send(`Pokemon names array built. Please push the update manually to Git.`);
+        message.channel.send(`Pokémon names array built. Please push the update manually to Git.`);
 	}
 };

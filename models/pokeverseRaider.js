@@ -4,7 +4,9 @@ const pokeverseRaiderSchema = mongoose.Schema({
     channelID: String,
     hasRaider: Boolean,
     activeUserID: String,
-    spawnedBy: String
+    spawnedBy: String,
+
+    hasRare: Boolean
 });
 
 module.exports = mongoose.model("PokeverseRaider", pokeverseRaiderSchema);

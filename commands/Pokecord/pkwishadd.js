@@ -15,7 +15,7 @@ function titleCase(str) {
 
 module.exports = {
     name: 'pkwishadd',
-    description: 'Adds a Pokemon to your Pokecord wishlist.',
+    description: 'Adds a Pokémon to your Pokecord wishlist.',
     aliases: ['wishadd','pwadd','wladd','pwa','wla'],
     args: true,
     usage: `[pokemon]`,
@@ -48,7 +48,7 @@ module.exports = {
 
         if(!found){
             let embed = new Discord.RichEmbed()
-            .setAuthor(`${message.author.username}, this Pokemon does not exist!`, message.author.displayAvatarURL)
+            .setAuthor(`${message.author.username}, this Pokémon does not exist!`, message.author.displayAvatarURL)
             .setColor('RED');
 
             return message.channel.send(embed);
@@ -60,7 +60,7 @@ module.exports = {
             m = Math.floor((L+R)/2);
             if(w.wishlist[m] === addedPokemon){
                 let embed = new Discord.RichEmbed()
-                .setAuthor(`${message.author.username}, this Pokemon is already in your wishlist!`, message.author.displayAvatarURL)
+                .setAuthor(`${message.author.username}, this Pokémon is already in your wishlist!`, message.author.displayAvatarURL)
                 .setColor('GOLD');
 
                 return message.channel.send(embed);
@@ -106,7 +106,7 @@ module.exports = {
 
         let embed = new Discord.RichEmbed()
         .setAuthor(`${message.author.username}, wishlist updated!`, message.author.displayAvatarURL)
-        .setDescription(`Added Pokemon: **${addedPokemon}**`)
+        .setDescription(`Added Pokémon: **${addedPokemon}**`)
         .setColor('GREEN');
 
         message.channel.send(embed);
