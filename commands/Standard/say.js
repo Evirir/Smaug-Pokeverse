@@ -15,7 +15,7 @@ module.exports = {
 		let msg = message.content;
 		let start = msg.indexOf(" ")+1;
 		msg = msg.substr(start, msg.length-start);
-		message.channel.bulkDelete(1, true);
+		message.delete();
 		message.channel.send(msg);
   	}
 };
