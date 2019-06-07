@@ -16,6 +16,7 @@ let cooldowns = new Discord.Collection();
 
 const client = new Discord.Client();
 const hoardCommands = [];
+const gameCommands = [];
 client.commands = new Discord.Collection();
 
 const categories = fs.readdirSync('./commands');
@@ -25,6 +26,7 @@ categories.forEach(category => {
 		const command = require(`./commands/${category}/${file}`);
 		client.commands.set(command.name, command);
 		if(category === 'Hoard') hoardCommands.push(command.name);
+		else if(category === 'Battle Royale') gameCommands.push(command.name);
 	});
 });
 
@@ -49,15 +51,12 @@ client.on("guildDelete", guild => {
 });
 
 client.on('message', async message => {
-	if(!message.guild) return;
-
 	let prefix = ",,";
 	const s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-	if(!s){
+	if(!s && message.guild){
 		const newPrefix = new Settings({
 			serverID: message.guild.id,
-			prefix: ",,",
-			owo: true,
+			prefix: ",,"
 		});
 		await newPrefix.save().catch(err => console.log(err));
 	}
@@ -72,7 +71,7 @@ client.on('message', async message => {
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if(!command) return;
-
+	if(message.channel.type === 'dm' && !gameCommands.includes(command.name)) return;	//only allow game commands in single DMs
 	if(message.author.bot) return;
 
 	if(command.wip){

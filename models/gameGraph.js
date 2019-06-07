@@ -5,7 +5,7 @@ const edgeSchema = mongoose.Schema({
     w: Number
 });
 
-const graphServerSchema = mongoose.Schema({
+const gameGraphSchema = mongoose.Schema({
     serverID: String,
     nodeCount: Number,
 
@@ -19,4 +19,4 @@ const graphServerSchema = mongoose.Schema({
     nodeUsers: [[String]]
 });
 
-module.exports = mongoose.model("GraphServer", graphServerSchema);
+module.exports = mongoose.model("GameGraph", gameGraphSchema);

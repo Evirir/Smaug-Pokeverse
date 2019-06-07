@@ -74,9 +74,9 @@ module.exports = {
             return message.channel.send('*ghrr*');
         if(msg.includes(`grr`) || msg.includes(`ghrr`))
             return message.channel.send('*rawr*');
-        if(msg === 'owo' && s.owo)
+        if(msg === 'owo')
             return message.channel.send(`uwu`);
-        if(msg === 'uwu' && s.owo)
+        if(msg === 'uwu')
             return message.channel.send(`owo`);
         if(msg === 'wew')
             return message.channel.send(`lad`);
