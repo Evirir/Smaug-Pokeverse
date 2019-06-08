@@ -23,7 +23,7 @@ module.exports = {
 
 		graphUser.energy -= targetEdge.w;
 		graphServer.graphUsers.set(message.author.id, targetNode);
-		graphServer.nodeUsers[
+		//graphServer.nodeUsers[
 
         await graphServer.save().catch(err => console.log(err));
 		await graphUser.save().catch(err => console.log(err));
