@@ -51,7 +51,7 @@ module.exports = {
 		let embed = new Discord.RichEmbed()
 		.setTitle(`\`${command.name}\``)
 		.setColor('BLUE')
-		.setFooter(`Note: If an argument is a user, you can either use a user mention, user tag or user ID.`);
+		.setFooter(`User = @mention/ID/Tag\nChannel = #mention/ID\nRole = mentionRole/ID`);
 
 		if(command.aliases) 	embed.addField(`Aliases`, `\`${command.aliases.join('\` \`')}\``);
 		if(command.description) embed.addField(`Description`, command.description);

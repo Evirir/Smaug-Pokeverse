@@ -48,13 +48,8 @@ module.exports = {
     ordinal: ordinal,
     getEdge: getEdge,
 
-    getMentionUser(message, position, toEnd = 0){
-        let mention;
-        const args = message.content.split(/ +/);
-        args.shift();
-
-        if(toEnd) mention = extract(message, position);
-        else mention = args[position];
+    getMentionUser(message, position){
+        let mention = extract(message, position);
 
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
@@ -62,24 +57,20 @@ module.exports = {
     		if (mention.startsWith('!')) {
     			mention = mention.slice(1);
     		}
-
-    		return message.client.users.get(mention);
     	}
 
         if(isNaN(mention)){
-            return message.client.users.find(u => u.tag === mention.substr(0, mention.indexOf('#')+4));
+            return message.client.users.find(u => u.tag === mention.slice(0, mention.search(/#\d{4}/)+5));
         }
 
         return message.client.users.get(mention);
     },
 
-    getMentionChannel(message, position, toEnd = 0){
-        let mention;
+    getMentionChannel(message, position){
         const args = message.content.split(/ +/);
         args.shift().toLowerCase();
 
-        if(toEnd) mention = extract(message, position);
-        else mention = args[position];
+        let mention = args[position];
 
     	if(mention.startsWith('<#') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);

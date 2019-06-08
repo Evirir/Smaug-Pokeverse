@@ -12,7 +12,7 @@ module.exports = {
 
 	async execute(message, args){
         const addedCoins = parseInt(args[0]);
-		const target = getMentionUser(message, 1, 1);
+		const target = getMentionUser(message, 1);
 		if(!target) return message.reply(`I couldn't find that user.`);
 
         const targetUser = await GraphUser.findOne({userID: target.id}).catch(err => console.log(err));
