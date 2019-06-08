@@ -10,7 +10,7 @@ module.exports = {
 		const embed = new Discord.RichEmbed()
 			.setTitle(`***I'M FIRE, I'M DEATH!!!***`)
 			.setColor('GREEN')
-			.setImage(dragon[0]);
+			.setImage(cute[0]);
 
 	    message.channel.send(embed);
 	}
