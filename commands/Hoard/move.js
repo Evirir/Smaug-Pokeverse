@@ -20,7 +20,6 @@ module.exports = {
 		const targetEdge = graphServer.adj.get(currentNode).find(e => e.v === targetNode);
 
         if(!targetEdge) return message.reply(`there's no existing edge to that node.`);
-		if(graphUser
 
 		graphUser.energy -= targetEdge.w;
 		graphServer.graphUsers.set(message.author.id, targetNode);
