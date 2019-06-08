@@ -84,7 +84,7 @@ client.on('message', async message => {
 		return message.channel.send(`This command is only available to developers.`);
 	}
 	if(command.args && !args.length){
-		return client.commnads.get('help').execute(message, args, prefix);
+		return client.commands.get('help').execute(message, args, prefix);
 	}
 
 	if(!cooldowns.has(command.name) && command.cd) cooldowns.set(command.name, new Discord.Collection());
