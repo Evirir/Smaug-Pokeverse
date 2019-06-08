@@ -8,6 +8,6 @@ module.exports = {
 	dev: true,
 
 	async execute(message, args){
-		message.channel.send(getMentionUser(message, 0, 1).username);
+		message.channel.send(getMentionUser(message, 0).username);
 	}
 }

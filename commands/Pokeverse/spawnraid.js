@@ -51,7 +51,7 @@ module.exports = {
 
 			let spawnerMsg = "";
 			if(args.length > 1){
-				const spawnerUser = getMentionUser(message, 1, 1);
+				const spawnerUser = getMentionUser(message, 1);
 				if(!spawnerUser) return message.reply(`invalid spawner.`);
 				spawnerMsg = `\nSpawned by: **${spawnerUser.username}**`;
 				raider.activeUserID = spawnerUser.id;
