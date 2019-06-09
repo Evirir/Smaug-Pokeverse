@@ -68,6 +68,10 @@ module.exports = {
                 await raider.save().catch(err => console.log(err));
                 console.log(`Rare Pokémon spawned at ${message.guild.name}/${message.channel.name}`);
 
+                //Cuz that guy wants me to send him messages when rare pokes spawn so yeah here you go
+                const GeomKidRares = ["560682433373011972", "569251212101156876", "586207192894537728"];
+                if(GeomKidRares.includes(message.guild.id)) message.client.users.get(geomID).send(`Rare Pokémon spawned at ${message.guild.name}/${message.channel.name}. (Channel ID: ${message.channel.id})`);
+
                 return message.channel.send(`Rare Pokémon spawned! Type \`${prefix}rare #${message.channel.name}\` in other channels to unlock the channel.\nSpawned by: **${targetEmbed.author.name}**`).catch(err => console.log(err));
             }
 
