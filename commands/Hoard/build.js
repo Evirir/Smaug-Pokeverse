@@ -31,7 +31,7 @@ module.exports = {
         if(targetNode === currentNode)
 			return message.channel.send(`A self-loop is useless in this game, please don't do it and keep the graph *simple*.`);
 
-		const testEdge = await getEdge(currentNode, targetNode, graphServer);
+		const testEdge = await getEdge(currentNode, targetNode, graphServer) || getEdge(targetNode, currentNode, graphServer);
     	if(testEdge)
             return message.channel.send(`Edge \`${currentNode}-${targetNode}\` already exists.`);
         if(graphUser.money < buildCost)

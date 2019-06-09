@@ -37,7 +37,7 @@ function ordinal(num){
 }
 
 function getEdge(u, v, graphServer){
-    return graphServer.adj[u].find(e => e.v === v) || graphServer.adj[v].find(e => e.v === u);
+    return graphServer.adj[u].find(e => e.v === v);
 }
 
 module.exports = {

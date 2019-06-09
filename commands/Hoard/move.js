@@ -14,15 +14,16 @@ module.exports = {
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
 		if(!graphUser) return console.log(`move.js: No graphUser data found.`);
 
-		let userLocation = graphServer.userLocations.find(u => u.id === message.author.id).node;
+		let currentNode = graphServer.userLocations.find(u => u.id === message.author.id).node;
         const targetNode = parseInt(args[0]);
 
-		const targetEdge = graphServer.adj.get(currentNode).find(e => e.v === targetNode);
+		const targetEdge = graphServer.adj[currentNode].find(e => e.v === targetNode);
 
-        if(!targetEdge) return message.reply(`there's no existing edge to that node.`);
+        if(!targetEdge) return message.reply(`there's no existing edge that is directed to that node.`);
+		if(graphUser.energy < targetEdge.w) return message.reply(`you do not have enough energy!`);
 
 		graphUser.energy -= targetEdge.w;
-		currentNode = targetNode;
+		graphServer.userLocations.find(u => u.id === message.author.id).node = targetNode;
 		graphServer.nodeUsers[currentNode].pull(message.author.id);
 		graphServer.nodeUsers[targetNode].push(message.author.id);
 
@@ -32,10 +33,7 @@ module.exports = {
 		const embed = new Discord.RichEmbed()
 		.setColor(`GOLD`)
 		.setAuthor(message.author.username, message.author.displayAvatarURL)
-		.setTitle(`Graph of ${message.guild.name}`);
-
-		if(!neighbours.length) embed.setDescription("You have no neighbours. Both a good thing and a bad thing.");
-		else embed.addField(`Your neighbours`, `\`${neighbours.join(', ')}\``);
+		.setTitle(`Moved from node ${currentNode} to node **${targetNode}**!\nEnergy left: ${graphUser.energy}`);
 
 		message.channel.send(embed);
 	}

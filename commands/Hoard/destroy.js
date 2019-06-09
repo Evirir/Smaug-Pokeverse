@@ -27,13 +27,14 @@ module.exports = {
 			return message.channel.send(`But I never allowed you to build self-loops!`);
 
 		const testEdge = await getEdge(currentNode, targetNode, graphServer);
-    	if(!testEdge)
+		const testEdge2 = await getEdge(targetNode, currentNode, graphServer);
+    	if(!testEdge && !testEdge2)
             return message.channel.send(`Edge \`${currentNode}-${targetNode}\` does not exist.`);
         if(graphUser.money < destroyCost)
 			return message.reply(`you do not have enough money.`);
 
-		graphServer.adj[currentNode].pull({v: targetNode});
-		graphServer.adj[targetNode].pull({v: currentNode});
+		graphServer.adj[currentNode].pull(testEdge._id);
+		graphServer.adj[targetNode].pull(testEdge2._id);
 
 		graphUser.money -= destroyCost;
 
