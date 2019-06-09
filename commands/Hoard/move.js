@@ -19,9 +19,9 @@ module.exports = {
 
 		const targetEdge = graphServer.adj[currentNode].find(e => e.v === targetNode);
         if(!targetEdge) return message.reply(`there's no existing edge that is directed to that node.`);
-		if(graphUser.energy < targetEdge.w) return message.reply(`you do not have enough energy!`);
+		//if(graphUser.energy < targetEdge.w) return message.reply(`you do not have enough energy!`);
 
-		graphUser.energy -= targetEdge.w;
+		//graphUser.energy -= targetEdge.w;
 		graphServer.userLocations.find(u => u.id === message.author.id).node = targetNode;
 		graphServer.nodeUsers[currentNode].pull(message.author.id);
 		graphServer.nodeUsers[targetNode].push(message.author.id);
