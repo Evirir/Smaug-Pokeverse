@@ -6,7 +6,7 @@ const {getEdge} = require('../../helper.js');
 const destroyCost = 450;
 
 module.exports = {
-	name: 'build',
+	name: 'destroy',
 	description: `Destroys the edge from your current node to the target node. Costs ${destroyCost} money.`,
     usage: `[node]`,
 
