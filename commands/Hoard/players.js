@@ -4,7 +4,7 @@ const GraphServer = require('../../models/graphServer.js');
 module.exports = {
 	name: 'players',
 	description: `Shows players' locations.`,
-    aliases: ['pl','player','play'],
+    aliases: ['player'],
 
 	async execute(message, args, prefix){
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
@@ -12,7 +12,7 @@ module.exports = {
 
 		let list = [];
         graphServer.userLocations.forEach(user => {
-            list.push(`${message.client.users.get(user.id).username}: Node ${user.node}`);
+            list.push(`Node ${user.node}: ${message.client.users.get(user.id).username}`);
         });
 
 		const embed = new Discord.RichEmbed()
