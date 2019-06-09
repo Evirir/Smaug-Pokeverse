@@ -32,7 +32,7 @@ module.exports = {
 		const embed = new Discord.RichEmbed()
 		.setColor(`GOLD`)
 		.setAuthor(message.author.username, message.author.displayAvatarURL)
-		.setTitle(`Moved from node ${currentNode} to node **${targetNode}**!\nEnergy left: ${graphUser.energy}`);
+		.setDescription(`Moved from node ${currentNode} to node **${targetNode}**!\nEnergy left: ${graphUser.energy}`);
 
 		message.channel.send(embed);
 	}

@@ -39,7 +39,7 @@ module.exports = {
 			nodeList += `**Node ${index}**\n${players.join(', ')}\n`;
 		});
 
-		embed.addField(`Node inhabitants`, nodeList);
+		embed.addField(`Node inhabitants`, nodeList.length ? '-' : nodeList);
 
 		message.channel.send(embed);
 	}
