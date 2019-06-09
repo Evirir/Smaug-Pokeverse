@@ -15,9 +15,9 @@ module.exports = {
 
 		let currentNode = graphServer.userLocations.find(u => u.id === message.author.id).node;
         const targetNode = parseInt(args[0]);
+		if(currentNode === targetNode) return message.reply(`you have moved to where you are. Congrats I guess.`);
 
 		const targetEdge = graphServer.adj[currentNode].find(e => e.v === targetNode);
-
         if(!targetEdge) return message.reply(`there's no existing edge that is directed to that node.`);
 		if(graphUser.energy < targetEdge.w) return message.reply(`you do not have enough energy!`);
 
