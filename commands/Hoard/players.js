@@ -12,7 +12,7 @@ module.exports = {
 
 		let list = [];
         graphServer.userLocations.forEach(user => {
-            list += `${message.client.users.get(user.id).username}: Node ${user.node}`;
+            list.push(`${message.client.users.get(user.id).username}: Node ${user.node}`);
         });
 
 		const embed = new Discord.RichEmbed()

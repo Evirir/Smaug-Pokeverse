@@ -7,7 +7,7 @@ const dailyReward = 1000;
 module.exports = {
 	name: 'daily',
 	description: `Claims your daily reward.`,
-    aliases: ['day','d'],
+    aliases: ['day'],
 
 	async execute (message, args) {
         let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));

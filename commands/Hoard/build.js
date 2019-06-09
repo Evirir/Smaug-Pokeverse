@@ -13,7 +13,6 @@ function cmpPair(a, b){
 module.exports = {
 	name: 'build',
 	description: `Builds an edge of weight ${buildWeight} from your current node to another node. Costs ${buildCost} money.`,
-    aliases: ['bu'],
     usage: `[node]`,
 
 	async execute(message, args, prefix){
