@@ -28,8 +28,9 @@ module.exports = {
 				let commandArray = [];
 				commandFiles.forEach(file => {
 					const command = require(`../${category}/${file}`);
-					if(command.dev) devArray.push(command.name);
-					else if(!command.hidden)	commandArray.push(command.name);
+					if(command.hidden) return;
+					if(command.dev)	devArray.push(command.name);
+					else commandArray.push(command.name);
 				});
 				embed.addField(`${category} commands`, `\`${commandArray.join('` `')}\``)
 			});
