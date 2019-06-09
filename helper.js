@@ -136,7 +136,7 @@ module.exports = {
             id: user.id,
             node: currentNode
         });
-        await graphServer.nodeUsers.push([]);
+        await graphServer.nodeUsers.push([user.id]);
         await graphServer.adj.push([]);
         graphServer.nodeCount++;
         await graphServer.save().catch(err => console.log(err));
