@@ -51,7 +51,6 @@ module.exports = {
 
     getMentionUser(message, position){
         let mention = extract(message, position);
-        mention = mention.slice(0, mention.search(/#\d{4}/)+5);
 
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
@@ -62,6 +61,7 @@ module.exports = {
     	}
 
         if(isNaN(mention)){
+            mention = mention.slice(0, mention.search(/#\d{4}/)+5);
             return message.client.users.find(u => u.tag === mention);
         }
 
