@@ -6,7 +6,6 @@ module.exports = {
 	name: 'move',
 	description: `Shows the graph in the server.`,
     aliases: ['mo','mov','mv'],
-    wip: true,
 
 	async execute(message, args, prefix){
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
