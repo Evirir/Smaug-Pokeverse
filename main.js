@@ -52,15 +52,18 @@ client.on("guildDelete", guild => {
 
 client.on('message', async message => {
 	let prefix = ",,";
-	const s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-	if(!s && message.guild){
-		const newPrefix = new Settings({
-			serverID: message.guild.id,
-			prefix: ",,"
-		});
-		await newPrefix.save().catch(err => console.log(err));
+
+	if(message.guild){
+		const s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
+		if(!s && message.guild){
+			const newPrefix = new Settings({
+				serverID: message.guild.id,
+				prefix: ",,"
+			});
+			await newPrefix.save().catch(err => console.log(err));
+		}
+		else prefix = s.prefix;
 	}
-	else prefix = s.prefix;
 
 	if(!message.content.toLowerCase().startsWith(prefix)) {
 		return trigger.execute(client, message);
