@@ -5,16 +5,18 @@ const edgeSchema = mongoose.Schema({
     w: Number
 });
 
+const userLocationSchema = mongoose.Schema({
+    userID: String,
+    node: Number
+});
+
 const gameGraphSchema = mongoose.Schema({
     serverID: String,
     nodeCount: Number,
 
     adj: [[edgeSchema]],
 
-    graphUsers: {
-        type: Map,
-        of: Number
-    },
+    userLocations: [userLocationSchema],
 
     nodeUsers: [[String]]
 });

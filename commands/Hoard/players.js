@@ -10,16 +10,15 @@ module.exports = {
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(!graphServer) return console.log(`move.js: No graphServer data found.`);
 
-		let list = "";
-        graphServer.graphUsers.keys().forEach(key => {
-            const node = graphServer.graphUsers.get(key);
-            list += `${message.client.users.get(key).username}: Node ${node}\n`;
+		let list = [];
+        graphServer.userLocations.forEach(user => {
+            list += `${message.client.users.get(user.id).username}: Node ${user.node}`;
         });
 
 		const embed = new Discord.RichEmbed()
 		.setColor(`GOLD`)
 		.setTitle(`Player list`)
-        .setDescription(list);
+        .setDescription(list.join('\n'));
 
 		message.channel.send(embed);
 	}

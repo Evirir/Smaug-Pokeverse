@@ -14,7 +14,7 @@ module.exports = {
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
 		if(!graphUser) return console.log(`move.js: No graphUser data found.`);
 
-		const currentNode = graphServer.graphUsers.get(message.author.id);
+		let userLocation = graphServer.userLocations.find({id: message.author.id}).node;
         const targetNode = parseInt(args[0]);
 
 		const targetEdge = graphServer.adj.get(currentNode).find(e => e.v === targetNode);
@@ -22,8 +22,9 @@ module.exports = {
         if(!targetEdge) return message.reply(`there's no existing edge to that node.`);
 
 		graphUser.energy -= targetEdge.w;
-		graphServer.graphUsers.set(message.author.id, targetNode);
-		//graphServer.nodeUsers[
+		currentNode = targetNode;
+		graphServer.nodeUsers[currentNode].pull(message.author.id);
+		graphServer.nodeUsers[targetNode].push(message.author.id);
 
         await graphServer.save().catch(err => console.log(err));
 		await graphUser.save().catch(err => console.log(err));

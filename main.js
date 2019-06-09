@@ -125,13 +125,13 @@ client.on('message', async message => {
 				serverID: message.guild.id,
 			    nodeCount: 0,
 			    adj: [],
-			    graphUsers: [],
+			    userLocations: [],
 			    nodeUsers: []
 			});
 			await graphServer.save().catch(err => console.log(err));
 		}
 
-		let currentNode = graphServer.graphUsers.get(message.author.id);
+		let currentNode = graphServer.userLocations.find({userID: message.author.id});
 		if(currentNode === undefined){
 			await newGraphServerUser(message.author, graphServer);
 		}

@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const cytoscape = require('cytoscape');
 const GraphServer = require('../../models/graphServer.js');
+const {getMentionUser} = require('../../helper.js');
 
 module.exports = {
 	name: 'graph',
@@ -11,7 +12,8 @@ module.exports = {
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
 		if(!graphServer) return console.log(`graph.js: No graphServer data found.`);
 
-		const currentNode = graphServer.graphUsers.get(message.author.id);
+		const targetUser = getMentionUser(message, 0) || message.author;
+		const currentNode = graphServer.userLocations.find({id: targetUser.id}).node;
 
 		let list = [];
 		graphServer.adj[currentNode].forEach(e => {
@@ -20,12 +22,12 @@ module.exports = {
 
 		const embed = new Discord.RichEmbed()
 		.setColor(`GOLD`)
-		.setAuthor(message.author.username, message.author.displayAvatarURL)
-		.setTitle(`Graph of ${message.guild.name}`);
+		.setAuthor(`${targetUser.username}'s Adjacency List`, targetUser.displayAvatarURL)
+		.setDescription(`Node: \`${currentNode}\``);
 
-		if(!graphServer.adj[currentNode].length) embed.setDescription("You have no neighbours. Both a good thing and a bad thing.");
+		if(!graphServer.adj[currentNode].length) embed.setDescription("No neighbours found. Both a good thing and a bad thing.");
 		else embed
-		.addField(`Your neighbours`, `\`[${list.join(', ')}]\``)
+		.addField(`Neighbours`, `\`[${list.join(', ')}]\``)
 		.setFooter(`u(w) = The edge to node u has weight w`)
 
 		message.channel.send(embed);

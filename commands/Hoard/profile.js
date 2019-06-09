@@ -22,7 +22,7 @@ module.exports = {
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
         if(!graphServer) return console.log(`profile.js: No graphServer data found.`);
 
-		let currentNode = graphServer.graphUsers.get(target.id);
+		const currentNode = graphServer.userLocations.find({id: message.author.id}).node;
 		const kda = (graphUser.deaths === 0) ? graphUser.kills : graphUser.kills/graphUser.deaths;
 
         let embed = new Discord.RichEmbed()

@@ -24,7 +24,7 @@ module.exports = {
 
 		if(!args.length) return message.channel.send(`Please specify a node number within \`[0, ${graphServer.nodeCount - 1}]\``);
 
-        let currentNode = graphServer.graphUsers.get(message.author.id);
+        let currentNode = graphServer.userLocations.find({id: message.author.id}).node;
         let targetNode = parseInt(args[0]);
 
         if(isNaN(args[0]) || targetNode >= graphServer.nodeCount || targetNode < 0)
