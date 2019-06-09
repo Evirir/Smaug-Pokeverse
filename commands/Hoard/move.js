@@ -14,7 +14,7 @@ module.exports = {
 		let graphUser = await GraphUser.findOne({userID: message.author.id}).catch(err => console.log(err));
 		if(!graphUser) return console.log(`move.js: No graphUser data found.`);
 
-		let userLocation = graphServer.userLocations.find({id: message.author.id}).node;
+		let userLocation = graphServer.userLocations.find(u => u.id === message.author.id).node;
         const targetNode = parseInt(args[0]);
 
 		const targetEdge = graphServer.adj.get(currentNode).find(e => e.v === targetNode);

@@ -13,7 +13,7 @@ module.exports = {
 		if(!graphServer) return console.log(`graph.js: No graphServer data found.`);
 
 		const targetUser = getMentionUser(message, 0) || message.author;
-		const currentNode = graphServer.userLocations.find({id: targetUser.id}).node;
+		const currentNode = graphServer.userLocations.find(u => u.id === message.author.id).node;
 
 		let list = [];
 		graphServer.adj[currentNode].forEach(e => {

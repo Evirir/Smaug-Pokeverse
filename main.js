@@ -131,8 +131,8 @@ client.on('message', async message => {
 			await graphServer.save().catch(err => console.log(err));
 		}
 
-		let currentNode = graphServer.userLocations.find({userID: message.author.id});
-		if(currentNode === undefined){
+		const graphServerUser = graphServer.userLocations.find(u => u.id === message.author.id);
+		if(graphServerUser === undefined){
 			await newGraphServerUser(message.author, graphServer);
 		}
 

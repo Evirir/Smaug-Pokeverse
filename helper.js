@@ -132,7 +132,10 @@ module.exports = {
 
     async newGraphServerUser(user, graphServer){
         const currentNode = graphServer.nodeCount;
-        graphServer.userLocations.find({id: message.author.id}).node = currentNode;
+        graphServer.userLocations.push({
+            id: user.id,
+            node: currentNode
+        });
         await graphServer.nodeUsers.push([]);
         await graphServer.adj.push([]);
         graphServer.nodeCount++;
