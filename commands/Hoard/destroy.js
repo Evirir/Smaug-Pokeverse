@@ -3,7 +3,7 @@ const GraphServer = require('../../models/graphServer.js');
 const GraphUser = require('../../models/graphUser.js');
 const {getEdge} = require('../../helper.js');
 
-const destroyCost = 450;
+const destroyCost = 1200;
 
 module.exports = {
 	name: 'destroy',

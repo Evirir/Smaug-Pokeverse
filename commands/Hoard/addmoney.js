@@ -7,10 +7,12 @@ module.exports = {
 	description: `Adds money (for dev's testing).`,
     aliases: ['am'],
 	args: true,
-    usage: `[amount] [@mentionUser/userTag#1234/userID]`,
+    usage: `[amount] [user]`,
 	dev: true,
 
 	async execute(message, args){
+		if(args.length < 2) return message.reply(`not enough arguments!`);
+
         const addedCoins = parseInt(args[0]);
 		const target = getMentionUser(message, 1);
 		if(!target) return message.reply(`I couldn't find that user.`);

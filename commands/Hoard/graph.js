@@ -6,7 +6,7 @@ const {getMentionUser} = require('../../helper.js');
 module.exports = {
 	name: 'graph',
 	description: `Shows the graph in the server.`,
-    aliases: ['g','gr'],
+    aliases: ['gr'],
 
 	async execute(message, args, prefix){
 		let graphServer = await GraphServer.findOne({serverID: message.guild.id}).catch(err => console.log(err));
@@ -26,13 +26,13 @@ module.exports = {
 		.setDescription(`Node: \`${currentNode}\``);
 
 		if(!graphServer.adj[currentNode].length) embed.addField(`Neighbours`, "No neighbours found. Both a good thing and a bad thing.");
-		else embed.addField(`Neighbours`, `\`[${list.join(', ')}]\``);
+		else embed.addField(`Neighbours`, `\`${list.join(', ')}\``);
 
 		embed.setFooter(`u(w) = The edge to node u has weight w`);
 
 		let nodeList = "";
 		graphServer.nodeUsers.forEach((node, index) => {
-			const players = []; console.log(node);
+			const players = [];
 			node.forEach(p => {
 				players.push(message.client.users.get(p).username);
 			});

@@ -16,6 +16,7 @@ function titleCase(str) {
    return splitStr.join(' ');
 }
 
+//returns string from args[position] till the end
 function extract(message, position){
     let content = message.content;
     position++;
@@ -50,6 +51,7 @@ module.exports = {
 
     getMentionUser(message, position){
         let mention = extract(message, position);
+        mention = mention.slice(0, mention.search(/#\d{4}/)+5);
 
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
@@ -60,7 +62,7 @@ module.exports = {
     	}
 
         if(isNaN(mention)){
-            return message.client.users.find(u => u.tag === mention.slice(0, mention.search(/#\d{4}/)+5));
+            return message.client.users.find(u => u.tag === mention);
         }
 
         return message.client.users.get(mention);
