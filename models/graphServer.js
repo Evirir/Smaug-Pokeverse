@@ -10,6 +10,10 @@ const userLocationSchema = mongoose.Schema({
     node: Number
 });
 
+const nodeUserSchema = mongoose.Schema({
+    type: String
+});
+
 const graphServerSchema = mongoose.Schema({
     serverID: String,
     nodeCount: Number,
@@ -18,7 +22,7 @@ const graphServerSchema = mongoose.Schema({
 
     userLocations: [userLocationSchema],
 
-    nodeUsers: [[String]]
+    nodeUsers: [[nodeUserSchema]]
 });
 
 module.exports = mongoose.model("GraphServer", graphServerSchema);
