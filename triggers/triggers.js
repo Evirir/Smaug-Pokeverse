@@ -9,7 +9,7 @@ const Pokeverse = require('./pokeverse.js');
 
 module.exports = {
     async execute(client, message) {
-
+        if(!message.guild) return;
         let prefix = ",,";
         let s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
     	if(!s) console.log(`No prefix found: triggers.js`);
