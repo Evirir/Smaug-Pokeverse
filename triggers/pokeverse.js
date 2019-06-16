@@ -61,7 +61,7 @@ module.exports = {
                         SEND_MESSAGES: false
                     }).catch(err => {
                         console.log(err);
-                        return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has 'Manage Channel Permissions' on in the channel.`);
+                        return message.channel.send(`Failed to lock channel for one of the roles! Please use one of the solutions below, then use the \`,,spr\` command to lock the channel:\n1) Enable the 'Administrator' permission of the 'Smaug' role.\n2) Give Smaug the 'Manage Channel Permissions' in the channel. (You have to do this for every channel where Raiders may spawn.)`);
                     });
                 });
 

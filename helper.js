@@ -107,7 +107,7 @@ module.exports = {
         let tmpSec = tmpMin - (diffMin*(1000*60));
         let diffSec =  Math.floor(tmpSec/(1000));
 
-        return `${timefy(diffHr)}h ${timefy(diffMin)}m ${timefy(diffSec)}s`;
+        return `${diffHr}h ${diffMin}m ${diffSec}s`;
     },
 
     async newGraphUser(user, joined = 1){

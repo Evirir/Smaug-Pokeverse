@@ -32,7 +32,7 @@ module.exports = {
 
 		let nodeList = "";
 		graphServer.nodeUsers.forEach((node, index) => {
-			const players = [];
+			const players = []; console.log(node);
 			node.forEach(p => {
 				players.push(message.client.users.get(p).username);
 			});

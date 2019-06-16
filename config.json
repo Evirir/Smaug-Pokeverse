@@ -1,5 +1,6 @@
 {
 	"defaultPrefix": ",,",
 	"bot_name": "Smaug",
-	"inviteLink": "https://discordapp.com/oauth2/authorize?&client_id=557528854147629056&scope=bot&permissions=325712"
+	"inviteLink": "https://discordapp.com/oauth2/authorize?&client_id=557528854147629056&scope=bot&permissions=8",
+	"inviteLinkNoAdmin": "https://discordapp.com/oauth2/authorize?&client_id=557528854147629056&scope=bot&permissions=325712"
 }
