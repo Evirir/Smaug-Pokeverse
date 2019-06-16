@@ -62,8 +62,14 @@ module.exports = {
             raiderSettings.lockRoles.forEach(r => {
                 targetChannel.overwritePermissions(r, {
                     SEND_MESSAGES: false
-                });
-            })
+                }).catch(err => console.log(err));
+            });
+
+			//exclude pokeverse
+			let pokeverseUser = message.client.users.get(pokeverseID);
+			message.channel.overwritePermissions(pokeverseUser, {
+				SEND_MESSAGES: true
+			}).catch(err => console.log(err));
 
             await raider.save().catch(err => console.log(err));
 			console.log(`Test raider spawned at #${targetChannel.name}.`);
