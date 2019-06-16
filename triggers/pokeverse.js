@@ -65,6 +65,12 @@ module.exports = {
                     });
                 });
 
+                //exclude pokeverse
+                let pokeverseUser = message.client.users.get(pokeverseID);
+                message.channel.overwritePermissions(pokeverseUser, {
+                    SEND_MESSAGES: true
+                }).catch(err => console.log(err));
+
                 await raider.save().catch(err => console.log(err));
                 console.log(`Rare Pokémon spawned at ${message.guild.name}/${message.channel.name}`);
 
@@ -92,6 +98,12 @@ module.exports = {
                         return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has 'Manage Channel Permissions' on in the channel.`);
                     });
                 });
+
+                //exclude pokeverse
+                let pokeverseUser = message.client.users.get(pokeverseID);
+                message.channel.overwritePermissions(pokeverseUser, {
+                    SEND_MESSAGES: true
+                }).catch(err => console.log(err));
 
                 await raider.save().catch(err => console.log(err));
                 console.log(`Raider spawned at ${message.guild.name}/${message.channel.name}`);
