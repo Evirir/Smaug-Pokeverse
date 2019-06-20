@@ -37,7 +37,7 @@ module.exports = {
 			node.users.forEach(p => {
 				players.push(message.client.users.get(p).username);
 			});
-			nodeList += `**Node ${index}**\n${players.length === 0 ? '-' : players.join(', ')}\n`;
+			nodeList += `**Node ${i}**\n${players.length === 0 ? '-' : players.join(', ')}\n`;
 		}
 
 		embed.addField(`Node inhabitants`, nodeList);
