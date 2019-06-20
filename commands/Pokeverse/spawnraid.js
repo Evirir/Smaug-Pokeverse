@@ -1,14 +1,14 @@
 const Raider = require('../../models/pokeverseRaider.js');
 const RaiderSettings = require('../../models/pokeverseRaiderSettings.js');
+const {pokeverseID} = require('../../specificData/users.json');
 const {getMentionChannel, getMentionUser} = require('../../helper.js');
 
 module.exports = {
 	name: `spawnraid`,
-	description: `Fake spawns a Raider pokemon for testing. Add \`d\` or \`r\` as an argument to stop the test.`,
+	description: `Let Smaug act like when a Raider spawns/despawns. Add \`d\` or \`r\` as the 2nd argument to despawn.`,
     aliases: [`spawnraider`,`spr`],
     args: true,
     usage: `#mentionChannel/channelID [user/d/r]`,
-    dev: true,
 
 	async execute(message, args, prefix) {
         let targetChannel = getMentionChannel(message, 0);
