@@ -9,7 +9,8 @@ module.exports = {
         let inviteMsg = await message.channel.send(`A new game has been started by <@${message.author.id}>! React in 10s (usually 30s) to join!\n(The host can use ${prefix}gcancel to cancel the game)`);
         await inviteMsg.react('✅');
 
-        const rCollector = message.createReactionCollector(e => e.emoji.name === '✅', {time: 10000});
+        const reactionFilter = (r, user) => {return r.emoji.name === '✅'};
+        const rCollector = message.createReactionCollector(reactionFilter, {time: 10000});
         const mCollector = message.channel.createMessageCollector(m => m.author === message.author, {time: 10000});
 
         let cancelled = false;
