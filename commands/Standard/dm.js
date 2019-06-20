@@ -19,7 +19,7 @@ module.exports = {
 		let targetUser = getMentionUser(message, 0, 0);
 		if(!targetUser) return message.reply(`please mention a valid user!`);
 
-		msg = extract(msg, 1);
+		msg = extract(message, 1);
 
 		message.reply(`message sent to mentioned user!`);
 		targetUser.send(`**${message.author.username}** said:\n${msg}`);
