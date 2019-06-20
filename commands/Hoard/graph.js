@@ -32,7 +32,7 @@ module.exports = {
 
 		let nodeList = "";
 		for(let i=0; i<graphServer.nodeCount; i++){
-			const node = await graphServer.nodeUsers.findOne({node: i}).catch(err => console.log(err));
+			const node = graphServer.nodeUsers.find(n => n.node === i);
 			const players = [];
 			node.users.forEach(p => {
 				players.push(message.client.users.get(p).username);
