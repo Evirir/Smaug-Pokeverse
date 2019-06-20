@@ -20,9 +20,7 @@ const graphServerSchema = mongoose.Schema({
     nodeCount: Number,
 
     adj: [[edgeSchema]],
-
     userLocations: [userLocationSchema],
-
     nodeUsers: [nodeUserSchema]
 });
 

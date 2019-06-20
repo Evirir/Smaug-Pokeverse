@@ -6,19 +6,33 @@ const edgeSchema = mongoose.Schema({
 });
 
 const userLocationSchema = mongoose.Schema({
-    userID: String,
+    id: String,
     node: Number
 });
 
+const nodeUserSchema = mongoose.Schema({
+    node: Number,
+    users: [String]
+});
+
+const userProfileSchema = mongoose.Schema({
+    userID: String,
+    money: Number,
+    energy: Number,
+    hp: Number,
+    kills: Number,
+    deaths: Number,
+    inventory: [Object]
+});
+
 const gameGraphSchema = mongoose.Schema({
-    serverID: String,
+    channelID: String,
     nodeCount: Number,
 
     adj: [[edgeSchema]],
-
     userLocations: [userLocationSchema],
-
-    nodeUsers: [[String]]
+    nodeUsers: [nodeUserSchema],
+    userProfiles: [userProfileSchema]
 });
 
 module.exports = mongoose.model("GameGraph", gameGraphSchema);
