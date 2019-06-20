@@ -28,7 +28,7 @@ module.exports = {
         });
 
         const players = [];
-        rCollector.on('end', async collected => {
+        rCollector.on('end', async collected => { console.log(collected);
             if(cancelled) return;
             if(collected.size < 2) return message.channel.send(`No one joined...sad.`);
 
