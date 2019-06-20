@@ -49,8 +49,13 @@ module.exports = {
     ordinal: ordinal,
     getEdge: getEdge,
 
-    getMentionUser(message, position){
-        let mention = extract(message, position);
+    getMentionUser(message, position, toEnd = 1){
+        let mention;
+        if(!toEnd){
+            const args = message.content.split(/\s+/);
+            mention = args[position + 1];
+        }
+        else mention = extract(message, position);
 
     	if (mention.startsWith('<@') && mention.endsWith('>')) {
     		mention = mention.slice(2, -1);
