@@ -4,7 +4,6 @@ const GameGraph = require('../../models/gameGraph.js');
 module.exports = {
     name: 'gstart',
     description: 'Starts a classical game of graph theory battle royale.',
-    wip: true,
 
     async execute(message, args, prefix) {
         let inviteMsg = message.channel.send(`A new game has been started by <@${message.author.id}>! React in 60s to join!\n(The host can use \`${prefix}gcancel\` to cancel the game)`);
