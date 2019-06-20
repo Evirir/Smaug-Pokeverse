@@ -6,31 +6,37 @@ module.exports = {
     description: 'Starts a classical game of graph theory battle royale.',
 
     async execute(message, args, prefix) {
-        let inviteMsg = message.channel.send(`A new game has been started by <@${message.author.id}>! React in 60s to join!\n(The host can use \`${prefix}gcancel\` to cancel the game)`);
+        let inviteMsg = await message.channel.send(`A new game has been started by <@${message.author.id}>! React in 10s (usually 30s) to join!\n(The host can use ${prefix}gcancel to cancel the game)`);
         await inviteMsg.react('✅');
 
-        const rCollector = message.createReactionCollector(e => e.emoji.name === '✅', {time: 30000});
-        const mCollector = message.channel.createReactionCollector(m => m.author === message.author, {time: 30000});
+        const rCollector = message.createReactionCollector(e => e.emoji.name === '✅', {time: 10000});
+        const mCollector = message.channel.createMessageCollector(m => m.author === message.author, {time: 10000});
 
         let cancelled = false;
         mCollector.on('collect', m => {
             if(m.content === `${prefix}gcancel`){
                 message.channel.send(`Game cancelled u.=.u`);
                 cancelled = true;
+                rCollector.stop();
                 mCollector.stop();
             }
+        });
+
+        rCollector.on('collect', collected => {
+            console.log(`Reaction collected.`);
         });
 
         const players = [];
         rCollector.on('end', async collected => {
             if(cancelled) return;
+            if(collected.size < 2) return message.channel.send(`No one joined...sad.`);
 
             const gameGraph = new GameGraph({
                 channelID: message.channel.id,
-                nodeCount: collected.size - 1,
+                nodeCount: collected.size,
             });
 
-            for(let i = 0; i < collected.users.size; i++){
+            for(let i = 0; i < collected.size; i++){
                 const u = collected.users[i];
                 if(u === message.client.user) continue;
                 gameGraph.players.push(u.username);
