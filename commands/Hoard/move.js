@@ -23,8 +23,10 @@ module.exports = {
 
 		//graphUser.energy -= targetEdge.w;
 		graphServer.userLocations.find(u => u.id === message.author.id).node = targetNode;
-		graphServer.nodeUsers[currentNode].pull(message.author.id);
-		graphServer.nodeUsers[targetNode].push(message.author.id);
+		const currentNodeUsers = graphServer.nodeUsers.find(node => node.id === currentNode);
+		currentNodeUsers.users.splice(currentNodeUsers.users.indexOf(currentNodeUsers.users.find(u => u === message.author.id)), 1);
+		const targetNodeUsers = graphServer.nodeUsers.find(node => node.id === targetNode);
+		targetNodeUsers.users.push(message.author.id);
 
         await graphServer.save().catch(err => console.log(err));
 		await graphUser.save().catch(err => console.log(err));
