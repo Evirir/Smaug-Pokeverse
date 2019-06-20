@@ -31,13 +31,14 @@ module.exports = {
 		embed.setFooter(`u(w) = The edge to node u has weight w`);
 
 		let nodeList = "";
-		graphServer.nodeUsers.forEach((node, index) => {
+		for(let i=0; i<graphServer.nodeCount; i++){
+			const node = await graphServer.nodeUsers.findOne({node: i}).catch(err => console.log(err));
 			const players = [];
-			node.forEach(p => {
+			node.users.forEach(p => {
 				players.push(message.client.users.get(p).username);
 			});
 			nodeList += `**Node ${index}**\n${players.length === 0 ? '-' : players.join(', ')}\n`;
-		});
+		}
 
 		embed.addField(`Node inhabitants`, nodeList);
 
