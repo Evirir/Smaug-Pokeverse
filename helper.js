@@ -138,8 +138,11 @@ module.exports = {
             id: user.id,
             node: currentNode
         });
-        await graphServer.nodeUsers.push([user.id]);
-        await graphServer.adj.push([]);
+        graphServer.nodeUsers.push({
+            node: currentNode,
+            users: [user.id]
+        });
+        graphServer.adj.push([]);
         graphServer.nodeCount++;
         await graphServer.save().catch(err => console.log(err));
     }
