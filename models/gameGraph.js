@@ -28,6 +28,7 @@ const userProfileSchema = mongoose.Schema({
 const gameGraphSchema = mongoose.Schema({
     channelID: String,
     nodeCount: Number,
+    phase: Number,
 
     adj: [[edgeSchema]],
     userLocations: [userLocationSchema],

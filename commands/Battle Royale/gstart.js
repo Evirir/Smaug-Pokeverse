@@ -35,6 +35,7 @@ module.exports = {
             const gameGraph = new GameGraph({
                 channelID: message.channel.id,
                 nodeCount: collected.size,
+                phase: 1
             });
 
             for(let i = 0; i < collected.size; i++){

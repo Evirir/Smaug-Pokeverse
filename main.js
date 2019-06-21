@@ -74,7 +74,7 @@ client.on('message', async message => {
 	const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	if(!command) return;
-	if(message.channel.type === 'dm' && !gameCommands.includes(command.name)) return;	//only allow game commands in single DMs
+	if(message.channel.type === 'dm' && !gameCommands.includes(command.name)) return message.reply(`only battle royale commands are allowed in DMs!`);	//only allow game commands in single DMs
 	if(message.author.bot) return;
 
 	if(command.wip){
