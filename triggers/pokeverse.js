@@ -161,7 +161,7 @@ module.exports = {
                 const tamerPerm = message.channel.permissionOverwrites.get(tamer.id);
                 if(tamerPerm) tamerPerm.delete();
 
-                const targetChannel = getMentionChannel(targetEmbed.description.slice(e.description.indexOf('<#'), -1));
+                const targetChannel = getMentionChannel(targetEmbed.description.slice(targetEmbed.description.indexOf('<#'), -1));
                 if(!targetChannel) console.log(`pokeverse.js: No target channel found.`);
 
                 raiderSettings.lockRoles.forEach(async r => {
