@@ -28,9 +28,9 @@ module.exports = {
         });
 
         const players = [];
-        rCollector.on('end', async collected => { console.log(collected);
+        rCollector.on('end', async collected => {
             if(cancelled) return;
-            if(collected.size < 2) return message.channel.send(`No one joined...sad.`);
+            if(collected.size < 1) return message.channel.send(`No one joined...sad.`);
 
             const gameGraph = new GameGraph({
                 channelID: message.channel.id,
