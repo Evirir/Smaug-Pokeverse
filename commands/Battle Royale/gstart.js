@@ -10,8 +10,8 @@ module.exports = {
         await inviteMsg.react('✅');
 
         const reactionFilter = (r, user) => {return r.emoji.name === '✅'};
-        const rCollector = message.createReactionCollector(reactionFilter, {time: 10000});
-        const mCollector = message.channel.createMessageCollector(m => m.author === message.author, {time: 10000});
+        const rCollector = inviteMsg.createReactionCollector(reactionFilter, {time: 10000});
+        const mCollector = inviteMsg.channel.createMessageCollector(m => m.author === message.author, {time: 10000});
 
         let cancelled = false;
         mCollector.on('collect', m => {
