@@ -50,7 +50,7 @@ module.exports = {
             }
 
             //Rare pokemon spawned
-            if(message.content.includes(`A rare Pokémon has spawned`)){
+            if(message.content.toLowerCase().includes(`a rare pok`)){
                 raider.hasRare = true;
                 raider.hasRaider = false;
                 raider.activeUserID = undefined;
