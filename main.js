@@ -19,6 +19,8 @@ const hoardCommands = [];
 const gameCommands = [];
 client.commands = new Discord.Collection();
 
+const testMode = true;
+
 const categories = fs.readdirSync('./commands');
 categories.forEach(category => {
 	const commandFiles = fs.readdirSync(`./commands/${category}`).filter(file => file.endsWith('.js'));
@@ -51,6 +53,8 @@ client.on("guildDelete", guild => {
 });
 
 client.on('message', async message => {
+	if(testMode && message.author.id !== dragID) return;
+
 	let prefix = ",,";
 
 	if(message.guild){
