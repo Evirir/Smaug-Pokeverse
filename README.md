@@ -13,5 +13,5 @@ Use `,,help` to see the list of commands.
 Use `,,prefix [new-prefix]` if you would like to change the prefix (server-specific).
 
 ## To-do (and possible future developments)
-- [ ] Add games to make use of the currency system
-- [ ] Make zs's graph theory battle royale
+- [ ] ,,rs roles clear command
+- [ ] Restructure the Pokeverse Lock system: Raider, Rare and Mega Boss
