@@ -91,7 +91,7 @@ async function lockRoles(client, message, prefix, raider, raiderSettings, status
     //logging and sending messages
     const pokeType = statusToPokeType(status);
 
-    console.log(`${pokeType} spawned at ${message.guild.name}/${message.channel.name} (Channel ID: ${message.channel.id})`);
+    console.log(`${pokeType} spawned at ${message.guild.name}/${message.channel.name} (${message.guild.id}/${message.channel.id})`);
 
     const geomUser = await client.users.get(geomID);
     if(message.guild.member(geomUser)) geomUser.send(`${pokeType} spawned at ${message.guild.name}/${message.channel.name}`);
@@ -111,7 +111,7 @@ function unlockRoles(message, targetChannel, raider, raiderSettings){
         await targetChannel.overwritePermissions(message.guild.roles.get(r), {
             SEND_MESSAGES: true
         });
-        console.log(`${message.guild.name}/${targetChannel.name}: ${message.guild.roles.get(r).name} unlocked. (Channel ID: ${targetChannel.id})`);
+        console.log(`${message.guild.name}/${targetChannel.name}: ${message.guild.roles.get(r).name} unlocked. (${targetChannel.guild}/${targetChannel.id})`);
     });
 
     raider.status = undefined;
