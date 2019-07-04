@@ -49,8 +49,10 @@ function statusToPokeType(status){
     return pokeType;
 }
 
-async function lockRoles(client, message, prefix, lockRoles, raider, raiderSettings, status){
+async function lockRoles(client, message, prefix, raider, raiderSettings, status){
     let roleError = false;
+
+    const lockRoles = raiderSettings.lockRoles;
     lockRoles.forEach(r => {
         const role = message.guild.roles.get(r);
         if(!role){

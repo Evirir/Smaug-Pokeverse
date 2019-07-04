@@ -28,7 +28,7 @@ module.exports = {
                 //Rare pokemon spawned
                 if(message.content.toLowerCase().includes(`a rare pok`)){
                     const status = 'rare';
-                    lockRoles(client, message, prefix, lockRoles, raider, raiderSettings, status);
+                    lockRoles(client, message, prefix, raider, raiderSettings, status);
                     return;
                 }
 
@@ -38,7 +38,7 @@ module.exports = {
                 targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fightr / !fr`));
                 if(targetEmbed){
                     const status = 'raider';
-                    lockRoles(client, message, prefix, lockRoles, raider, raiderSettings, status);
+                    lockRoles(client, message, prefix, raider, raiderSettings, status);
                     return;
                 }
 
@@ -46,7 +46,7 @@ module.exports = {
                 targetEmbed = message.embeds.find(e => e.title && e.title.includes(`Mega (Boss)`));
                 if(targetEmbed){
                     const status = 'megaboss';
-                    lockRoles(client, message, prefix, lockRoles, raider, raiderSettings, status);
+                    lockRoles(client, message, prefix, raider, raiderSettings, status);
                     return;
                 }
 
