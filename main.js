@@ -19,7 +19,7 @@ const hoardCommands = [];
 const gameCommands = [];
 client.commands = new Discord.Collection();
 
-const testMode = true;
+const testMode = false;
 
 const categories = fs.readdirSync('./commands');
 categories.forEach(category => {
