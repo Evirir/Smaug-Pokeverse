@@ -35,7 +35,7 @@ module.exports = {
                 if(!message.embeds) return;
 
                 //Raider spawned
-                targetEmbed = message.embeds.find(e => (e.footer && e.footer.text.includes(`!fightr / !fr`)));
+                targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fightr / !fr`));
                 if(targetEmbed){
                     const status = 'raider';
                     lockRoles(client, message, prefix, lockRoles, raider, raiderSettings, status);
@@ -43,7 +43,7 @@ module.exports = {
                 }
 
                 //Mega boss spawned
-                targetEmbed = message.embeds.find(e => (e.title.includes(`Mega (Boss)`)));
+                targetEmbed = message.embeds.find(e => e.title && e.title.includes(`Mega (Boss)`));
                 if(targetEmbed){
                     const status = 'megaboss';
                     lockRoles(client, message, prefix, lockRoles, raider, raiderSettings, status);

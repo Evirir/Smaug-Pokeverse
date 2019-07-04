@@ -53,7 +53,6 @@ client.on("guildDelete", guild => {
 });
 
 client.on('message', async message => {
-	if(testMode && message.author.id !== dragID) return;
 
 	let prefix = ",,";
 
@@ -72,6 +71,8 @@ client.on('message', async message => {
 	if(!message.content.toLowerCase().startsWith(prefix)) {
 		return trigger.execute(client, message);
 	}
+
+	if(testMode && message.author.id !== dragID) return;
 
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
