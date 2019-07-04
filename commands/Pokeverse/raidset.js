@@ -25,12 +25,12 @@ module.exports = {
             if(args[0] === 'on'){
                 raiderSettings.raiderLockEnabled = true;
                 raiderSettings.save().catch(err => console.log(err));
-                return message.reply(`the Pokeverse Raider Lock has been **enabled** for this server. See \`${s.prefix}help raid\` on how to use the Raider Lock.`);
+                return message.reply(`the Pokeverse Raider Lock has been **enabled** for this server. See \`${prefix}help raid\` on how to use the Raider Lock.`);
             }
             else{
                 raiderSettings.raiderLockEnabled = false;
                 raiderSettings.save().catch(err => console.log(err));
-                return message.reply(`the Pokeverse Raider Lock has been **disabled** for this server. See \`${s.prefix}help raid\` on how to use the Raider Lock.`);
+                return message.reply(`the Pokeverse Raider Lock has been **disabled** for this server. See \`${prefix}help raid\` on how to use the Raider Lock.`);
             }
         }
 
