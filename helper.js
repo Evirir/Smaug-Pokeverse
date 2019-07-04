@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const GraphUser = require('./models/graphUser.js');
 const GraphServer = require('./models/graphServer.js');
 const GraphClient = require('./models/graphClient.js');
+const {pokeverseID, geomID} = require('./specificData/users.json');
 
 function timefy(t){
     if(t<10) return '0'+t;
