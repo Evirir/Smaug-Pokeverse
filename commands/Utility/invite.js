@@ -7,13 +7,17 @@ module.exports = {
 
 	async execute(message, args) {
 		let embed = new Discord.RichEmbed()
-		.setTitle(`Interested to have me in your server? Chant one of these blue, magical spells while worshipping the dragon god.`)
+		.setTitle(`You wanna...invite me to your server?`)
 		.setDescription(
-`[**Flaargle Fla Gengubble** (With admin perms)](${inviteLink} "See note for info")
-[**Rarwrr Ghrrr** (No admin ver)](${inviteLinkNoAdmin})
+`Sure! Just chant one of these magical links perfectly in dragontongue, and I'll be going to your party! >.=.<
 
-NOTE: The Raider Lock will NOT work if you do not give Smaug the admin permission.
-NOTE 2: You must use \`,,rs on\` to enable the Raider Lock and add the roles you want to lock. See \`,,help rs\` for help.`)
+With admin perms: [**Flaargle Fla Gengubble**](${inviteLink} "i.e. I WANT SMAUG TO LOCK RAIDERS FOR ME")
+No admin perms: [**Zakorrif Fraguarlue**](${inviteLinkNoAdmin})
+
+Smaug's Support Server: https://discord.gg/qttxbKe
+
+P.S. The Raider Lock will NOT work if you do not give Smaug the admin permission.
+P.S.S: You must use \`,,rs on\` to enable the Raider Lock and add the roles you want to lock. See \`,,help rs\` for help.`)
 		.setColor('GOLD');
 
 		message.channel.send(embed);
