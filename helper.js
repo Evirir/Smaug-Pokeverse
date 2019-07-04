@@ -91,7 +91,7 @@ async function lockRoles(client, message, prefix, raider, raiderSettings, status
     //logging and sending messages
     const pokeType = statusToPokeType(status);
 
-    console.log(`${pokeType} spawned at ${message.guild.name}/${message.channel.name}`);
+    console.log(`${pokeType} spawned at ${message.guild.name}/${message.channel.name} (Channel ID: ${message.channel.id})`);
 
     const geomUser = await client.users.get(geomID);
     if(message.guild.member(geomUser)) geomUser.send(`${pokeType} spawned at ${message.guild.name}/${message.channel.name}`);
