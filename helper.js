@@ -50,7 +50,7 @@ function statusToPokeType(status){
     return pokeType;
 }
 
-async function lockRoles(client, message, prefix, raider, raiderSettings, status){
+async function lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed){
     let roleError = false;
 
     const lockRoles = raiderSettings.lockRoles;
@@ -99,7 +99,7 @@ async function lockRoles(client, message, prefix, raider, raiderSettings, status
 
     let msg = `A ${pokeType} has spawned! Type \`${prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the ${pokeType}.`;
 
-    if(status === 'raider'){
+    if(targetEmbed && targetEmbed.author){
         msg += `\nSpawned by: **${targetEmbed.author.name}**`;
     }
 

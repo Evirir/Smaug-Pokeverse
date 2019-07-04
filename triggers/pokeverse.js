@@ -38,7 +38,7 @@ module.exports = {
                 targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fightr / !fr`));
                 if(targetEmbed){
                     const status = 'raider';
-                    lockRoles(client, message, prefix, raider, raiderSettings, status);
+                    lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
                     return;
                 }
 
@@ -46,7 +46,7 @@ module.exports = {
                 targetEmbed = message.embeds.find(e => e.title && e.title.includes(`Mega (Boss)`));
                 if(targetEmbed){
                     const status = 'megaboss';
-                    lockRoles(client, message, prefix, raider, raiderSettings, status);
+                    lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
                     return;
                 }
 
