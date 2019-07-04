@@ -54,14 +54,14 @@ async function lockRoles(client, message, prefix, raider, raiderSettings, status
     let roleError = false;
 
     const lockRoles = raiderSettings.lockRoles;
-    lockRoles.forEach(r => {
+    lockRoles.forEach(async r => {
         const role = message.guild.roles.get(r);
         if(!role){
             raiderSettings.lockRoles.pull(r);
             return;
         }
 
-        message.channel.overwritePermissions(role, {
+        await message.channel.overwritePermissions(role, {
             SEND_MESSAGES: false
         }).catch(err => {
             console.log(err);
