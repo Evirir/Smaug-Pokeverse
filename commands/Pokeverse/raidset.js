@@ -80,11 +80,11 @@ module.exports = {
             let role = getMentionRole(message, 2, 1);
             if(!role){
                 if(args[2] === 'everyone') role = message.guild.defaultRole;
+                if(!args[2]) return message.reply(`please specify a role.`);
                 else return message.reply(`that role does not exist in this server.`);
             }
 
             if(type === 'add'){
-                if(!args[2]) return message.reply(`please specify a role.`);
                 if(raiderSettings.lockRoles.find(r => r === role.id)) return message.reply(`role already exists in current role list.`);
                 raiderSettings.lockRoles.push(role.id);
                 await raiderSettings.save().catch(err => console.log(err));
@@ -92,7 +92,6 @@ module.exports = {
             }
 
             if(type === 'remove'){
-                if(!args[2]) return message.reply(`please specify a role.`);
                 raiderSettings.lockRoles.pull(role.id);
                 await raiderSettings.save().catch(err => console.log(err));
                 return message.reply(`role removed from the Raider Lock list.`);
