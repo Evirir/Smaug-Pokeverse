@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const cytoscape = require('cytoscape');
-const {getMentionUser, extract} = require('../../helper.js');
+const Raider = require('../../models/pokeverseRaider.js');
 
 module.exports = {
 	name: `test`,
@@ -8,6 +7,14 @@ module.exports = {
 	dev: true,
 
 	async execute(message, args){
-		message.channel.send(getMentionUser(message, 0).username);
+		let raiders = await Raider.find({});
+		raiders.forEach(async raider => {
+			raider.hasRaider = undefined;
+			raider.hasRare = undefined;
+
+			await raider.save().catch(err => console.log(err));
+		});
+
+		message.channel.send(`Database updated.`);
 	}
 }

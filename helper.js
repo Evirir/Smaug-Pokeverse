@@ -40,6 +40,84 @@ function getEdge(u, v, graphServer){
     return graphServer.adj[u].find(e => e.v === v);
 }
 
+function statusToPokeType(status){
+    let pokeType = "(undefined)";
+    if(status === 'raider')     pokeType = 'Raider';
+    if(status === 'rare')       pokeType = 'rare Pokémon';
+    if(status === 'megaboss')   pokeType = 'Mega Boss';
+
+    return pokeType;
+}
+
+async function lockRoles(client, message, prefix, lockRoles, raider, raiderSettings, status){
+    let roleError = false;
+    lockRoles.forEach(r => {
+        const role = message.guild.roles.get(r);
+        if(!role){
+            raiderSettings.lockRoles.pull(r);
+            return;
+        }
+
+        message.channel.overwritePermissions(role, {
+            SEND_MESSAGES: false
+        }).catch(err => {
+            console.log(err);
+            if(!roleError){
+                roleError = true;
+                return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has the 'Manage Permissions' permission in the channel.`);
+            }
+        });
+    });
+
+    //Check if the active user is still raiding. If yes, remove his permission to send messages.
+    //Thus - make sure you lockRoles() first before changing the raider properties
+    const activeUserPerm = message.channel.permissionOverwrites.get(raider.activeUserID);
+    if(activeUserPerm) activeUserPerm.delete();
+
+    //exclude pokeverse
+    const pokeverseUser = client.users.get(pokeverseID);
+    message.channel.overwritePermissions(pokeverseUser, {
+        SEND_MESSAGES: true
+    }).catch(err => console.log(err));
+
+    raider.status = status;
+    raider.activeUserID = undefined;
+    raider.spawnedBy = undefined;
+    await raider.save().catch(err => console.log(err));
+
+    //logging and sending messages
+    const pokeType = statusToPokeType(status);
+
+    console.log(`${pokeType} spawned at ${message.guild.name}/${message.channel.name}`);
+
+    const geomUser = await client.users.get(geomID);
+    if(message.guild.member(geomUser)) geomUser.send(`${pokeType} spawned at ${message.guild.name}/${message.channel.name}`);
+
+
+    let msg = `A ${pokeType} has spawned! Type \`${prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the ${pokeType}.`;
+
+    if(status === 'raider'){
+        msg += `\nSpawned by: **${targetEmbed.author.name}**`;
+    }
+
+    return message.channel.send(msg).catch(err => console.log(err));
+}
+
+function unlockRoles(message, targetChannel, raider, raiderSettings){
+    raiderSettings.lockRoles.forEach(async r => {
+        await targetChannel.overwritePermissions(message.guild.roles.get(r), {
+            SEND_MESSAGES: true
+        });
+        console.log(`${message.guild.name}/${targetChannel.name}: ${message.guild.roles.get(r).name} unlocked.`);
+    });
+
+    raider.status = undefined;
+    raider.activeUserID = undefined;
+    raider.spawnedBy = undefined;
+    raider.save().catch(err => console.log(err));
+}
+
+
 module.exports = {
     DayinMS: 24*60*60*1000,
 
@@ -48,6 +126,10 @@ module.exports = {
     extract: extract,
     ordinal: ordinal,
     getEdge: getEdge,
+
+    lockRoles: lockRoles,
+    unlockRoles: unlockRoles,
+    statusToPokeType: statusToPokeType,
 
     getMentionUser(message, position, toEnd = 1){
         let mention;

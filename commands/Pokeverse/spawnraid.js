@@ -1,7 +1,7 @@
 const Raider = require('../../models/pokeverseRaider.js');
 const RaiderSettings = require('../../models/pokeverseRaiderSettings.js');
 const {pokeverseID} = require('../../specificData/users.json');
-const {getMentionChannel, getMentionUser} = require('../../helper.js');
+const {getMentionChannel, getMentionUser, lockRoles, unlockRoles} = require('../../helper.js');
 
 module.exports = {
 	name: `spawnraid`,
@@ -23,12 +23,12 @@ module.exports = {
         if(!raider){
             raider = new Raider({
                 channelID: targetChannel.id,
-                hasRaider: false,
+                status: undefined,
             });
         }
 
         if(args.length > 1 && (args[1] === 'r' || args[1] === 'd')){
-            raider.hasRaider = false;
+            raider.status = undefined;
 			raider.activeUserID = undefined;
 			raider.spawnedBy = undefined;
 
@@ -46,7 +46,7 @@ module.exports = {
         }
 
         else{
-            raider.hasRaider = true;
+            raider.status = 'raider';
 			raider.activeUserID = undefined;
 
 			let spawnerMsg = "";

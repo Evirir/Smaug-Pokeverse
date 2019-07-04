@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 
 const pokeverseRaiderSchema = mongoose.Schema({
     channelID: String,
-    hasRaider: Boolean,
+    status: String,   //(undefined), raider, rare, megaboss
     activeUserID: String,
     spawnedBy: String,
-
-    hasRare: Boolean
+    
+    hasRare: Boolean,
+    hasRaider: Boolean
 });
 
 module.exports = mongoose.model("PokeverseRaider", pokeverseRaiderSchema);

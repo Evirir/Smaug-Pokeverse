@@ -1,11 +1,12 @@
 module.exports = {
 	name: 'prune',
 	description: `Deletes some number of latest messages (members with \`MANAGE_MESSAGES\` permission only).`,
+	aliases: ['purge'],
 	args: true,
 	usage: `[amount]`,
 
 	execute(message, args){
-		if(!message.member.hasPermission('MANAGE_MESSAGES',false,true,true))
+		if(!message.member.hasPermission('MANAGE_MESSAGES', false, true, true))
 			return message.reply(`you must have the permission to manage messages to do that!`);
 
 		const amount = parseInt(args[0]);
@@ -18,7 +19,7 @@ module.exports = {
 
 		message.channel.bulkDelete(amount + 1, true).catch(err => {
 			console.error(err);
-			return message.reply('there was an error trying to prune messages in this channel! Perhaps the messages are more than 2 weeks old.');
+			return message.reply('there was an error trying to prune messages in this channel! Perhaps the messages are more than 2 weeks old, or I do not have the permission.');
 		});
   	}
 };

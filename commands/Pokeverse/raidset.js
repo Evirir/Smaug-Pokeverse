@@ -6,14 +6,11 @@ const {pokeverseID} = require('../../specificData/users.json');
 
 module.exports = {
     name: 'raidset',
-    description: 'Modify the Raider Lock settings.\n**Make sure you do not add roles that aren\'t supposed to see the channels.**',
+    description: 'Modify the Pokeverse Lock settings.\n**Make sure you do not add roles that aren\'t supposed to see the channels.**',
     aliases: ['raiderset','rs','rareset'],
-    notes: `**Arguments:**\n\`on\`/\`off\`: Enables/Disables the Raider Lock\n\`roles [add/remove] [@mentionRole/roleID/role name/everyone]\`: Adds/Removes target role from locking list (Use everyone to lock @everyone)\n`,
+    notes: `**Arguments:**\n\`on\`/\`off\`: Enables/Disables the Pokeverse Locks\n\`roles [add/remove] [@mentionRole/roleID/role name/everyone]\`: Adds/Removes target role from locking list (Use everyone to lock @everyone)\n`,
 
-    async execute(message, args) {
-        let s = await Settings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
-        if(!s) return console.log(`No guild settings found: raidset.js`);
-
+    async execute(message, args, prefix) {
         let raiderSettings = await RaiderSettings.findOne({serverID: message.guild.id}).catch(err => console.log(err));
         if(!raiderSettings){
             let newRaiderSettings = new RaiderSettings({
@@ -22,14 +19,6 @@ module.exports = {
                 lockRoles: []
             });
             raiderSettings = newRaiderSettings;
-        }
-
-        if(!args.length){
-            let embed = new Discord.RichEmbed()
-            .setColor(raiderSettings.raiderLockEnabled? "BLUE":"RED")
-            .setDescription(`The Pokeverse Raider Lock is **${raiderSettings.raiderLockEnabled? "enabled":"disabled"}** for this server.\nSee \`${s.prefix}help raidset/raid\` for more info.`);
-
-            return message.channel.send(embed);
         }
 
         if(args[0] === 'on' || args[0] === 'off'){
@@ -53,18 +42,40 @@ module.exports = {
                     if(check) list += "- " + check.name + '\n';
                 });
 
-                if(list === "") list += "This list is empty.";
+                if(list === "") list = "This list is empty.";
 
                 let embed = new Discord.RichEmbed()
                 .setColor('GOLD')
-                .setTitle(`Pokeverse Raider Lock - Role list`)
+                .setTitle(`Pokeverse Lock - Role list`)
                 .setDescription(list);
 
                 return message.channel.send(embed);
             }
 
+            const validTypes = [`add`, `remove`, `clear`];
             let type = args[1];
-            if(type !== 'add' && type !== 'remove') return message.reply('invalid arguments. The second argument must be either add/remove.');
+            if(!validTypes.includes(type.toLowerCase())) return message.reply('invalid arguments. The second argument must be either add/remove/clear.');
+
+            if(type === 'clear'){
+                const sent = await message.channel.send(`<@${message.author.id}> Are you sure that you want to clear all roles from the role list? O.=.O`);
+                await sent.react('✅');
+                await sent.react('❌');
+
+                const filter = (reaction, user) => ['✅','❌'].includes(reaction.emoji.name) && user.id === message.author.id;
+                const collected = await sent.awaitReactions(filter, {time: 15000, max: 1, errors: ['time']}).catch(collected => message.channel.send('`Timeout`'));
+
+                if(collected.first().emoji.name === '✅'){
+                    raiderSettings.lockRoles = [];
+                    await raiderSettings.save().catch(err => console.log(err));
+                    message.channel.send(`All roles cleared. Use \`${prefix}rs role add [role]\` to add roles.`);
+                }
+                else{
+                    sent.clearReactions();
+                    sent.edit(sent.content + `\nRole list clearance cancelled.`);
+                }
+
+                return;
+            }
 
             let role = getMentionRole(message, 2, 1);
             if(!role){
@@ -72,15 +83,33 @@ module.exports = {
                 else return message.reply(`that role does not exist in this server.`);
             }
 
-            if(type === 'add')  raiderSettings.lockRoles.push(role.id);
-            else                raiderSettings.lockRoles.pull(role.id);
+            if(type === 'add'){
+                if(!args[2]) return message.reply(`please specify a role.`);
+                if(raiderSettings.lockRoles.find(r => r === role.id)) return message.reply(`role already exists in current role list.`);
+                raiderSettings.lockRoles.push(role.id);
+                await raiderSettings.save().catch(err => console.log(err));
+                return message.reply(`role added to the Raider Lock list.`);
+            }
 
-            await raiderSettings.save().catch(err => console.log(err));
-            return message.reply(`role saved to Raider Lock list.`);
+            if(type === 'remove'){
+                if(!args[2]) return message.reply(`please specify a role.`);
+                raiderSettings.lockRoles.pull(role.id);
+                await raiderSettings.save().catch(err => console.log(err));
+                return message.reply(`role removed from the Raider Lock list.`);
+            }
         }
 
         else {
-            return message.reply(`invalid arguments. The first argument must be one of on/off/roles.`);
+            let desc = `**All locks: ${raiderSettings.raiderLockEnabled ? "enabled" : "disabled"}**\n\n`;
+            desc += `Currently supports locking:\n- Raiders\n- Rare Pokemons\n- Mega Bosses (Beta)`;
+
+            let embed = new Discord.RichEmbed()
+            .setColor(raiderSettings.raiderLockEnabled? "GREEN":"RED")
+            .setTitle(`Pokeverse Lock Settings`)
+            .setDescription(desc)
+            .setFooter(`See ${prefix}help rs for more info.`);
+
+            return message.channel.send(embed);
         }
     }
 };
