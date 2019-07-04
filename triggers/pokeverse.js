@@ -162,7 +162,7 @@ module.exports = {
                 if(!message.embeds) return;
 
                 //Mega Boss killed
-                targetEmbed = message.embeds.find(e => e.description.includes(`won the battle against a wild Mega (Boss)`));
+                targetEmbed = message.embeds.find(e => e.description && e.description.includes(`won the battle against a wild Mega (Boss)`));
                 if(targetEmbed){
                     unlockRoles(message, message.channel, raider, raiderSettings);
                     return;
