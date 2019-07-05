@@ -18,7 +18,8 @@ Smaug's Support Server: https://discord.gg/qttxbKe
 
 P.S. The Raider Lock will NOT work if you do not give Smaug the admin permission.
 P.S.S: You must use \`,,rs on\` to enable the Raider Lock and add the roles you want to lock. See \`,,help rs\` for help.`)
-		.setColor('GOLD');
+		.setColor('GOLD')
+		.setThumbnail(message.client.user.displayAvatarURL);
 
 		message.channel.send(embed);
 	}
