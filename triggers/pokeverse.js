@@ -106,7 +106,7 @@ module.exports = {
                 if(!message.embeds) return;
 
                 //Raider spawned
-                targetEmbed = message.embeds.find(e => e.footer.text.includes(`!fightr / !fr`));
+                targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fightr / !fr`));
                 if(targetEmbed){
                     const status = 'raider';
                     await lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
