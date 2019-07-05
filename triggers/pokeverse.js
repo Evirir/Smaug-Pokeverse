@@ -103,14 +103,15 @@ module.exports = {
                     return;
                 }
 
+                if(!message.embeds) return;
+
                 //Raider spawned
-                if(message.content.includes(`brave enough to take on the chall`)){
+                targetEmbed = message.embeds.find(e => e.footer.text.includes(`!fightr / !fr`));
+                if(targetEmbed){
                     const status = 'raider';
                     await lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
                     return;
                 }
-
-                if(!message.embeds) return;
 
                 //Mega boss spawned
                 targetEmbed = message.embeds.find(e => e.title && e.title.includes(`Mega (Boss)`));
