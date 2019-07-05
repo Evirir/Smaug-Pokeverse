@@ -1,4 +1,4 @@
-const {dragID, godID, geomID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
+const {dragID, godID, geomID, dragTag, pokeverseID} = require('../specificData/users.json');
 const {consoleID, pokeverseLogID} = require('../specificData/channels.json');
 const {getMentionChannel, statusToPokeType} = require('../helper.js');
 

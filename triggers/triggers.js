@@ -1,10 +1,9 @@
 const Discord = require('discord.js');
 const {bot_name} = require('../config.json');
-const {dragID, godID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
+const {dragID, godID, dragTag, pokeverseID} = require('../specificData/users.json');
 const {consoleID, messageID, pokecordLogID} = require('../specificData/channels.json');
 
 const Settings = require('../models/serverSettings.js');
-const Pokecord = require('./pokecord.js');
 const Pokeverse = require('./pokeverse.js');
 
 module.exports = {
