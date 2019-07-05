@@ -54,7 +54,8 @@ module.exports = {
 
                             if(wp && wp.wishedBy.length){
                                 let msg = `**${result}** spawned! Wished by: `;
-                                wp.wishedBy.forEach(user => {
+                                wp.wishedBy.forEach(u => {
+                                    const user = message.client.users.get(u);
                                     if(message.guild.member(user)){
                                         msg += `<@${user.id}> `;
 
@@ -63,9 +64,10 @@ module.exports = {
                                         .setTitle(`**${result}** spawned: Your wished Pokémon!`)
                                         .setDescription(`Location: ${message.guild.name}/${message.channel.name}\n[**Message link**](https://discordapp.com/channels/${message.guild.id}/${message.channel.id}/${message.id} "${result}")`);
 
-                                        message.client.users.get(user).send(embed);
+                                        user.send(embed);
                                     }
                                     message.channel.send(msg);
+                                    console.log(msg);
                                 });
                             }
 
