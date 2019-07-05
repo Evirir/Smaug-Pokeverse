@@ -53,11 +53,11 @@ module.exports = {
                             const wp = await WishlistP.findOne({name: result}).catch(err => console.log(err));
 
                             if(wp && wp.wishedBy.length){
-                                let msg = `**${result}** spawned! Wished by: `;
+                                let msg = `Wished by: `;
                                 wp.wishedBy.forEach(u => {
                                     const user = message.client.users.get(u);
-                                    if(message.guild.member(user)){
-                                        msg += `<@${user.id}> `;
+                                    if(user && message.guild.member(user)){
+                                        msg += `<@${u}> `;
 
                                         let embed = new Discord.RichEmbed()
                                         .setColor('GOLD')
