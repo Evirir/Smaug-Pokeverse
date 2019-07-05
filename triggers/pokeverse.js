@@ -178,7 +178,7 @@ module.exports = {
 
 
                 //Raider despawned
-                targetEmbed = message.embeds.find(e => e.footer.text.includes(`!fight / !catch / !travel`));
+                targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fight / !catch / !travel`));
                 if(targetEmbed && raider.status === 'raider'){
                     raiderSettings.lockRoles.forEach(async r => {
                         await message.channel.overwritePermissions(message.guild.roles.get(r), {
