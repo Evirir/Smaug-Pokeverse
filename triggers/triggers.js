@@ -14,11 +14,6 @@ module.exports = {
     	if(!s) console.log(`No prefix found: triggers.js`);
         else prefix = s.prefix;
 
-        //POKEASSISTANT
-        if (message.author.id === pokecordID) {
-            return Pokecord.execute(client, message, prefix);
-        }
-
         //POKEVERSE RAIDER LOCK
         if(message.author.id === pokeverseID){
             return Pokeverse.execute(client, message, prefix);
