@@ -34,7 +34,7 @@ categories.forEach(category => {
 
 client.once('ready', () => {
 	mongoose.connect(process.env.RACCOON, {useNewUrlParser: true}).catch(err => console.log(err));
-	let startmsg = `[No Pokecord] It's currently **${client.readyAt}**\n`;
+	let startmsg = `**[No Pokecord]** It's currently **${client.readyAt}**\n`;
 	startmsg += `Users: **${client.users.size}**, Channels: **${client.channels.size}**, Servers: **${client.guilds.size}**`;
 	console.log(startmsg);
   	client.channels.get(startupID).send(startmsg);
