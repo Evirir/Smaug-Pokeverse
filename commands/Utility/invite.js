@@ -12,7 +12,7 @@ module.exports = {
 `Sure! Just chant one of these magical links perfectly in dragontongue, and I'll be going to your party! >.=.<
 
 With admin perms: [**Flaargle Fla Gengubble**](${inviteLink} "i.e. I WANT SMAUG TO LOCK RAIDERS FOR ME")
-No admin perms: [**Zakorrif Fraguarlue**](${inviteLinkNoAdmin})
+No admin perms: [**Zakorrif Fraguarlue**](${inviteLinkNoAdmin} "${inviteLinkNoAdmin}")
 
 Smaug's Support Server: https://discord.gg/qttxbKe
 

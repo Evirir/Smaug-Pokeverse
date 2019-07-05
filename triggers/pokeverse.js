@@ -1,9 +1,80 @@
 const {dragID, godID, geomID, dragTag, pokecordID, pokeverseID} = require('../specificData/users.json');
 const {consoleID, pokeverseLogID} = require('../specificData/channels.json');
-const {getMentionChannel, statusToPokeType, lockRoles, unlockRoles} = require('../helper.js');
+const {getMentionChannel, statusToPokeType} = require('../helper.js');
 
 const Raider = require('../models/pokeverseRaider.js');
 const RaiderSettings = require('../models/pokeverseRaiderSettings.js');
+
+async function lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed){
+
+    //exclude pokeverse first
+    const pokeverseUser = client.users.get(pokeverseID);
+    await message.channel.overwritePermissions(pokeverseUser, {
+        SEND_MESSAGES: true
+    }).catch(err => console.log(err));
+
+    let roleError = false;
+
+    const lockRoles = raiderSettings.lockRoles;
+    lockRoles.forEach(async r => {
+        const role = message.guild.roles.get(r);
+        if(!role){
+            raiderSettings.lockRoles.pull(r);
+            return;
+        }
+
+        await message.channel.overwritePermissions(role, {
+            SEND_MESSAGES: false
+        }).catch(err => {
+            console.log(err);
+            if(!roleError){
+                roleError = true;
+                return message.channel.send(`Failed to lock channel for one of the roles! Please ensure that Smaug has the 'Manage Permissions' permission in the channel.`);
+            }
+        });
+    });
+
+    //Check if the active user is still raiding. If yes, remove his permission to send messages.
+    //Thus - make sure you lockRoles() first before changing the raider properties
+    const activeUserPerm = message.channel.permissionOverwrites.get(raider.activeUserID);
+    if(activeUserPerm) activeUserPerm.delete();
+
+    raider.status = status;
+    raider.activeUserID = undefined;
+    raider.spawnedBy = undefined;
+    await raider.save().catch(err => console.log(err));
+
+    //logging and sending messages
+    const pokeType = statusToPokeType(status);
+
+    console.log(`${pokeType} spawned at ${message.guild.name}/${message.channel.name} (${message.guild.id}/${message.channel.id})`);
+
+    const geomUser = await client.users.get(geomID);
+    if(message.guild.member(geomUser)) geomUser.send(`${pokeType} spawned at ${message.guild.name}/${message.channel.name}`);
+
+
+    let msg = `A ${pokeType} has spawned! Type \`${prefix}raid #${message.channel.name}\` in other channels to unlock the channel and fight the ${pokeType}.`;
+
+    if(targetEmbed && targetEmbed.author){
+        msg += `\nSpawned by: **${targetEmbed.author.name}**`;
+    }
+
+    return message.channel.send(msg).catch(err => console.log(err));
+}
+
+function unlockRoles(message, targetChannel, raider, raiderSettings){
+    raiderSettings.lockRoles.forEach(async r => {
+        await targetChannel.overwritePermissions(message.guild.roles.get(r), {
+            SEND_MESSAGES: true
+        });
+        console.log(`${message.guild.name}/${targetChannel.name}: ${message.guild.roles.get(r).name} unlocked. (${targetChannel.guild}/${targetChannel.id})`);
+    });
+
+    raider.status = undefined;
+    raider.activeUserID = undefined;
+    raider.spawnedBy = undefined;
+    raider.save().catch(err => console.log(err));
+}
 
 module.exports = {
     async execute(client, message, prefix){
@@ -32,15 +103,14 @@ module.exports = {
                     return;
                 }
 
-                if(!message.embeds) return;
-
                 //Raider spawned
-                targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fightr / !fr`));
-                if(targetEmbed){
+                if(message.content.includes(`brave enough to take on the chall`)){
                     const status = 'raider';
                     await lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
                     return;
                 }
+
+                if(!message.embeds) return;
 
                 //Mega boss spawned
                 targetEmbed = message.embeds.find(e => e.title && e.title.includes(`Mega (Boss)`));
@@ -108,7 +178,7 @@ module.exports = {
 
 
                 //Raider despawned
-                targetEmbed = message.embeds.find(e => e.footer === `!fight / !catch / !travel`);
+                targetEmbed = message.embeds.find(e => e.footer.text.includes(`!fight / !catch / !travel`));
                 if(targetEmbed && raider.status === 'raider'){
                     raiderSettings.lockRoles.forEach(async r => {
                         await message.channel.overwritePermissions(message.guild.roles.get(r), {
