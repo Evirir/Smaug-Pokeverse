@@ -94,33 +94,29 @@ module.exports = {
             let targetEmbed;    //variable for checking embed contents
 
             //SPAWNS (no special pokes)
-            if(raider.status === undefined)
-            {
-                //Rare pokemon spawned
-                if(message.content.toLowerCase().includes(`a rare pok`)){
-                    const status = 'rare';
-                    await lockRoles(client, message, prefix, raider, raiderSettings, status);
-                    return;
-                }
 
-                if(!message.embeds) return;
+            //Rare pokemon spawned
+            if(message.content.toLowerCase().includes(`a rare pok`)){
+                const status = 'rare';
+                await lockRoles(client, message, prefix, raider, raiderSettings, status);
+                return;
+            }
 
-                //Raider spawned
-                targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fightr / !fr`));
-                if(targetEmbed){
-                    const status = 'raider';
-                    await lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
-                    return;
-                }
+            if(!message.embeds) return;
 
-                //Mega boss spawned
-                targetEmbed = message.embeds.find(e => e.title && e.title.includes(`Mega (Boss)`));
-                if(targetEmbed){
-                    const status = 'megaboss';
-                    await lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
-                    return;
-                }
+            //Raider spawned
+            targetEmbed = message.embeds.find(e => e.footer && e.footer.text.includes(`!fightr / !fr`));
+            if(targetEmbed){
+                const status = 'raider';
+                await lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
+                return;
+            }
 
+            //Mega boss spawned
+            targetEmbed = message.embeds.find(e => e.title && e.title.includes(`Mega (Boss)`));
+            if(targetEmbed){
+                const status = 'megaboss';
+                await lockRoles(client, message, prefix, raider, raiderSettings, status, targetEmbed);
                 return;
             }
 
@@ -146,7 +142,7 @@ module.exports = {
 
                 if(!message.embeds) return;
 
-                //Raider tamed
+                //Raider killed
                 targetEmbed = message.embeds.find(e => e.description && e.description.includes(`You have successfully tamed a Raider!`));
 
                 if(targetEmbed){
